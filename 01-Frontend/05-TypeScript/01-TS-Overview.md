@@ -41,6 +41,19 @@ Developer Code (.ts)
 - **Self-documenting code** — type annotations giải thích dữ liệu expect gì
 - **Safer refactoring** — đổi tên function → compiler chỉ ra tất cả chỗ cần sửa
 
+```
+★ Insight ─────────────────────────────────────
+• Điều dễ hiểu sai nhất: type bị XÓA SẠCH khi compile — runtime không còn dấu
+  vết. Nghĩa là TS bảo vệ bạn lúc VIẾT code, KHÔNG bảo vệ lúc CHẠY. Dữ liệu từ
+  API/localStorage/input vẫn phải validate thủ công (hoặc Zod) — `as User` chỉ
+  là lời hứa với compiler, không phải kiểm tra thật. Đây là bẫy fresher kinh điển.
+• `strict: true` mới là "linh hồn" của TS, đặc biệt strictNullChecks: nó buộc
+  bạn xử lý null/undefined RÕ RÀNG → diệt tận gốc lỗi "cannot read property of
+  undefined". Tắt strict ≈ dùng JS có chú thích, mất 80% giá trị. Và ưu tiên
+  `unknown` thay `any` khi chưa biết kiểu — unknown bắt phải narrow trước khi dùng.
+─────────────────────────────────────────────────
+```
+
 ### TypeScript vs JavaScript
 
 | Đặc điểm | JavaScript | TypeScript |

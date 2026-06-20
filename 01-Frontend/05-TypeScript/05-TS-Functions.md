@@ -35,6 +35,19 @@ const isPositive: Predicate<number> = (n) => n > 0;
 const double:     Mapper<number, number> = (n) => n * 2;
 ```
 
+```
+★ Insight ─────────────────────────────────────
+• optional (`x?: T`) và default (`x: T = ...`) giống nhau ở "có thể không truyền"
+  nhưng KHÁC ở kiểu BÊN TRONG hàm: optional → `T | undefined` (phải kiểm tra),
+  default → `T` (đã thay undefined). Có giá trị mặc định rõ ràng thì chọn default
+  để khỏi check undefined; thực sự "có thể vắng" thì dùng optional.
+• Overload là HAI mặt: các signature CÔNG KHAI (cái caller thấy, có thể đặc tả
+  input→output khác nhau) + một signature THỰC THI (có body, caller KHÔNG gọi
+  trực tiếp được). Đây là cách diễn đạt "input loại này → ra type kia"
+  (createElement('input')→HTMLInputElement) — điều union return type không làm gọn được.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

@@ -33,6 +33,19 @@ Union (A | B)          Intersection (A & B)
   (ít properties hơn)     (nhiều properties hơn)
 ```
 
+```
+★ Insight ─────────────────────────────────────
+• Nghịch lý "hoặc cho ít, và cho nhiều": Union (A|B) NGHE rộng nhưng dùng được
+  ÍT property (chỉ phần CHUNG cả hai) → phải narrow mới chạm field riêng. Intersection
+  (A&B) gộp property của cả hai nên dùng được NHIỀU. Nhớ theo "value vs property"
+  thì hết lẫn. Và A&B với 2 primitive khác nhau (string & number) ra `never`.
+• Discriminated union (mỗi nhánh có field hằng kind/type/status) là pattern xương
+  sống của TS thực chiến: nó cho switch tự narrow + "exhaustive check" (thiếu case
+  là compiler báo). Mô hình loading/success/error và Redux action đều dựa vào nó —
+  xem [[04-Type-Guard]]. Utility types (Partial/Omit/Pick/Record…) là CÓ SẴN, đừng viết lại.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

@@ -40,6 +40,20 @@ const firstObj = getFirst([{id: 1}]);     // type: {id: number}
 const explicit = getFirst<boolean>([true, false]); // type: boolean
 ```
 
+```
+★ Insight ─────────────────────────────────────
+• Bản chất generic là GIỮ MỐI LIÊN HỆ giữa input và output, thứ mà `any` đánh
+  mất. `getFirst<T>(arr: T[]): T` nói "trả về CÙNG kiểu phần tử mảng" → gọi với
+  number[] ra number. Dùng any thì ra any (mất hết). Nếu một type param chỉ xuất
+  hiện 1 chỗ, không nối input với output → có lẽ bạn không cần generic.
+• `extends` trong generic = RÀNG BUỘC (khác extends kế thừa của class): `T extends
+  {id:number}` nghĩa "T phải có id". Ràng buộc làm generic dùng được (chạm
+  property an toàn). `infer` thì NGƯỢC lại — RÚT type ra từ một khuôn
+  (`T extends Promise<infer U> ? U : T`). Utility types (ReturnType, Awaited…)
+  chính là generic + conditional + infer.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

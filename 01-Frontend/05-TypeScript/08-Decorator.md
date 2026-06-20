@@ -26,6 +26,19 @@ source: [TypeScript Handbook, typescriptlang.org/docs/handbook/decorators.html]
 - **Modify** — thay đổi behavior, add functionality
 - **Replace** — thay thế target hoàn toàn
 
+```
+★ Insight ─────────────────────────────────────
+• Decorator chạy lúc ĐỊNH NGHĨA class (khi file load), KHÔNG phải lúc gọi method.
+  Nó "gói" hoặc đăng ký target một lần; phần logic chạy mỗi lần gọi là code BÊN
+  TRONG wrapper mà decorator gắn vào. Hiểu mốc thời gian này thì @Get/@Entity/
+  @Injectable hết ma thuật — chúng chỉ ghi metadata lúc khởi động để framework đọc.
+• Đây chính là nền của "magic" trong NestJS/Angular/TypeORM mà bạn gặp ở backend:
+  @Controller/@Get gom route, @Injectable đánh dấu cho DI, @Entity/@Column map
+  ORM — liên hệ trực tiếp với phần FastAPI/DI bên Backend. Phân biệt @log (plain)
+  vs @retry(3) (factory: hàm TRẢ VỀ decorator để nhận tham số) là câu hỏi hay gặp.
+─────────────────────────────────────────────────
+```
+
 ```typescript
 // Decorator cơ bản — function nhận target
 function sealed(constructor: Function) {

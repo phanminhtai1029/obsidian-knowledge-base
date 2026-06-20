@@ -38,6 +38,19 @@ function printLength(value: string | number) {
 }
 ```
 
+```
+★ Insight ─────────────────────────────────────
+• Narrowing = TS ĐỌC chính các phép kiểm tra runtime của bạn (typeof, instanceof,
+  in, ===) và tự suy ra type hẹp hơn trong nhánh đó. Bạn không "ép kiểu" — bạn
+  viết check JS bình thường, TS theo dõi flow. Đây là cầu nối đẹp giữa kiểm tra
+  lúc chạy và an toàn lúc biên dịch.
+• Custom predicate `x is T` là "TIN TÔI ĐI": sau khi gọi, TS coi x là T tuyệt
+  đối mà KHÔNG kiểm tra thân hàm — viết `return true` bừa là tạo lỗ hổng kiểu ngầm.
+  Vì vậy predicate chỉ nên dùng khi typeof/instanceof không đủ (validate shape
+  object từ API), và phải implement check ĐÚNG. Đừng quên: typeof null === 'object'.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

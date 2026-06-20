@@ -36,6 +36,19 @@ source: [TypeScript Handbook, typescriptlang.org/docs/handbook/2/classes.html]
 - Dùng **type alias** cho union, tuple, complex mapped types
 - Dùng **class** khi cần both type + runtime behavior (methods, constructor)
 
+```
+★ Insight ─────────────────────────────────────
+• Trục phân biệt cốt lõi: interface/type CHỈ tồn tại lúc biên dịch (bị xóa, 0
+  runtime), còn class tồn tại CẢ hai (vừa là type, vừa là giá trị JS có method).
+  Vì vậy `instanceof` chỉ chạy với class (có thật lúc runtime), không với interface.
+  Chọn class chỉ khi cần hành vi/khởi tạo thật; còn lại interface/type là đủ và nhẹ.
+• extends KẾ THỪA (lấy cả type + code), implements chỉ CAM KẾT thỏa contract
+  (không lấy code — phải tự viết). Và TS dùng "structural typing": hợp lệ nếu
+  ĐÚNG HÌNH DẠNG, không cần khai báo implements — khác Java (nominal). private
+  của TS chỉ là quy ước lúc biên dịch; muốn ẩn thật lúc chạy phải dùng `#field`.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

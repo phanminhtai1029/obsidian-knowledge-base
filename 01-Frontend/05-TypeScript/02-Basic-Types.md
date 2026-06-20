@@ -31,6 +31,19 @@ TypeScript Types
 └── Composite:    union |, intersection &, enum
 ```
 
+```
+★ Insight ─────────────────────────────────────
+• any vs unknown là cặp đối lập về an toàn: any TẮT kiểm tra (dùng được mọi thứ,
+  crash runtime), unknown CHẶN cho tới khi bạn narrow (typeof/guard). Quy tắc:
+  dữ liệu "chưa rõ kiểu" (JSON.parse, catch err) → để unknown rồi thu hẹp, đừng
+  bao giờ để any cho qua. any là "lỗ thoát" tạm thời, unknown là cách an toàn.
+• never = "không thể xảy ra", và mẹo exhaustive-check biến nó thành lưới an toàn:
+  gán biến union vào `const _: never = x` ở default của switch → thêm thành viên
+  union mà quên xử lý là COMPILER BÁO LỖI ngay. Cộng với `as const` (giữ literal
+  thay vì widen về string), đây là 2 kỹ thuật làm type "biết nói" hộ bạn.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API
