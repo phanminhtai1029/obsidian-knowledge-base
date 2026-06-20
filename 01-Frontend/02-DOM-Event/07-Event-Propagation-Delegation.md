@@ -33,6 +33,18 @@ Phase 2 — BUBBLING (từ dưới lên) [DEFAULT]:
 
 `addEventListener(event, fn)` mặc định là **bubbling** (phase 2). Truyền `true` làm tham số thứ 3 để bắt capturing.
 
+```
+★ Insight ─────────────────────────────────────
+• Event Delegation KHÔNG phải kỹ thuật riêng — nó chỉ là "cưỡi lên" bubbling:
+  vì click ở <li> tự nổi lên <ul>, ta đặt 1 listener ở <ul> rồi hỏi e.target là
+  ai. Hiểu bubbling = tự suy ra được delegation, không cần học thuộc tách rời.
+• Delegation thắng ở 2 điểm khó thay thế: (1) 1 listener thay vì N → nhẹ bộ nhớ
+  với list dài; (2) tự động áp dụng cho item THÊM SAU khi page load — listener
+  gắn trực tiếp lên item cũ thì "mù" với item mới. Đây là lý do framework (React)
+  cũng gắn 1 listener ở gốc thay vì mỗi phần tử một cái.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp

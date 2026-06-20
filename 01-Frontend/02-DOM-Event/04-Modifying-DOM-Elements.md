@@ -147,6 +147,19 @@ console.log(computed.backgroundColor); // "rgb(255, 255, 0)"
 > [!tip] classList > inline style
 > `classList.toggle('dark')` tốt hơn `style.backgroundColor = '#000'` — style trong CSS file dễ maintain, hỗ trợ media query, override được.
 
+```
+★ Insight ─────────────────────────────────────
+• textContent vs innerHTML là ranh giới AN TOÀN, không chỉ tiện nghi: textContent
+  coi mọi thứ là CHỮ (kể cả "<script>" cũng chỉ hiện ra dưới dạng văn bản),
+  innerHTML PARSE chuỗi thành HTML thật → nhét chuỗi từ user vào đó = mở cửa
+  XSS. Quy tắc cứng: dữ liệu người dùng → luôn textContent. Sâu hơn ở [[13-DOM-Performance]].
+• classList vs style lặp lại đúng triết lý "tách hành vi khỏi trình bày": JS chỉ
+  nên BẬT/TẮT một class (trạng thái), còn HÌNH THỨC để CSS lo. Lợi ích kép — CSS
+  hỗ trợ media query/hover/transition mà inline style trong JS không có, và sau
+  này đổi giao diện chỉ sửa file .css, không phải lùng trong code JS.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 3. Ví dụ thực tế

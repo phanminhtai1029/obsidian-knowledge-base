@@ -84,6 +84,19 @@ Document
 > [!warning] Text node thường bị quên
 > Khoảng trắng và ký tự xuống dòng giữa các tag cũng là **Text node**! Đây là lý do `parentNode.firstChild` đôi khi trả về `"\n  "` thay vì element. Dùng `firstElementChild` để chỉ lấy Element node.
 
+```
+★ Insight ─────────────────────────────────────
+• "DOM là cây SỐNG, HTML là văn bản TĨNH" là phân biệt nền tảng cho mọi thứ phía
+  sau: JS sửa DOM → trang đổi NGAY nhưng file .html không đổi; refresh → DOM dựng
+  lại từ HTML gốc, mọi thay đổi JS biến mất. Hiểu điều này thì không bao giờ thắc
+  mắc "sao sửa bằng JS mà view-source vẫn như cũ".
+• Nhớ cặp đối ngẫu Node vs Element: childNodes/firstChild/nextSibling thấy MỌI
+  node (kể cả Text khoảng trắng, Comment) — dễ dính "\n  "; children/
+  firstElementChild/nextElementSibling chỉ thấy Element. 90% trường hợp bạn muốn
+  bản "Element" — đây là bug kinh điển khi duyệt DOM.
+─────────────────────────────────────────────────
+```
+
 ### Kiểm tra nodeType trong DevTools Console
 
 ```javascript

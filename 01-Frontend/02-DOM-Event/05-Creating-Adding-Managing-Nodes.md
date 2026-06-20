@@ -26,6 +26,19 @@ createElement('tag') → set properties → insert into DOM
 
 Element tạo ra bằng `createElement` **không tự xuất hiện trên trang** — phải chèn vào DOM bằng append/insert methods.
 
+```
+★ Insight ─────────────────────────────────────
+• Luôn là 2 BƯỚC tách rời: (1) tạo + cấu hình element "ngoài cây" (createElement,
+  set textContent/class), (2) gắn vào DOM (append/insertBefore). Bug phổ biến
+  nhất là quên bước 2 → "code chạy không lỗi mà chẳng thấy gì". Lợi thế của tách
+  bước: cấu hình xong xuôi mới chèn → trình duyệt chỉ reflow đúng 1 lần.
+• Chèn N phần tử trong vòng lặp = N lần reflow (tính lại layout) → giật. Gom vào
+  DocumentFragment ("túi" ngoài cây) rồi append 1 lần → 1 reflow. Đây chính là
+  ý tưởng nền của Virtual DOM trong React: gom thay đổi, áp dụng một lượt. Xem
+  [[13-DOM-Performance]].
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp & Methods

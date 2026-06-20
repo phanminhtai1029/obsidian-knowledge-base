@@ -46,6 +46,20 @@ Browser cung cấp API chuyên dụng cho table:
 
 `DocumentFragment` là node ảo — không nằm trong DOM thật. Thêm nhiều element vào fragment, rồi append fragment 1 lần → **chỉ 1 reflow** thay vì N reflow.
 
+```
+★ Insight ─────────────────────────────────────
+• "Tạo data → render ra DOM" là bài toán mà cả React sinh ra để giải. Khi tự làm
+  bằng tay, 3 nguyên tắc vàng lặp lại: (1) textContent cho mọi giá trị data (chặn
+  XSS), (2) gom vào DocumentFragment rồi append 1 lần (1 reflow), (3) 1 listener
+  delegation ở container thay vì mỗi item một listener. Nắm 3 cái này = nắm "DOM
+  rendering thủ công" đủ để hiểu vì sao framework tự động hóa chúng.
+• replaceChildren() > xóa bằng innerHTML="": innerHTML rỗng buộc trình duyệt
+  parse lại chuỗi và làm "mồ côi" listener gắn trực tiếp; replaceChildren() xóa
+  sạch node con một cách tường minh, an toàn hơn. Còn listener đặt theo delegation
+  ở container thì luôn sống sót qua mọi lần render lại.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp

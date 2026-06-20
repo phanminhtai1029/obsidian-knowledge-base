@@ -42,6 +42,19 @@ fetch(url)
 > [!warning] Pitfall cốt lõi
 > `fetch` chỉ reject khi **không thể gửi request** (mất kết nối). HTTP 4xx/5xx vẫn resolve — bạn phải tự kiểm tra `response.ok` hoặc `response.status`.
 
+```
+★ Insight ─────────────────────────────────────
+• Mô hình lỗi của fetch trái trực giác: "404 vẫn coi là THÀNH CÔNG" vì với fetch,
+  "thành công" = server có TRẢ LỜI (dù trả lời là lỗi). Chỉ khi không gửi nổi
+  request (mất mạng, DNS, CORS chặn) mới reject. Hệ quả: KHÔNG check response.ok
+  = âm thầm gọi .json() trên body lỗi → bug khó tìm. Đây là khác biệt số 1 so với axios (axios tự ném lỗi ở 4xx/5xx).
+• Hai await không phải dư thừa: await thứ nhất chờ HEADERS về (biết status), body
+  vẫn đang stream; await thứ hai (.json()) mới đọc + parse hết body. Tách 2 bước
+  cho phép quyết định SỚM (vd thấy 401 thì bỏ, khỏi tốn công parse). Nền tảng
+  Promise/async xem [[04-Promise]] và [[05-Async-Await]].
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp

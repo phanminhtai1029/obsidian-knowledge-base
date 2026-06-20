@@ -214,6 +214,18 @@ otherItems.forEach(item => item.classList.remove('active'));
 > [!tip] closest() là công cụ mạnh trong event delegation
 > `e.target.closest('.btn')` cho phép click vào element con bất kỳ (icon, span) mà vẫn tìm đúng button wrapper.
 
+```
+★ Insight ─────────────────────────────────────
+• Quy luật chung của traversal: mọi property có chữ "Element" (parentElement,
+  children, firstElementChild, nextElementSibling) chỉ thấy ELEMENT; bản không có
+  chữ "Element" (parentNode, childNodes, nextSibling) thấy cả Text/Comment — và
+  thường vớ phải "\n  " (khoảng trắng giữa các thẻ). Mặc định chọn bản "Element".
+• closest() đi NGƯỢC hướng querySelector: querySelector tìm XUỐNG con cháu,
+  closest() leo LÊN tổ tiên đến khi khớp selector (tính cả chính nó). Cặp này
+  giải quyết 2 nửa của mọi bài toán điều hướng — nhớ chúng là một cặp đối xứng.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 5. Phỏng vấn thường gặp

@@ -38,6 +38,19 @@ Browser cung cấp interface tích hợp:
 > [!tip] `setCustomValidity('')` để clear lỗi
 > Khi gọi `setCustomValidity('Lỗi gì đó')`, field đó bị đánh dấu invalid. Sau khi user sửa, gọi `setCustomValidity('')` để clear — nếu không, field vẫn invalid dù value đúng.
 
+```
+★ Insight ─────────────────────────────────────
+• Ranh giới sống còn: client-side validation chỉ là UX, KHÔNG phải bảo mật. User
+  tắt JS, sửa HTML trong DevTools, hay gọi thẳng API bằng curl đều bỏ qua được
+  hết. Vì vậy server LUÔN phải validate lại — client validate để phản hồi nhanh
+  & đỡ round-trip, server validate để giữ dữ liệu đúng. Phỏng vấn rất hay gặp câu này.
+• Đừng tự viết lại cái trình duyệt đã cho: Constraint Validation API (required,
+  pattern, type, validity.*) lo phần cơ bản. JS chỉ nên xử lý cái HTML KHÔNG làm
+  được — so khớp 2 field (password match), gọi API check trùng username, thông
+  báo lỗi đẹp. Dùng `novalidate` để tắt tooltip mặc định khi muốn tự kiểm soát UI.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp

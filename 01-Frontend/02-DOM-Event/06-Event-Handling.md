@@ -36,6 +36,19 @@ source: [Javascript.docx]
 > [!tip] addEventListener là chuẩn
 > Luôn dùng `addEventListener` trong code thực tế. `.onclick =` tiện nhưng chỉ cho phép 1 handler — handler mới sẽ ghi đè handler cũ.
 
+```
+★ Insight ─────────────────────────────────────
+• `removeEventListener` đòi CÙNG MỘT reference hàm đã add — đây là lý do arrow
+  inline (`() => ...`) gỡ KHÔNG được: mỗi lần viết ra là một hàm mới khác địa chỉ.
+  Quy tắc: cần gỡ về sau → tách thành named function; không cần gỡ → arrow inline
+  cho gọn. Hoặc dùng `{ once: true }` để browser tự gỡ.
+• 3 cách gắn handler thực ra là 3 thế hệ: onclick="" (HTML, trộn markup+logic),
+  el.onclick= (1 slot duy nhất), addEventListener (nhiều slot + capture/once/
+  passive). Bản chất giống "inline style vs class" bên CSS — cùng một xu hướng
+  tách hành vi khỏi cấu trúc. addEventListener thắng vì mở rộng được.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp
@@ -218,29 +231,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const addBtn = document.getElementById('addBtn');
   const resetBtn = document.getElementById('resetBtn');
 
-  addBtn.addEventListener('click', () => {
+  // named function để có thể removeEventListener
+  function handleAdd() {
     count++;
     countDisplay.textContent = count;
-
-    // Khi đạt 5, disable button sau 1 lần nữa
-    if (count === 5) {
-      function onceMore() {
-        count++;
-        countDisplay.textContent = count + ' (max!)';
-        addBtn.disabled = true;
-        addBtn.removeEventListener('click', onceMore);
-      }
-      addBtn.removeEventListener('click', arguments.callee); // nếu arrow — không dùng được
+    if (count >= 5) {
+      countDisplay.textContent = count + ' (max!)';
+      addBtn.disabled = true;
+      addBtn.removeEventListener('click', handleAdd); // gỡ listener khi đạt max
     }
-  });
+  }
+  addBtn.addEventListener('click', handleAdd);
 
   resetBtn.addEventListener('click', () => {
     count = 0;
     countDisplay.textContent = 0;
     addBtn.disabled = false;
+    addBtn.addEventListener('click', handleAdd); // gắn lại sau reset
   });
 });
 ```
+
+> [!tip] Option `{ once: true }`
+> Nếu chỉ cần handler chạy đúng 1 lần rồi tự gỡ, không cần tự `removeEventListener`:
+> `btn.addEventListener('click', fn, { once: true })` — browser tự gỡ sau lần đầu.
 
 ---
 
