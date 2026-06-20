@@ -41,3 +41,12 @@ tags: [moc, react, hooks, context, router, fresher, frontend]
 | [[12-Context-voi-useState\|Context + useState]] | Pattern: Provider bọc useState, custom hook | ⭐⭐⭐ |
 | [[13-Context-voi-useReducer\|Context + useReducer]] | Pattern: Provider bọc useReducer, dispatch global | ⭐⭐⭐⭐ |
 | [[14-React-Router\|React Router v6]] | BrowserRouter, Routes, Outlet, lazy, Navigate | ⭐⭐⭐⭐ |
+
+## JSX nâng cao & Next.js *(bổ sung)*
+
+| File | Nội dung | Độ khó |
+|------|----------|--------|
+| [[15-Fragments\|React Fragments]] | `<>...</>`, tránh div thừa, `key` trong fragment | ⭐⭐ |
+| [[16-NextJS-App-Router\|Next.js & App Router]] | File-based routing, `page.js`/`layout.js`, `<Link>` | ⭐⭐⭐⭐ |
+| [[17-Server-vs-Client-Components\|Server vs Client Components]] | RSC mặc định, `"use client"`, hydration, browser API | ⭐⭐⭐⭐ |
+| [[18-Server-Actions-Data-Fetching\|Data Fetching & Server Actions]] | fetch trong server component, `"use server"`, form `action` | ⭐⭐⭐⭐ |

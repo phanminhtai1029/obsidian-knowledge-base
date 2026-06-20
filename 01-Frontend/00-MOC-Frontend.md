@@ -7,7 +7,8 @@ modules: [L2_FR_FE_FHM.QAI, L2_FR_FA_FHM.QAI, L2_RE_RE_FHM.QAI]
 
 # MOC: Frontend
 
-> Domain Frontend — gồm 6 section đã hoàn thiện (đã có nội dung từ trước).
+> Domain Frontend — 6 section. Đã **bổ sung topic còn thiếu** (a11y, Web Components, DOM perf, Cross-browser, CSS reset/normalize, CSS workflow, React Fragments, Next.js: App Router/RSC/Server Actions).
+> 🚧 Đang **nâng cấp chất lượng** dần (thêm `★ Insight` + bảng phân biệt vào các note khái niệm cũ).
 > Bám 3 module trong khung: Front-end Essentials, Front-end Advance, ReactJS.
 
 ## Các section

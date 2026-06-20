@@ -35,3 +35,8 @@ tags: [moc, html, css, bootstrap, fresher, frontend]
 - [[14-Bootstrap-Layout-vs-Grid|Bootstrap Layout & Grid System]]
 - [[15-Bootstrap-Components|Bootstrap Components]]
 - [[16-Bootstrap-Utilities|Bootstrap Utilities]]
+
+## Workflow & Chất lượng
+
+- [[17-CSS-Reset-Normalize|CSS Reset vs Normalize]] — thuần hóa user-agent styles
+- [[18-CSS-Workflow-DevTools-Validation|CSS Workflow: DevTools, Organizing, Validation]] — DevTools, tổ chức code, Can I Use, linting

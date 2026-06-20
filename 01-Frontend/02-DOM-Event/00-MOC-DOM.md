@@ -29,3 +29,10 @@ tags: [moc, dom, event, fetch, fresher, frontend]
 - [[08-List-Table-Rendering|List & Table Rendering]]
 - [[09-Fetch-API|Fetch API]]
 - [[10-Form-Validation|Form Validation]]
+
+## Nâng cao & Chất lượng
+
+- [[11-Accessibility-a11y|Accessibility (a11y)]] — semantic, ARIA, `aria-live`, screen reader
+- [[12-Web-Components|Web Components & Custom Elements]] — custom element, Shadow DOM, template
+- [[13-DOM-Performance|DOM Performance & An toàn (XSS)]] — reflow/repaint, `DocumentFragment`, `innerHTML` vs `textContent`
+- [[14-Cross-Browser-Compatibility|Cross-Browser Compatibility]] — Can I Use, feature detection, polyfill

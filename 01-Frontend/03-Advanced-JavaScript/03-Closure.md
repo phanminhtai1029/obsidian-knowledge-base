@@ -42,6 +42,26 @@ Khi `inner` function được trả ra và vẫn có reference, JS engine **khô
 
 Closure giữ **reference** tới biến, không phải snapshot giá trị. Nếu biến thay đổi sau này, closure thấy giá trị mới.
 
+```
+★ Insight ─────────────────────────────────────
+• "Close over BIẾN, không phải GIÁ TRỊ" là chìa khóa giải mọi câu đố closure.
+  Bug var-trong-loop (mục Pitfalls) chính là hệ quả: cả 3 closure cùng tham chiếu
+  MỘT biến i, không phải 3 snapshot — nên đọc ra giá trị cuối cùng.
+• Mỗi lần gọi outer function tạo MỘT lexical environment MỚI → closure riêng. Đây
+  là cơ chế đứng sau "mỗi component React giữ state riêng" và "mỗi makeCounter()
+  có count độc lập". Hiểu closure = hiểu vì sao state per-instance hoạt động.
+─────────────────────────────────────────────────
+```
+
+### Closure dùng để làm gì? (bảng phân biệt cách tạo private state)
+
+| Cách tạo "biến riêng tư" | Cú pháp | Ghi chú |
+|---|---|---|
+| **Closure** (module pattern) | biến trong outer fn, chỉ lộ qua public methods | Cách kinh điển trước ES6 |
+| **ES6 class `#private`** | `#count` trong class | Hiện đại, rõ ràng (xem [[11-ES6-Class]]) |
+| **ES Module** | biến không `export` | Riêng tư ở cấp file/module |
+| **`Symbol` làm key** | `obj[Symbol()]` | Bán riêng tư (khó truy cập, không hẳn ẩn) |
+
 ---
 
 ## 2. Cú pháp
