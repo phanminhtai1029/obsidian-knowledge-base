@@ -1,0 +1,13 @@
+# === Học liệu gốc của công ty — KHÔNG publish (bản quyền/nội bộ) ===
+_shared/_source/
+
+# === Obsidian: file theo từng thiết bị / cache (gây nhiễu khi sync) ===
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.trash/
+
+# === OS rác ===
+.DS_Store
+Thumbs.db
+desktop.ini

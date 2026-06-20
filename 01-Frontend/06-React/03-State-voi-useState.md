@@ -1,0 +1,395 @@
+---
+title: "React: State với useState"
+section: 06-React
+tags: [react, useState, hook, state, lift-state, useReducer, fresher, frontend]
+related:
+  - "[[02-Component-va-Props]]"
+  - "[[08-useEffect-Hook]]"
+  - "[[13-Context-voi-useReducer]]"
+difficulty: ⭐⭐⭐
+estimated_time: 40m
+source: [React.docx, react.dev]
+---
+
+# React: State với useState
+
+> [!summary] TL;DR
+> **State** là dữ liệu thay đổi theo thời gian — khi state thay đổi, React **re-render** component đó và tất cả children. `useState` trả về tuple `[value, setter]` qua **array destructuring**. `setter(newValue)` thay thế state hoàn toàn — không merge như `setState` của class. **Lift state up**: đưa state lên ancestor chung khi nhiều components cần dùng cùng state. **`useReducer`** thay thế `useState` khi state phức tạp, nhiều transitions liên quan nhau.
+
+---
+
+## 1. Khái niệm
+
+### State vs Props
+
+| | Props | State |
+|---|---|---|
+| Nguồn gốc | Từ parent truyền xuống | Tạo và quản lý trong chính component |
+| Mutability | Read-only (không sửa được) | Có thể cập nhật qua setter |
+| Khi thay đổi | Parent re-render truyền props mới | Component tự re-render |
+| Mục đích | Cấu hình component từ ngoài | Dữ liệu nội bộ thay đổi theo thời gian |
+
+### Khi nào cần State?
+
+Cần state khi UI cần phản ứng với một sự kiện/thay đổi:
+- Toggle (dark/light mode, show/hide, open/close)
+- Form input values
+- Data fetched từ API
+- Pagination, filtering, sorting
+
+---
+
+## 2. Cú pháp / API
+
+### 2.1 useState cơ bản
+
+```jsx
+import { useState } from 'react';
+
+function Counter() {
+  // Array destructuring — [currentValue, updaterFunction]
+  const [count, setCount] = useState(0); // 0 là initial state
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>+</button>
+      <button onClick={() => setCount(count - 1)}>-</button>
+      <button onClick={() => setCount(0)}>Reset</button>
+    </div>
+  );
+}
+```
+
+**Quy ước đặt tên:** `[noun, setNoun]` — ví dụ: `[status, setStatus]`, `[isOpen, setIsOpen]`, `[users, setUsers]`.
+
+### 2.2 useState với function updater
+
+```jsx
+// Khi new state phụ thuộc vào old state — dùng function updater để tránh stale closure
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  // CÁCH SAI (có thể stale trong async context):
+  // setCount(count + 1);
+
+  // CÁCH ĐÚNG — function updater nhận prev state:
+  const increment = () => setCount(prev => prev + 1);
+  const decrement = () => setCount(prev => prev - 1);
+
+  // Đặc biệt quan trọng khi gọi nhiều lần liên tiếp:
+  const incrementThrice = () => {
+    setCount(prev => prev + 1); // 0 → 1
+    setCount(prev => prev + 1); // 1 → 2
+    setCount(prev => prev + 1); // 2 → 3
+    // ✅ Đúng: mỗi call nhận prev state mới nhất
+  };
+
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={increment}>+1</button>
+      <button onClick={incrementThrice}>+3</button>
+    </div>
+  );
+}
+```
+
+### 2.3 Toggle State (Boolean)
+
+```jsx
+function ToggleButton() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => setIsOpen(prev => !prev); // flip boolean
+
+  return (
+    <div>
+      <button onClick={toggle}>
+        {isOpen ? 'Close Menu' : 'Open Menu'}
+      </button>
+      {isOpen && (
+        <nav>
+          <a href="/">Home</a>
+          <a href="/about">About</a>
+        </nav>
+      )}
+    </div>
+  );
+}
+```
+
+### 2.4 Object State — phải spread
+
+```jsx
+function UserForm() {
+  const [user, setUser] = useState({ name: '', email: '', age: 0 });
+
+  // SAIT — setter THAY THẾ toàn bộ state, không merge
+  // setUser({ name: 'Alice' }); → { name: 'Alice' } — mất email và age!
+
+  // ĐÚNG — spread object cũ trước, rồi override field cần thay đổi
+  const updateName = (name) => setUser(prev => ({ ...prev, name }));
+  const updateEmail = (email) => setUser(prev => ({ ...prev, email }));
+
+  return (
+    <form>
+      <input
+        value={user.name}
+        onChange={e => updateName(e.target.value)}
+        placeholder="Name"
+      />
+      <input
+        value={user.email}
+        onChange={e => updateEmail(e.target.value)}
+        placeholder="Email"
+      />
+    </form>
+  );
+}
+```
+
+### 2.5 Array State — immutable updates
+
+```jsx
+function TodoList() {
+  const [todos, setTodos] = useState([
+    { id: 1, text: 'Learn React', done: false },
+  ]);
+
+  const addTodo = (text) => {
+    const newTodo = { id: Date.now(), text, done: false };
+    setTodos(prev => [...prev, newTodo]);  // spread, rồi thêm
+  };
+
+  const toggleTodo = (id) => {
+    setTodos(prev =>
+      prev.map(todo => todo.id === id ? { ...todo, done: !todo.done } : todo)
+    );
+  };
+
+  const removeTodo = (id) => {
+    setTodos(prev => prev.filter(todo => todo.id !== id));  // filter out
+  };
+
+  return (
+    <ul>
+      {todos.map(todo => (
+        <li key={todo.id}>
+          <input
+            type="checkbox"
+            checked={todo.done}
+            onChange={() => toggleTodo(todo.id)}
+          />
+          <span style={{ textDecoration: todo.done ? 'line-through' : 'none' }}>
+            {todo.text}
+          </span>
+          <button onClick={() => removeTodo(todo.id)}>✕</button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### 2.6 Lift State Up
+
+```jsx
+// Khi 2 sibling components cần cùng state → lift up lên parent chung
+
+function TemperatureInput({ scale, temp, onTempChange }) {
+  return (
+    <label>
+      {scale === 'C' ? 'Celsius' : 'Fahrenheit'}:
+      <input value={temp} onChange={e => onTempChange(e.target.value)} />
+    </label>
+  );
+}
+
+// State ở parent — pass xuống cả 2 children
+function Calculator() {
+  const [celsius, setCelsius] = useState('');
+
+  const fahrenheit = celsius !== '' ? (parseFloat(celsius) * 9/5 + 32).toFixed(1) : '';
+
+  return (
+    <div>
+      <TemperatureInput scale="C" temp={celsius} onTempChange={setCelsius} />
+      <TemperatureInput scale="F" temp={fahrenheit} onTempChange={() => {}} />
+      {celsius && <p>{celsius}°C = {fahrenheit}°F</p>}
+    </div>
+  );
+}
+```
+
+### 2.7 useReducer — khi state phức tạp hơn
+
+```jsx
+import { useReducer } from 'react';
+
+// Reducer function: (currentState, action) → newState
+function counterReducer(state, action) {
+  switch (action.type) {
+    case 'INCREMENT': return { count: state.count + (action.amount ?? 1) };
+    case 'DECREMENT': return { count: state.count - 1 };
+    case 'RESET':     return { count: 0 };
+    default:          return state;
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(counterReducer, { count: 0 });
+
+  return (
+    <div>
+      <p>Count: {state.count}</p>
+      <button onClick={() => dispatch({ type: 'INCREMENT' })}>+1</button>
+      <button onClick={() => dispatch({ type: 'INCREMENT', amount: 5 })}>+5</button>
+      <button onClick={() => dispatch({ type: 'DECREMENT' })}>-1</button>
+      <button onClick={() => dispatch({ type: 'RESET' })}>Reset</button>
+    </div>
+  );
+}
+```
+
+---
+
+## 3. Ví dụ minh họa
+
+### Ví dụ 1: Accordion component
+
+```jsx
+function AccordionItem({ title, children }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div className="accordion-item">
+      <button
+        className="accordion-header"
+        onClick={() => setIsExpanded(prev => !prev)}
+        aria-expanded={isExpanded}
+      >
+        {title}
+        <span>{isExpanded ? '▲' : '▼'}</span>
+      </button>
+      {isExpanded && (
+        <div className="accordion-body">{children}</div>
+      )}
+    </div>
+  );
+}
+
+function FAQ() {
+  return (
+    <div>
+      <AccordionItem title="What is React?">
+        <p>React is a JavaScript library for building user interfaces.</p>
+      </AccordionItem>
+      <AccordionItem title="What are Hooks?">
+        <p>Hooks let you use state and other React features in function components.</p>
+      </AccordionItem>
+    </div>
+  );
+}
+```
+
+### Ví dụ 2: Shopping cart với useReducer
+
+```jsx
+const cartReducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD': {
+      const existing = state.find(item => item.id === action.item.id);
+      if (existing) {
+        return state.map(item =>
+          item.id === action.item.id ? { ...item, qty: item.qty + 1 } : item
+        );
+      }
+      return [...state, { ...action.item, qty: 1 }];
+    }
+    case 'REMOVE':
+      return state.filter(item => item.id !== action.id);
+    case 'CLEAR':
+      return [];
+    default:
+      return state;
+  }
+};
+
+function Cart() {
+  const [items, dispatch] = useReducer(cartReducer, []);
+  const total = items.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+  return (
+    <div>
+      <button onClick={() => dispatch({ type: 'ADD', item: { id: 1, name: 'Book', price: 15 } })}>
+        Add Book
+      </button>
+      <ul>
+        {items.map(item => (
+          <li key={item.id}>
+            {item.name} × {item.qty} = ${(item.price * item.qty).toFixed(2)}
+            <button onClick={() => dispatch({ type: 'REMOVE', id: item.id })}>✕</button>
+          </li>
+        ))}
+      </ul>
+      <p>Total: ${total.toFixed(2)}</p>
+      <button onClick={() => dispatch({ type: 'CLEAR' })}>Clear Cart</button>
+    </div>
+  );
+}
+```
+
+---
+
+## 4. Pitfalls / Bẫy thường gặp
+
+> [!warning] Pitfall 1: State updates là bất đồng bộ (asynchronous)
+> `setCount(count + 1); console.log(count);` → `count` vẫn là giá trị CŨ! State chỉ thực sự update ở lần render tiếp theo. Dùng function updater `setCount(prev => prev + 1)` khi cần reliable updates.
+
+> [!warning] Pitfall 2: Không mutate state trực tiếp
+> ```jsx
+> // SAI — mutate array/object trực tiếp
+> todos.push(newTodo);    setTodos(todos); // React không detect thay đổi!
+> user.name = 'Bob';      setUser(user);   // Cùng reference — không re-render!
+>
+> // ĐÚNG — tạo object/array mới
+> setTodos([...todos, newTodo]);
+> setUser({ ...user, name: 'Bob' });
+> ```
+
+> [!tip] useState vs useReducer — khi nào dùng cái nào?
+> **useState**: state đơn giản, ít transitions, các trường độc lập nhau. **useReducer**: nhiều sub-values liên quan (form phức tạp), next state phụ thuộc vào nhiều action types, logic update phức tạp cần test. Nếu thấy mình viết nhiều `setX` cùng lúc → xem xét chuyển sang `useReducer`.
+
+---
+
+## 5. Câu hỏi phỏng vấn thường gặp
+
+**Q1: useState là gì? Giải thích cú pháp `const [count, setCount] = useState(0)`.**
+
+> `useState` là React Hook cho phép function component có **state**. `useState(0)` trả về **array 2 phần tử**: `[currentState, setterFunction]`. Ta dùng **array destructuring** để lấy ra và đặt tên. `0` là initial state. `setCount(newValue)` cập nhật state và trigger re-render. Convention đặt tên: `[noun, setNoun]`.
+
+**Q2: Tại sao phải dùng setter function, không được mutate state trực tiếp?**
+
+> React xác định khi nào cần re-render bằng cách so sánh reference. Nếu mutate array/object trực tiếp → reference không đổi → React không biết state thay đổi → không re-render. Setter function: (1) tạo **reference mới**, (2) **schedule re-render**, (3) **batch** nhiều updates cùng nhau để tối ưu performance.
+
+**Q3: Lift state up là gì? Khi nào cần dùng?**
+
+> Lift state up là pattern: **di chuyển state lên ancestor component chung** khi nhiều sibling components cần đọc/cập nhật cùng state. Ví dụ: tab A và tab B cùng hiển thị theme (dark/light) → đặt `theme` state ở parent của cả A và B, pass xuống qua props. Khi cần chia sẻ state ở nhiều nơi hơn nữa → dùng Context API.
+
+---
+
+## 6. Bài tập tự luyện
+
+- [ ] **Bài 1:** Tạo component `Tabs` nhận `tabs: Array<{label, content}>`. State `activeTab` track tab đang active. Click vào tab label → hiển thị content tương ứng. Style active tab khác với inactive.
+
+- [ ] **Bài 2:** Dùng `useReducer` xây dựng traffic light (`red → green → yellow → red`). Mỗi lần click "Next" → dispatch action `NEXT` → reducer tính state tiếp theo.
+
+---
+
+## 7. Liên kết
+
+- [[02-Component-va-Props]] — Props vs State
+- [[08-useEffect-Hook]] — useState + useEffect (data fetching pattern)
+- [[13-Context-voi-useReducer]] — useReducer kết hợp Context cho global state
+- [[12-Context-voi-useState]] — useState kết hợp Context
