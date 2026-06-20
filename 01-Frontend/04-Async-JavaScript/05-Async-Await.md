@@ -166,6 +166,19 @@ async function loadParallelSafe() {
 > users.forEach(user => process(user));
 > ```
 
+```
+★ Insight ─────────────────────────────────────
+• Lỗi hiệu năng số 1 với async/await: await TUẦN TỰ những việc ĐỘC LẬP. Mỗi
+  `await` dừng hàm tới khi xong → 3 việc 500ms thành 1500ms. Nếu chúng không phụ
+  thuộc nhau → khởi động hết rồi Promise.all (chỉ 500ms). Quy tắc: "await tuần tự
+  CHỈ khi việc sau CẦN kết quả việc trước".
+• Bẫy tinh vi: `await` bên trong `forEach`/`map` KHÔNG được vòng lặp chờ — forEach
+  kệ Promise trả về, chạy tiếp ngay. Muốn tuần tự thật → for...of; muốn song song
+  → `Promise.all(arr.map(async ...))`. Và nhớ: async/await chỉ là VỎ trên Promise
+  ([[04-Promise]]) — quên await một async fn = nuốt luôn lỗi của nó.
+─────────────────────────────────────────────────
+```
+
 ### 2.4 Async Iteration (for await...of)
 
 ```javascript

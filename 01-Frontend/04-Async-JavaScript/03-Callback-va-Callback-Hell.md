@@ -150,6 +150,19 @@ getUser(1, function(err, user) {
 3. **Khó refactor** — extract function ra khó vì context lồng nhau
 4. **Không composable** — không thể tái sử dụng flow
 
+```
+★ Insight ─────────────────────────────────────
+• Vấn đề SÂU nhất của callback không phải thụt lề — mà là "inversion of control":
+  bạn TRAO hàm của mình cho thư viện và TIN nó gọi đúng 1 lần, đúng lúc, đúng
+  tham số. Nó gọi 2 lần? quên gọi? gọi với lỗi không báo? Bạn chịu. Promise lấy
+  lại quyền kiểm soát đó (settle đúng 1 lần, theo spec). Đây là lý do triết học
+  Promise ra đời, không chỉ vì thẩm mỹ.
+• Hai bug callback kinh điển — gọi cb NHIỀU LẦN và QUÊN return sau cb(err) — chính
+  là thứ Promise xoá sổ theo thiết kế. Nhận diện được chúng giải thích vì sao cả
+  hệ sinh thái chuyển sang Promise/async-await ([[04-Promise]]).
+─────────────────────────────────────────────────
+```
+
 ### 2.4 Giải pháp 1: Named Functions (flatten)
 
 ```javascript

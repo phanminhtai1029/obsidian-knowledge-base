@@ -52,6 +52,19 @@ Các tác vụ chậm (slow operations) thường gặp trong web:
 
 Nếu làm sync → UI bị lock → scroll không được, click không phản hồi → UX tệ. Async cho phép JS "đăng ký" xử lý khi tác vụ xong rồi tiếp tục làm việc khác.
 
+```
+★ Insight ─────────────────────────────────────
+• Async ≠ multi-thread. JS vẫn chạy 1 thread; cái chạy song song là WEB API của
+  trình duyệt (timer, network ở thread C++ riêng), còn callback của bạn vẫn xếp
+  hàng chờ về 1 thread JS. Đây là "concurrency" (xen kẽ) chứ không phải
+  "parallelism" (thật sự cùng lúc) — phân biệt này hay bị hỏi. Cơ chế ở [[02-Event-Loop]].
+• 3 pattern là một dòng TIẾN HÓA giải cùng một bài toán: callback (callback hell)
+  → Promise (then phẳng, có combinator) → async/await (đọc như sync). async/await
+  chỉ là VỎ ĐƯỜNG trên Promise — không hiểu Promise thì không debug được stack
+  lỗi. Và `await` tuần tự KHÔNG tự song song: nhiều việc độc lập → Promise.all.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

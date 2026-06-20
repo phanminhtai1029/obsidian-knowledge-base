@@ -45,6 +45,19 @@ LOOP:
 > [!warning] Microtask Queue ưu tiên tuyệt đối
 > Event Loop drain **toàn bộ** Microtask Queue trước khi lấy Macrotask tiếp theo. Nếu microtask tạo ra microtask mới → microtask mới cũng được chạy ngay. Có thể starvation nếu vô tình tạo infinite microtask loop.
 
+```
+★ Insight ─────────────────────────────────────
+• Một câu giải mọi câu đố thứ tự: "drain HẾT microtask, nhưng chỉ lấy MỘT
+  macrotask mỗi vòng". Vì vậy mọi Promise.then chờ sẵn luôn chạy trước bất kỳ
+  setTimeout nào — kể cả setTimeout(…,0). Trình tự bất biến: sync → toàn bộ
+  microtask → 1 macrotask → lại toàn bộ microtask → …
+• Bẫy kinh điển: thân Promise constructor (`new Promise(fn)`) chạy SYNC ngay tại
+  chỗ; chỉ phần trong .then/.catch/.await mới là microtask. Và `await x` ≈
+  "phần sau await được gói vào .then" → nó là microtask, chạy sau hết sync hiện
+  tại. Nắm 2 điều này là đọc đúng 90% câu hỏi "đoán output".
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Sơ đồ Event Loop

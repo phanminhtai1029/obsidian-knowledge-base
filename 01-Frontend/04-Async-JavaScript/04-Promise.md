@@ -49,6 +49,19 @@ stateDiagram-v2
 - `resolve()` hoặc `reject()` lần thứ 2 trở đi bị ignore hoàn toàn
 - Callbacks trong `.then/.catch` luôn là **async** (Microtask Queue)
 
+```
+★ Insight ─────────────────────────────────────
+• "Settle đúng MỘT lần, không quay lại" là LỜI HỨA cốt lõi (đúng như tên gọi):
+  nó bảo đảm .then chạy tối đa 1 lần — diệt tận gốc bug "callback gọi 2 lần". Một
+  Promise là một ô giá trị-tương-lai có thể CHUYỀN TAY, lưu biến, trả về — điều
+  callback (chỉ là hàm bị nhét vào) không làm được. Đây là gốc của tính composable.
+• Chọn combinator theo ngữ nghĩa, đừng học vẹt: all = "cần TẤT CẢ, 1 fail là bỏ"
+  (fail-fast); allSettled = "muốn biết KẾT QUẢ từng cái, fail cũng không sao";
+  race = "ai xong TRƯỚC thắng, kể cả thua" (hay dùng timeout); any = "ai THÀNH
+  CÔNG trước thắng" (fallback nhiều server). Câu hỏi all-vs-allSettled gặp thường xuyên.
+─────────────────────────────────────────────────
+```
+
 ### Tại sao Promise tốt hơn Callback?
 
 | Vấn đề | Callback | Promise |
