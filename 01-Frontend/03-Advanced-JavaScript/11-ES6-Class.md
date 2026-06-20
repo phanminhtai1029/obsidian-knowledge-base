@@ -52,6 +52,19 @@ console.log(typeof Person); // "function" — class là function!
 
 Class ở trong TDZ — không thể dùng trước khi khai báo.
 
+```
+★ Insight ─────────────────────────────────────
+• "Sugar trên prototype" không phải chi tiết vụn vặt: `typeof Class === 'function'`,
+  method nằm trên prototype (dùng chung mọi instance, tiết kiệm bộ nhớ), extends
+  chỉ là nối prototype chain. Hiểu điều này thì instanceof, super, và "vì sao
+  method lại shared" trở nên hiển nhiên — class chỉ là lớp áo dễ đọc.
+• Bài toán "mất this" lặp lại từ [[09-ES6-Arrow-Function]]: tách method ra
+  (`const {greet}=obj`) hay truyền làm callback → this rơi về undefined. 3 lối
+  thoát: bind trong constructor, arrow class field (this đóng băng = instance),
+  hoặc bind tại điểm dùng. React class component sống chết với chuyện này.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp

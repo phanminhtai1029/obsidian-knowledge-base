@@ -27,6 +27,18 @@ Trước khi thực thi code, JS engine có 2 phase:
 
 "Hoisting" mô tả hiệu ứng: khai báo được "kéo lên đầu" scope — nhưng thực ra là compiler đã xử lý chúng trước khi execution bắt đầu.
 
+```
+★ Insight ─────────────────────────────────────
+• Không có gì "bay lên" thật cả — "2 phase" mới là mô hình đúng: phase quét đăng
+  ký TÊN trước, phase chạy mới GÁN giá trị. Mọi khác biệt var/let/function quy về
+  một câu hỏi: "lúc đăng ký tên, nó được khởi tạo thành gì?" var→undefined (đọc
+  được), let/const→chưa khởi tạo (TDZ, đọc là lỗi), function→cả thân hàm (gọi được).
+• TDZ là TÍNH NĂNG, không phải phiền toái: nó biến lỗi "dùng trước khai báo" từ
+  bug âm thầm (var trả undefined rồi sai ngầm) thành lỗi NỔ NGAY (ReferenceError).
+  Đây là một lý do cốt lõi để mặc định const/let, bỏ var — xem [[05-ES6-Block-scoped-let-const]].
+─────────────────────────────────────────────────
+```
+
 ### So sánh hoisting theo từ khóa
 
 | Từ khóa | Hoist không? | Được init thành gì? | Truy cập trước khai báo |

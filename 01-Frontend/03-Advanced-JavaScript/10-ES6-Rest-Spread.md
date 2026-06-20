@@ -32,6 +32,19 @@ SPREAD: 1 iterable → nhiều giá trị
   {...obj1, ...obj2}      → object mới merge 2 object
 ```
 
+```
+★ Insight ─────────────────────────────────────
+• Cùng `...`, phân biệt bằng VỊ TRÍ: ở nơi NHẬN (tham số hàm, vế trái destructure)
+  → REST gom lại; ở nơi DÙNG (gọi hàm, dựng array/object literal) → SPREAD trải
+  ra. "Nhận thì gom, dùng thì trải" — một câu nhớ cho cả hai.
+• Spread chỉ COPY NÔNG một tầng — đây là gốc rễ bug "sao state gốc bị đổi?":
+  `{...state}` sao chép tầng ngoài nhưng object/array LỒNG bên trong vẫn chung
+  địa chỉ. Vì vậy update immutable phải spread TỪNG TẦNG đụng tới
+  (`{...s, user:{...s.user, age}}`). Cần copy sâu thật → structuredClone(). Đây
+  chính là quy tắc cập nhật state trong React/Redux.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp

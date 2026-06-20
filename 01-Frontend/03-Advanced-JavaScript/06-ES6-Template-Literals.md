@@ -202,6 +202,19 @@ log.error('Connection failed', new Error('Timeout'));
 > [!tip] Template literals hỗ trợ bất kỳ expression nào trong `${}`
 > Có thể dùng ternary, function call, array methods, thậm chí nested template. Nhưng giữ expression đơn giản trong `${}` — logic phức tạp nên extract ra biến riêng cho dễ đọc.
 
+```
+★ Insight ─────────────────────────────────────
+• Tagged template (`fn\`...\``) là thứ "nhìn lạ mà ở khắp nơi": styled-components
+  (`styled.div\`...\``), GraphQL (`gql\`...\``), nhiều thư viện i18n/SQL đều dựa
+  trên nó. Hàm tag nhận TÁCH RIÊNG phần chữ tĩnh và phần ${} động → có thể xử lý
+  giá trị động an toàn (escape) trước khi ghép. Biết "nó là tagged template" thì
+  những API trông ma thuật đó hết bí ẩn.
+• Template literal chỉ tạo CHUỖI — nó không tự an toàn. Ghép user input rồi nhét
+  vào innerHTML vẫn dính XSS y như nối chuỗi thường. Dùng nó để dựng HTML với dữ
+  liệu TIN CẬY; với dữ liệu người dùng vẫn phải textContent ([[04-Modifying-DOM-Elements]]).
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 5. Phỏng vấn thường gặp

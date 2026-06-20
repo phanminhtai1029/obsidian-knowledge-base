@@ -41,6 +41,19 @@ const { name, age, role } = user;     // object
 const [first, second, third] = arr;   // array
 ```
 
+```
+★ Insight ─────────────────────────────────────
+• Destructuring chính là cú pháp tạo-object/array ĐẢO NGƯỢC: `{a, b}` bên PHẢI
+  dấu = là gom vào, đặt bên TRÁI là tháo ra. Nhận ra tính đối xứng này thì array
+  theo VỊ TRÍ, object theo TÊN trở nên hiển nhiên — và hiểu luôn vì sao swap
+  `[a,b]=[b,a]` chạy được mà không cần biến tạm.
+• Hai bẫy "undefined" hay gặp: (1) destructure key vắng → biến = undefined (lỗi
+  chỉ nổ khi .dùng tiếp) → đặt default `{key = ...}`; (2) tầng trung gian null
+  → `{a:{b}} = {a:null}` NỔ ngay → default cho tầng giữa `{a:{b} = {}} `. React
+  dùng destructuring khắp nơi (props, useState) nên đây là kỹ năng dùng hằng ngày.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp

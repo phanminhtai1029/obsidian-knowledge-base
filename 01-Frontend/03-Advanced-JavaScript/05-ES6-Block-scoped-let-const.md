@@ -194,6 +194,19 @@ console.log(nested.inner.value); // 99
 > [!tip] `const` trong for-of / for-in
 > `const` hoạt động trong `for...of` và `for...in` — mỗi iteration tạo binding mới. Chỉ `for (let i = 0; ...)` cần `let` vì `i` được cập nhật trong cùng binding.
 
+```
+★ Insight ─────────────────────────────────────
+• const khóa LIÊN KẾT (biến↔địa chỉ), không khóa NỘI DUNG. `const u = {}` nghĩa
+  là "u mãi trỏ vào object NÀY", nhưng object đó vẫn sửa được (u.name='Bob' OK).
+  Đây là lý do `const arr=[]; arr.push(1)` hợp lệ mà `arr=[2]` thì lỗi. Muốn
+  khóa nội dung → Object.freeze (mà cũng chỉ NÔNG một tầng).
+• Mặc định const là một quyết định về KHẢ ĐỌC, không phải khắt khe: đọc `const`
+  là biết ngay "giá trị này không bị gán lại" → bớt một thứ phải theo dõi trong
+  đầu. Chỉ đổi sang `let` khi thực sự cần reassign. var bị loại vì thiếu block
+  scope + hoisting undefined âm thầm (xem [[02-Hoisting]]).
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 5. Phỏng vấn thường gặp

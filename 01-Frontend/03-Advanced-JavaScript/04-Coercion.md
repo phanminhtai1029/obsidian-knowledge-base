@@ -51,6 +51,19 @@ false, 0, -0, 0n, '', null, undefined, NaN
 [], {}, 'false', '0', -1, Infinity
 ```
 
+```
+★ Insight ─────────────────────────────────────
+• Toán tử `+` có "thiên vị chuỗi": chỉ cần MỘT toán hạng là string, + thành nối
+  chuỗi; mọi toán tử số học khác (- * / %) lại ép về number. Đây là gốc của bug
+  kinh điển "price + qty = '1000003'" — input form luôn là string. Quy tắc sống
+  còn: Number()/parseInt() TRƯỚC khi tính. Liên hệ [[04-Modifying-DOM-Elements]].
+• Học falsy như một DANH SÁCH ĐÓNG (đúng 7 giá trị) thay vì đoán: false, 0, -0,
+  0n, '', null, undefined, NaN. [] và {} TRUTHY (bẫy hay gặp). Và phân biệt
+  `||` (rơi vào fallback với MỌI falsy, nuốt nhầm 0 và '') vs `??` (chỉ rơi khi
+  null/undefined) — chọn `??` khi 0 hoặc '' là giá trị HỢP LỆ.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp

@@ -24,6 +24,19 @@ source: [MDN]
 1. **Lexical `this`** — Arrow không có `this` riêng, dùng `this` của scope bao ngoài tại thời điểm định nghĩa. Không bị ảnh hưởng bởi `call`, `apply`, `bind`.
 2. **Không có `arguments`** — Không có object `arguments` tự động. Dùng rest params `...args` thay thế.
 
+```
+★ Insight ─────────────────────────────────────
+• Lexical this là TÍNH NĂNG quan trọng nhất, không phải "cú pháp ngắn": arrow
+  KHÔNG có this riêng → nó mượn this của nơi ĐỊNH NGHĨA và đóng băng vĩnh viễn
+  (call/apply/bind bất lực). Đây đúng thứ ta CẦN cho callback (setInterval, map)
+  để khỏi mất context, nhưng đúng thứ ta KHÔNG muốn cho object method.
+• Suy ra quy tắc chọn: cần this trỏ vào object/instance gọi nó → function thường/
+  method shorthand; muốn this giữ nguyên theo ngữ cảnh ngoài (callback, class
+  field handler) → arrow. "Sai this" gần như luôn là chọn nhầm 1 trong 2 loại
+  này — câu hỏi phỏng vấn kinh điển.
+─────────────────────────────────────────────────
+```
+
 ### Các dạng cú pháp
 
 ```javascript

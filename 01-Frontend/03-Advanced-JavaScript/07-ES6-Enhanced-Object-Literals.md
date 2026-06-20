@@ -27,6 +27,18 @@ source: [MDN]
 | Method shorthand | `{ greet: function() {} }` | `{ greet() {} }` |
 | Computed property | `obj[key] = value` (sau khai báo) | `{ [key]: value }` |
 
+```
+★ Insight ─────────────────────────────────────
+• Property shorthand `{name, age}` chỉ là `{name: name, age: age}` — nhưng nó là
+  cú pháp bạn gặp NHIỀU NHẤT khi return object hoặc setState({name, email}). Đối
+  xứng với object destructuring ([[08-ES6-Destructuring]]): một bên dựng, một bên tháo, cùng dạng `{name}`.
+• Method shorthand `greet(){}` ≠ arrow property `greet: ()=>{}`: shorthand có
+  this trỏ vào object (đúng cho method cần this), còn arrow lấy this lexical
+  (thường KHÔNG phải object). Đây là lỗi tinh vi — định nghĩa method object bằng
+  arrow rồi dùng this.something sẽ ra undefined. Quy tắc ở [[09-ES6-Arrow-Function]].
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp

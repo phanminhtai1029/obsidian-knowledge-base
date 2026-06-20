@@ -217,6 +217,19 @@ getUsers({ page: 1 });
 > [!tip] Lexical scope vs Dynamic scope
 > JS dùng **lexical scope** (tĩnh, xác định khi viết code). Một số ngôn ngữ khác (Perl, Bash) dùng dynamic scope (xác định khi chạy). Arrow function `this` cũng là lexical — `this` của arrow function là `this` của nơi nó được định nghĩa, không phải nơi được gọi.
 
+```
+★ Insight ─────────────────────────────────────
+• "Lexical" = scope khóa chặt theo VỊ TRÍ VIẾT trong source, không phải nơi gọi.
+  Đọc code là biết ngay biến nào thấy được biến nào — không cần chạy thử. Đây là
+  nền của [[03-Closure]]: hàm "nhớ" được scope nơi nó SINH RA, mang theo cả khi
+  bị gọi ở chỗ khác.
+• Scope chain chỉ tra cứu MỘT CHIỀU: trong nhìn ra ngoài được, ngoài KHÔNG nhìn
+  vào trong. Hệ quả thực tế: biến private (count trong module pattern) an toàn vì
+  global không có đường "chui vào" function scope. let trong for tạo binding MỚI
+  mỗi vòng → mỗi closure chộp đúng giá trị, còn var chỉ 1 binding dùng chung → bug 3,3,3.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 5. Phỏng vấn thường gặp
