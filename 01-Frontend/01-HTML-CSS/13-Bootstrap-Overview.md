@@ -31,6 +31,19 @@ source: [Bootstrap 5 docs]
 - Bundle size là vấn đề (full Bootstrap ~22KB CSS min+gzip).
 - Đã có design system riêng (Material, Ant Design...).
 
+```
+★ Insight ─────────────────────────────────────
+• Bootstrap đại diện cho triết lý "component classes" (class mang ý nghĩa: .btn,
+  .card, .navbar). Đối cực là "utility-first" (Tailwind: gom nhiều class nguyên
+  tử p-4 flex text-center). Nhà tuyển dụng hay hỏi so sánh: Bootstrap nhanh-có-
+  sẵn nhưng giao diện "đụng hàng" & khó custom sâu; utility-first linh hoạt &
+  HTML dài hơn. Biết trục so sánh này quan trọng hơn thuộc tên class.
+• Mọi class Bootstrap chỉ là CSS thường có specificity thấp (thường 1 class).
+  Vì vậy để override, viết CSS riêng SAU Bootstrap với cùng/độ cao hơn — không
+  cần !important. Đây là hệ quả trực tiếp của [[07-CSS-Cascade-Specificity-Inheritance]].
+─────────────────────────────────────────────────
+```
+
 ## 2. Cú pháp / API
 
 ```html

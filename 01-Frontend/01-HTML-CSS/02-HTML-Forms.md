@@ -183,6 +183,19 @@ source: [MDN]
 
 **Output / Kết quả mong đợi:** Khi gõ vào ô search, browser gợi ý danh sách từ `<datalist>` — tính năng autocomplete native không cần JS.
 
+```
+★ Insight ─────────────────────────────────────
+• `name` là "khóa", `id` là "neo cho label" — hai thứ khác mục đích, hay bị nhầm.
+  Server/JS nhận data theo `name` (input thiếu name = KHÔNG được gửi đi, dù vẫn
+  hiển thị). `<label for>` trỏ tới `id`. Radio buttons cùng một nhóm phải CHUNG
+  một `name` thì mới "chọn 1 trong nhiều"; khác name = mỗi cái một nhóm riêng.
+• Form HTML có sẵn cả một "validation engine" miễn phí: required/pattern/min/max
+  + type (email/number/date) → trình duyệt tự chặn submit và báo lỗi. JS chỉ nên
+  BỔ SUNG (thông báo đẹp hơn, kiểm tra chéo 2 ô), không thay thế. Đây là nền cho
+  [[10-Form-Validation]] (Constraint Validation API).
+─────────────────────────────────────────────────
+```
+
 ## 4. Pitfalls / Bẫy thường gặp
 
 > [!warning] Lỗi phổ biến

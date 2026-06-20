@@ -128,6 +128,27 @@ h1 {
 > [!tip] Mẹo debug specificity
 > Dùng DevTools (F12) > Elements > Computed: CSS rules được liệt kê theo specificity, rule bị gạch chân = bị override.
 
+```
+★ Insight ─────────────────────────────────────
+• Specificity không phải hệ cơ số 10: (0,1,0) so với (1,0,0) KHÔNG phải "10 vs 100"
+  mà là so sánh từng cột TRÁI→PHẢI như version number. 256 class (0,256,0) vẫn
+  THUA 1 ID (1,0,0). "Điểm" chỉ là cách nhớ trực quan — đừng cộng dồn liều.
+• CSS hiện đại có 2 lối thoát khỏi "arms race" !important: `:where(...)` ép
+  specificity về (0,0,0) (dùng cho reset/base để dễ override), và `@layer` cho
+  bạn xếp thứ tự ưu tiên giữa các tầng CSS — layer sau thắng layer trước BẤT KỂ
+  specificity. Đây là lý do codebase mới gần như không cần !important.
+─────────────────────────────────────────────────
+```
+
+### Bảng phân biệt `inherit` / `initial` / `unset` / `revert`
+
+| Từ khóa | Ý nghĩa |
+|---|---|
+| `inherit` | Lấy giá trị **tính toán của element cha** (ép thừa kế kể cả property vốn không thừa kế) |
+| `initial` | Về **giá trị mặc định theo spec CSS** của property (vd `color` → `canvastext`/đen) |
+| `unset` | `inherit` nếu property vốn thừa kế, ngược lại `initial` |
+| `revert` | Về giá trị của **tầng trước** (thường là UA/browser default) — khác `initial` ở chỗ tôn trọng browser stylesheet |
+
 ## 5. Câu hỏi phỏng vấn thường gặp
 
 1. **Q:** Tính specificity của: `div#app .nav > a:hover`

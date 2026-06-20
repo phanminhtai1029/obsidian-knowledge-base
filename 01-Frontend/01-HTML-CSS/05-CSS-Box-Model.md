@@ -110,6 +110,18 @@ source: [CSS-fundamentals.docx]
 
 **Giải thích:** `border-box` trực quan hơn vì "width là width" — padding và border không làm tràn layout.
 
+```
+★ Insight ─────────────────────────────────────
+• "width là width" là lý do gần như mọi codebase mở đầu bằng
+  `*, *::before, *::after { box-sizing: border-box }`. Với content-box, mỗi lần
+  thêm padding bạn phải tự trừ vào width → toán nhẩm liên tục và dễ tràn grid.
+  border-box biến width thành con số bạn THẤY, không phải con số phải TÍNH.
+• Padding ăn màu background còn margin trong suốt — đây là cách phân biệt nhanh
+  trong DevTools: vùng có màu nền nằm trong border là padding, vùng trống ngoài
+  border (highlight cam) là margin. Nhớ mẹo này thì không bao giờ nhầm 2 lớp.
+─────────────────────────────────────────────────
+```
+
 ### Ví dụ 2: Margin collapsing
 
 ```html

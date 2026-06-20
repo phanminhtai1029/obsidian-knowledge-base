@@ -13,7 +13,7 @@ source: [Bootstrap 5 docs]
 # Bootstrap Layout & Grid System
 
 > [!summary] TL;DR
-> Bootstrap Grid dùng hệ thống **12 cột** với cú pháp `col-{breakpoint}-{size}`. Cần wrap trong `.row` (trong `.container`). **Breakpoints:** xs(<576), sm(≥576), md(≥768), lg(≥1024), xl(≥1280), xxl(≥1400). `col-md-6` = chiếm 6/12 cột từ breakpoint md trở lên, nhỏ hơn thì full width.
+> Bootstrap Grid dùng hệ thống **12 cột** với cú pháp `col-{breakpoint}-{size}`. Cần wrap trong `.row` (trong `.container`). **Breakpoints:** xs(<576), sm(≥576), md(≥768), lg(≥992), xl(≥1200), xxl(≥1400). `col-md-6` = chiếm 6/12 cột từ breakpoint md trở lên, nhỏ hơn thì full width.
 
 ## 1. Khái niệm
 
@@ -174,6 +174,18 @@ Wrapper ngoài cùng để center content và set max-width:
 - Small: 2 card/hàng
 - XL+: 4 card/hàng
 - Tất cả card cùng chiều cao (`h-100`) nhờ flex column + `mt-auto` trên button
+
+```
+★ Insight ─────────────────────────────────────
+• Bootstrap Grid CHÍNH LÀ Flexbox đóng gói: `.row` là `display:flex`, `.col-*`
+  là flex item với `flex-basis` theo phần trăm của 12. Hiểu [[08-CSS-Layout-Flexbox]]
+  rồi thì Bootstrap Grid không có gì mới — chỉ là class đặt sẵn. Đó cũng là lý
+  do `h-100`+`d-flex flex-column`+`mt-auto` cho card cùng chiều cao hoạt động.
+• `col-md-6` là "từ md TRỞ LÊN", không phải "chỉ ở md" — tư duy mobile-first.
+  Vì vậy `col-12 col-md-6 col-lg-4` đọc là: mặc định full → md nửa → lg một phần
+  ba. Bỏ trống infix (`col-6`) = áp dụng từ xs, tức MỌI kích thước.
+─────────────────────────────────────────────────
+```
 
 ## 4. Pitfalls / Bẫy thường gặp
 

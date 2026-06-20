@@ -168,6 +168,19 @@ header     { display: flex; align-items: center; justify-content: space-between;
 > [!tip] Tip kiểm tra responsive
 > Chrome DevTools: F12 → Toggle Device Toolbar (Ctrl+Shift+M) — giả lập kích thước màn hình và touch events.
 
+```
+★ Insight ─────────────────────────────────────
+• Mobile-first không chỉ là "thẩm mỹ": với min-width, CSS base là phiên bản
+  ĐƠN GIẢN NHẤT (1 cột, ít tính năng) rồi BỔ SUNG dần khi màn rộng ra → mỗi
+  query chỉ thêm, không gỡ. Desktop-first (max-width) buộc bạn LIÊN TỤC undo
+  những gì màn lớn đã set → CSS phình và dễ vỡ. Ít override = ít bug.
+• Bước tiến mới: `@container` (container query) căn theo kích thước CỦA CHA
+  chứa nó, không phải viewport. Nhờ vậy một card component "tự responsive" dù
+  nằm ở sidebar hẹp hay main rộng — điều media query (chỉ biết viewport) không
+  làm được. Đây là hướng thay thế nhiều media query ở cấp component.
+─────────────────────────────────────────────────
+```
+
 ## 5. Câu hỏi phỏng vấn thường gặp
 
 1. **Q:** Mobile-first vs Desktop-first — cái nào tốt hơn?

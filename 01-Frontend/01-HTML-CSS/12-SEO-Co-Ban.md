@@ -144,6 +144,18 @@ source: [MDN, tự bổ sung]
 - `width` + `height` ngăn Layout Shift (cải thiện CLS — Core Web Vitals).
 - `loading="lazy"` trì hoãn load ảnh ngoài viewport — cải thiện LCP.
 
+```
+★ Insight ─────────────────────────────────────
+• SEO của frontend phần lớn TRÙNG với accessibility & performance làm đúng: cùng
+  một `alt`, heading hierarchy, semantic tag vừa giúp screen reader vừa giúp
+  Googlebot; cùng `width/height` + lazy-load vừa cải thiện trải nghiệm vừa nâng
+  Core Web Vitals. Làm tốt a11y + perf ≈ làm tốt on-page SEO "miễn phí".
+• Phân biệt vai trò khi phỏng vấn: `<title>` LÀ ranking factor trực tiếp;
+  `meta description` thì KHÔNG — nó chỉ ảnh hưởng CTR (đoạn snippet hấp dẫn →
+  nhiều click). Nhồi keyword vào description vô ích; viết title chuẩn mới đáng.
+─────────────────────────────────────────────────
+```
+
 ## 4. Pitfalls / Bẫy thường gặp
 
 > [!warning] Lỗi phổ biến

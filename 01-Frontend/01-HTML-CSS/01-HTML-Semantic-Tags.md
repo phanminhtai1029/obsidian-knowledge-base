@@ -75,6 +75,18 @@ source: [MDN]
 | `<mark>` | Văn bản được highlight |
 | `<details>` / `<summary>` | Accordion mặc định của browser |
 
+```
+★ Insight ─────────────────────────────────────
+• Quy tắc chọn nhanh: nội dung "đem đi nơi khác vẫn hiểu trọn vẹn" (bài blog, 1
+  sản phẩm, 1 comment) → <article>; nội dung "chỉ là 1 mảng có heading của trang
+  này" → <section>; còn lại chỉ để gom cho layout/CSS → <div>. Phần lớn tranh cãi
+  article-vs-section tan biến khi hỏi "tách ra độc lập có đứng vững không?".
+• Mỗi semantic tag tạo một "landmark" trong accessibility tree — screen reader có
+  phím tắt nhảy thẳng tới <nav>, <main>, <header>. Đây chính là lý do semantic =
+  SEO + a11y "miễn phí": bạn không thêm code, chỉ chọn đúng thẻ. Xem [[11-Accessibility-a11y]].
+─────────────────────────────────────────────────
+```
+
 ## 3. Ví dụ minh họa
 
 ### Ví dụ 1: Blog post layout đơn giản

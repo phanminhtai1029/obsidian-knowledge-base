@@ -148,6 +148,28 @@ source: [CSS-fundamentals.docx]
 
 **Giải thích:** `repeat(auto-fit, minmax(200px, 1fr))` — "tạo nhiều cột nhất có thể với mỗi cột tối thiểu 200px, chia đều không gian còn lại". Responsive hoàn toàn không cần media query.
 
+```
+★ Insight ─────────────────────────────────────
+• `repeat(auto-fit, minmax(200px, 1fr))` là "responsive 1 dòng" mạnh nhất CSS:
+  trình duyệt tự tính số cột vừa với viewport, không cần một breakpoint nào. Nắm
+  được idiom này, 80% card-grid/gallery khỏi cần media query.
+• auto-fit vs auto-fill quyết định bởi: KHI thiếu item, auto-fit COLLAPSE cột
+  trống (item nở ra full) còn auto-fill GIỮ cột trống (item giữ nguyên 200px).
+  Muốn item luôn dãn đầy hàng → auto-fit; muốn bảo toàn kích thước item, chừa
+  chỗ cho item sau → auto-fill.
+─────────────────────────────────────────────────
+```
+
+### Bảng chọn nhanh: Flexbox hay Grid?
+
+| Tình huống | Chọn | Vì sao |
+|---|---|---|
+| Nav bar, button group, hàng card 1 dòng | **Flexbox** | Bố cục 1 chiều, nội dung quyết định kích thước |
+| Layout toàn trang, dashboard, gallery lưới | **Grid** | Bố cục 2 chiều, đặt item chính xác theo hàng+cột |
+| Căn giữa 1 phần tử | Cả hai OK | `place-items: center` (grid) hoặc `justify/align` (flex) |
+| Cần item tự xuống hàng theo nội dung | **Flexbox** `wrap` | Item tự gói theo chiều rộng còn lại |
+| Cần các ô thẳng hàng cả 2 chiều | **Grid** | Track cố định giữ thẳng hàng tuyệt đối |
+
 ## 4. Pitfalls / Bẫy thường gặp
 
 > [!warning] Lỗi phổ biến

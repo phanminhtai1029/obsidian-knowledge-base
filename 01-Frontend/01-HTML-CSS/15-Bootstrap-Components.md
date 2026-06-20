@@ -36,6 +36,19 @@ Bootstrap Components là tập hợp các **UI widget sẵn dùng** — mỗi co
 > [!tip] Data attributes vs JS API
 > Bootstrap 5 ưu tiên `data-bs-toggle`, `data-bs-target` — không cần viết JS. Dùng JS API khi cần kiểm soát lập trình: `const modal = new bootstrap.Modal(el)`.
 
+```
+★ Insight ─────────────────────────────────────
+• Chia component Bootstrap làm 2 nhóm: "CSS thuần" (Button, Card, Badge — chỉ
+  cần class) và "cần JS" (Modal, Accordion, Tabs, Navbar collapse — cần bundle
+  JS + data-bs-*). Quên include `bootstrap.bundle.min.js` thì nhóm 2 "im lặng"
+  không báo lỗi — đây là bug số 1 của người mới.
+• Bootstrap JS thao tác DOM trực tiếp → XUNG ĐỘT với React/Vue (vốn tự quản DOM
+  qua Virtual DOM). Trong dự án React, KHÔNG dùng bootstrap.js mà dùng wrapper
+  như react-bootstrap để component sống trong vòng đời React. Đây là lý do quan
+  trọng khi phỏng vấn hỏi "dùng Bootstrap với React thế nào?".
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp & Class quan trọng

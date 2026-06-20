@@ -31,6 +31,19 @@ source: [Bootstrap 5 docs]
 > [!tip] Triết lý Atomic CSS
 > Bootstrap Utilities giống **Tailwind CSS** về tư tưởng: thay vì viết class `.product-card { display: flex; ... }`, ta ghép `d-flex gap-3 align-items-center`. Ưu điểm: không phải đặt tên, không bị CSS conflict.
 
+```
+★ Insight ─────────────────────────────────────
+• Utility class chỉ là đường tắt cho 1 dòng CSS bạn ĐÃ biết: `mt-3`=margin-top
+  1rem, `d-flex`=display:flex, `text-center`=text-align:center. Học utilities
+  KHÔNG phải học cái mới — chỉ là tra bảng tên gọi cho kiến thức CSS gốc. Nắm
+  CSS thật rồi thì Tailwind/Bootstrap utility học trong một buổi.
+• Tradeoff cốt lõi (hay hỏi phỏng vấn): utility-first khiến HTML "rậm" class
+  nhưng đổi lại KHÔNG cần đặt tên, KHÔNG file CSS phình theo thời gian, và xóa
+  component là xóa sạch style của nó. Component-class (.card) thì HTML sạch
+  nhưng CSS dễ phình và "dead CSS" tích tụ. Không có bên nào "đúng" tuyệt đối.
+─────────────────────────────────────────────────
+```
+
 ### Hệ thống spacing (t-shirt sizing)
 
 | Class suffix | Value |

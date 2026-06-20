@@ -197,6 +197,19 @@ p    { font-size: 1rem; line-height: 1.6; }
 
 **Output / Kết quả mong đợi:** Hero section ảnh nền mờ gradient, text trắng dễ đọc, CTA button vàng, font size tự scale theo viewport.
 
+```
+★ Insight ─────────────────────────────────────
+• rem vs em là chuyện "neo vào đâu": rem LUÔN neo vào <html> (cố định, không
+  cộng dồn), em neo vào font-size CHA (cộng dồn → "snowball" khi lồng nhau). Quy
+  tắc thực dụng: rem cho font-size & spacing toàn cục (nhất quán); em cho padding
+  TRONG component để nó tự co theo cỡ chữ của chính component đó.
+• `clamp(min, ưa-thích, max)` là "responsive typography 1 dòng": thay vì 3 media
+  query đổi font-size, viết `clamp(2rem, 5vw, 4rem)` — chữ co giãn mượt theo
+  viewport nhưng không bao giờ nhỏ hơn 2rem hay lớn hơn 4rem. Cùng tinh thần
+  "1 dòng thay nhiều breakpoint" như `auto-fit/minmax` bên Grid.
+─────────────────────────────────────────────────
+```
+
 ## 4. Pitfalls / Bẫy thường gặp
 
 > [!warning] Lỗi phổ biến

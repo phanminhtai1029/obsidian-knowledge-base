@@ -148,6 +148,19 @@ source: [CSS-fundamentals.docx]
 
 **Giải thích:** `flex: 1 1 280px` — card có kích thước tối thiểu 280px, tự động fill không gian còn lại đều nhau.
 
+```
+★ Insight ─────────────────────────────────────
+• Toàn bộ sự bối rối "justify hay align?" biến mất nếu nhớ DUY NHẤT một câu:
+  justify-content đi theo MAIN axis, align-items đi theo CROSS axis. Khi đổi
+  flex-direction: column, main axis xoay dọc → justify giờ căn DỌC, align căn
+  NGANG. Đừng học thuộc "ngang/dọc", học thuộc "main/cross" rồi suy ra.
+• flex-basis thắng width: khi item là flex item, basis quyết định kích thước
+  khởi điểm trước grow/shrink, lấn át cả width. Vì vậy `flex: 1 1 280px` đúng
+  hơn `width: 280px` — basis "gợi ý" 280px nhưng cho phép co giãn, còn width
+  thường cứng nhắc hơn trong ngữ cảnh flex.
+─────────────────────────────────────────────────
+```
+
 ## 4. Pitfalls / Bẫy thường gặp
 
 > [!warning] Lỗi phổ biến

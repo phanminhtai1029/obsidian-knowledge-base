@@ -125,6 +125,19 @@ p {
 
 **Giải thích:** "Cascading" hoạt động: cùng specificity → rule cuối cùng trong source thắng.
 
+```
+★ Insight ─────────────────────────────────────
+• "Tách cấu trúc khỏi trình bày" không chỉ là sạch code: nó cho phép CÙNG một
+  HTML khoác nhiều bộ áo (print stylesheet, dark mode, theme khách hàng) chỉ
+  bằng đổi file CSS — đó là lý do inline style bị chê (trộn 2 thứ lại, mất khả
+  năng tái dùng & cache).
+• "Cuối cùng thắng" chỉ đúng KHI specificity ngang nhau. Đây là bậc thấp nhất
+  của thuật toán cascade đầy đủ: origin/importance → specificity → source order
+  (xem [[07-CSS-Cascade-Specificity-Inheritance]]). Nhớ thứ hạng này thì không
+  bao giờ ngạc nhiên "sao rule viết sau mà không thắng".
+─────────────────────────────────────────────────
+```
+
 ## 4. Pitfalls / Bẫy thường gặp
 
 > [!warning] Lỗi phổ biến

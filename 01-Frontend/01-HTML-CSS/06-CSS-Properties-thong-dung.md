@@ -185,6 +185,20 @@ p {
 
 **Output / Kết quả mong đợi:** Header dính khi scroll. Button "Lên đầu" luôn hiển thị ở góc phải bên dưới.
 
+```
+★ Insight ─────────────────────────────────────
+• `position: absolute` luôn hỏi "neo vào AI?" → ancestor gần nhất có position
+  KHÁC static. Nếu không tìm thấy → neo vào viewport (qua <html>). 90% bug
+  "absolute nhảy lung tung" sửa bằng đúng 1 dòng: thêm `position: relative` lên
+  cha mong muốn để biến nó thành điểm neo.
+• `z-index` chỉ ăn khi element đã `position` (≠ static) HOẶC là flex/grid item.
+  Quan trọng hơn: z-index so sánh TRONG cùng một "stacking context". Một cha có
+  `opacity < 1`, `transform`, hay `filter` sẽ tạo stacking context mới — khiến
+  con dù z-index 9999 vẫn không vượt được element ngoài context đó. Đây là lý do
+  thật sự đằng sau "z-index to mà vẫn bị che".
+─────────────────────────────────────────────────
+```
+
 ## 4. Pitfalls / Bẫy thường gặp
 
 > [!warning] Lỗi phổ biến

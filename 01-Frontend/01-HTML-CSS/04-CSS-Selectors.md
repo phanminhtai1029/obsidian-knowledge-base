@@ -161,6 +161,19 @@ td:first-child {
 > [!tip] Mẹo
 > Dùng [Specificity Calculator](https://specificity.keegan.st/) để tính điểm specificity nhanh khi debug.
 
+```
+★ Insight ─────────────────────────────────────
+• 4 combinator chỉ khác nhau ở "khoảng cách quan hệ": (space)=hậu duệ bất kỳ
+  cấp, `>`=con TRỰC TIẾP, `+`=anh em LIỀN sau, `~`=mọi anh em sau. Đọc selector
+  từ PHẢI sang TRÁI (trình duyệt cũng vậy): `div > p` = "tìm mọi p, giữ lại p
+  nào có cha trực tiếp là div" — tư duy này giúp đọc selector phức tạp không loạn.
+• Bộ ba hiện đại đáng nhớ: `:is(a, b)` gom nhóm cho gọn (lấy specificity cao nhất
+  trong nhóm), `:where(...)` y hệt nhưng specificity = 0 (dễ override), và `:has()`
+  — selector "cha" đầu tiên của CSS: `.card:has(img)` chọn card NÀO chứa ảnh.
+  `:has()` mở ra rất nhiều thứ trước đây buộc phải dùng JS.
+─────────────────────────────────────────────────
+```
+
 ## 5. Câu hỏi phỏng vấn thường gặp
 
 1. **Q:** Sự khác biệt giữa class selector và ID selector?
