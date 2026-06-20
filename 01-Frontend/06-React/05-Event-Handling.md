@@ -34,6 +34,19 @@ User action (click, type, submit)
 
 SyntheticEvent có đủ properties quen thuộc: `target`, `currentTarget`, `preventDefault()`, `stopPropagation()`, `type`, `nativeEvent`.
 
+```
+★ Insight ─────────────────────────────────────
+• Lỗi số 1 của người mới: `onClick={fn()}` GỌI hàm lúc render rồi gán kết quả
+  (thường undefined) cho onClick. Phải truyền THAM CHIẾU `onClick={fn}`, hoặc gói
+  `onClick={() => fn(id)}` khi cần truyền tham số. Nhớ: prop nhận một HÀM, không
+  phải kết quả của hàm.
+• SyntheticEvent chính là event delegation của vanilla ([[../02-DOM-Event/07-Event-Propagation-Delegation]])
+  được React tự động hoá: React KHÔNG gắn listener lên từng phần tử mà gắn 1 cái
+  ở gốc rồi định tuyến → nhẹ dù render ngàn item. Cùng cặp khái niệm target (nơi
+  bị click) vs currentTarget (nơi gắn handler) bạn đã học ở DOM.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

@@ -37,6 +37,20 @@ Cần state khi UI cần phản ứng với một sự kiện/thay đổi:
 - Data fetched từ API
 - Pagination, filtering, sorting
 
+```
+★ Insight ─────────────────────────────────────
+• State là "ảnh chụp" cho mỗi lần render, KHÔNG phải biến sống: trong một handler,
+  `count` đóng băng theo giá trị lúc render đó → `setCount(count+1)` ba lần chỉ +1.
+  Vì vậy khi state mới phụ thuộc state cũ, dùng updater hàm `setCount(prev=>prev+1)`
+  — React đưa giá trị mới nhất vào. Hiểu điều này = hiểu vì sao đọc state ngay sau
+  set vẫn ra giá trị cũ ([[../03-Advanced-JavaScript/03-Closure]] là gốc rễ).
+• React phát hiện đổi state bằng so sánh THAM CHIẾU, nên mutate trực tiếp
+  (push/gán field) → cùng địa chỉ → KHÔNG re-render. Luôn tạo object/array MỚI
+  (spread). Đây chính là lý do kỹ thuật spread shallow-copy ([[../03-Advanced-JavaScript/10-ES6-Rest-Spread]])
+  là kỹ năng sống còn của React. State liên quan nhiều/phức tạp → cân nhắc useReducer.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

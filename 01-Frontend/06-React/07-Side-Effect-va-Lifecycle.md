@@ -39,6 +39,19 @@ Side effects (cần useEffect):
 
 React yêu cầu: component function phải là **pure** (render phải deterministic, không side effects). Side effects chỉ được chạy trong `useEffect`.
 
+```
+★ Insight ─────────────────────────────────────
+• Gốc rễ mọi quy tắc: render phải THUẦN (cùng props/state → cùng JSX, 0 tác dụng
+  phụ) để React tự do gọi lại nhiều lần (StrictMode gọi 2 lần để bắt lỗi). Vì vậy
+  mọi thứ "chạm thế giới ngoài" (fetch, listener, timer, document.title) phải đẩy
+  vào useEffect — chạy SAU khi DOM update, không làm bẩn render.
+• useEffect GỘP 3 lifecycle cũ vào một mô hình: [deps] quyết định "chạy lại khi
+  nào" (mount = []; update = [deps]), còn return cleanup = componentWillUnmount.
+  Đừng nghĩ theo "mount/update/unmount" nữa — nghĩ theo "ĐỒNG BỘ effect với
+  những giá trị này, và DỌN DẸP khi chúng đổi hoặc component biến mất".
+─────────────────────────────────────────────────
+```
+
 ### Component Lifecycle
 
 ```text

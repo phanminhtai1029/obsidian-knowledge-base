@@ -45,6 +45,20 @@ App
 
 Không cần truyền qua các component trung gian.
 
+```
+★ Insight ─────────────────────────────────────
+• Context là ĐƯỜNG ỐNG phân phối, KHÔNG phải kho state: nó không thay Redux/
+  Zustand (không selector, không batch tối ưu, không middleware). State thật vẫn
+  nằm ở useState/useReducer đâu đó; Context chỉ "phát" giá trị đó xuống sâu mà
+  khỏi khoan qua từng tầng props. Câu phỏng vấn hay gặp — đừng nói "Context là
+  state management".
+• Cái giá: value đổi → MỌI consumer re-render, kể cả đứa chỉ dùng một mẩu. Hai
+  cách giảm đau: useMemo gói object value (tránh tạo reference mới mỗi render →
+  re-render thừa) và TÁCH context (data đọc tách khỏi hàm dispatch ổn định). Vì
+  vậy chỉ để vào Context thứ ÍT đổi (theme/auth/locale), không nhồi state đổi liên tục.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

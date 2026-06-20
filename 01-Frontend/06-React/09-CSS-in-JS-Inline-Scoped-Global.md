@@ -34,6 +34,20 @@ source: [tự bổ sung — react.dev, MDN]
 | Global CSS | Global | ✅ | Với className | Reset, typography, variables |
 | Styled-components | Component scope | ✅ | Với props | Xem note tiếp theo |
 
+```
+★ Insight ─────────────────────────────────────
+• Trục lựa chọn là PHẠM VI + KHẢ NĂNG: inline = cực cục bộ nhưng MẤT hover/media/
+  keyframes (vì nó chỉ là thuộc tính style của 1 element); CSS Modules = tự đổi
+  tên class thành duy nhất → diệt xung đột global mà GIỮ trọn sức mạnh CSS; global
+  CSS = mạnh nhưng dễ đụng tên. Mặc định CSS Modules cho component, inline chỉ cho
+  giá trị THỰC SỰ động (màu từ API, width tính toán).
+• Bẫy nhỏ nhưng hay gặp: `style={{...}}` tạo OBJECT MỚI mỗi render → nếu truyền
+  xuống component bọc React.memo sẽ phá memo (khác reference). Khắc phục: khai báo
+  style object NGOÀI component. Cùng một bài học "tham chiếu mới mỗi render" với
+  deps của useEffect và value của Context.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

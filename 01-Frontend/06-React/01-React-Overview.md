@@ -41,6 +41,19 @@ State/Props thay đổi
 
 Lợi ích: tránh re-render không cần thiết, DOM operations tốn kém nhất được tối thiểu hóa.
 
+```
+★ Insight ─────────────────────────────────────
+• Virtual DOM giải đúng bài toán bạn đã thấy ở DOM thủ công: thao tác DOM thật =
+  reflow tốn kém. React "gom" thay đổi vào cây JS, diff, rồi patch MỘT lần phần
+  khác biệt — cùng tinh thần DocumentFragment ([[13-DOM-Performance]]) nhưng tự
+  động hoá. Đây là lý do React "declarative": bạn mô tả UI THEO state, React lo phần "làm sao update DOM".
+• "Library, không phải framework" là câu trả lời phỏng vấn quan trọng: React chỉ
+  lo View → bạn TỰ LẮP routing (React Router), state toàn cục (Redux/Zustand),
+  data fetching, SSR (Next.js). Một luật xuyên suốt: data chảy XUỐNG qua props,
+  sự kiện chảy LÊN qua callback props ("one-way data flow").
+─────────────────────────────────────────────────
+```
+
 ### React Compiler (React 19)
 
 React 19 ra mắt **React Compiler** (code name "React Forget") — tự động tối ưu hóa code tại compile time, loại bỏ nhu cầu dùng `useMemo`/`useCallback` thủ công:

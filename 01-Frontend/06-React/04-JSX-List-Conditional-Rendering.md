@@ -36,6 +36,20 @@ const el = React.createElement(
 );
 ```
 
+```
+★ Insight ─────────────────────────────────────
+• JSX chỉ là JS trá hình: mỗi thẻ → một lời gọi createElement trả về OBJECT mô tả
+  UI. Vì vậy trong `{}` chỉ đặt được BIỂU THỨC (có giá trị) chứ không đặt được
+  câu lệnh (if/for) — và className thay class vì class là từ khoá JS. Nhớ "JSX =
+  hàm trả object" thì mọi quy tắc lạ của nó tự suy ra được.
+• key KHÔNG phải để "hết warning" — nó là DANH TÍNH giúp React khớp item cũ↔mới
+  khi reconcile. Dùng index làm key + list reorder/xoá giữa → React gán nhầm
+  state (vd ô input) sang item khác. Và bẫy kinh điển: `{count && <X/>}` khi
+  count=0 sẽ IN SỐ 0 ra màn hình (0 là falsy nhưng React vẫn render) → dùng
+  `count > 0 && ...`.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

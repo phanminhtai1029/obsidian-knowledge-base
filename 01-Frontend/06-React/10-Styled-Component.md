@@ -35,6 +35,20 @@ const Button = styled.button`
 
 Kết quả là một **React component** với class name được auto-generate và scoped.
 
+```
+★ Insight ─────────────────────────────────────
+• styled.button`...` chính là TAGGED TEMPLATE bạn học ở
+  [[../03-Advanced-JavaScript/06-ES6-Template-Literals]]: hàm `styled.button` nhận
+  phần chữ CSS + các hàm `${props => ...}` rồi sinh ra component + class hash. Hiểu
+  "nó là tagged template" thì cú pháp lạ này hết bí ẩn — và props-based style chỉ
+  là interpolation hàm chạy lại mỗi khi props đổi.
+• Hai luật sống còn: (1) ĐỪNG định nghĩa styled component TRONG render — mỗi render
+  tạo component mới → mất DOM/state + chậm; đặt ở cấp module. (2) ThemeProvider
+  THỰC CHẤT là Context ([[11-Context-API]]): nó "phát" theme object xuống, mọi
+  styled component đọc qua props.theme. Vì vậy đổi theme = đổi value Context = cả cây style cập nhật.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

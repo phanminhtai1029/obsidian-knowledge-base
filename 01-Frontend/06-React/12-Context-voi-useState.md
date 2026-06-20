@@ -32,6 +32,18 @@ useContext() ←————→ useContext() ←————→ useContext()
 
 Khi `setState` được gọi từ bất kỳ consumer nào → `useState` update → Provider re-render → Context value mới → tất cả consumers re-render.
 
+```
+★ Insight ─────────────────────────────────────
+• Đây là "công thức state toàn cục" gọn nhất: state SỐNG trong Provider (useState),
+  Context chỉ PHÁT nó xuống. Nhớ phân vai: useState giữ dữ liệu, Context vận chuyển
+  ([[11-Context-API]]). Hợp cho dữ liệu ít đổi & đơn giản (theme, prefs, auth).
+• Cái giá lặp lại: `value={{...}}` literal = reference mới mỗi render → mọi
+  consumer re-render. useMemo cho value + useCallback cho hàm để ổn định. Khi state
+  thành object phức tạp với nhiều "action" liên quan (add/remove/update/reset) →
+  đã đến lúc nâng lên useReducer ([[13-Context-voi-useReducer]]) cho dễ test & gọn.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

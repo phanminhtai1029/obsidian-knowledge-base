@@ -33,6 +33,21 @@ useEffect effect (lần này) chạy
 
 Thứ tự quan trọng: effect chạy **sau** khi DOM đã update — không block browser paint.
 
+```
+★ Insight ─────────────────────────────────────
+• deps array KHÔNG phải "điều kiện chạy" tuỳ hứng — nó là DANH SÁCH thứ effect
+  phụ thuộc để đồng bộ. Thiếu một biến reactive → stale closure (effect ôm giá
+  trị cũ mãi). Vì vậy đừng tắt ESLint exhaustive-deps; nếu deps phình do object/
+  function literal (tạo mới mỗi render → vòng lặp vô tận) thì useMemo/useCallback
+  hoặc tách primitive, đừng xoá deps.
+• Cleanup chạy TRƯỚC mỗi lần effect tiếp theo, không chỉ lúc unmount — đó là vì
+  sao AbortController/clearInterval đặt trong cleanup ngăn được race condition
+  (request cũ ghi đè mới). Và bẫy tư duy lớn: KHÔNG phải mọi "sau render" đều cần
+  effect — dữ liệu phái sinh thì tính thẳng trong render (`const x = items.filter`),
+  effect chỉ để ĐỒNG BỘ với hệ thống ngoài.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

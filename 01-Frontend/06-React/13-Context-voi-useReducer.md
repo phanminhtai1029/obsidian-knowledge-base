@@ -50,6 +50,19 @@ Giải pháp: 2 contexts riêng
            → không re-render khi state thay đổi
 ```
 
+```
+★ Insight ─────────────────────────────────────
+• Mẹo tách 2 context dựa trên một sự thật: `dispatch` từ useReducer là reference
+  ỔN ĐỊNH suốt đời component. Vì vậy component chỉ-gửi-lệnh (AddButton) subscribe
+  DispatchContext sẽ KHÔNG re-render khi state đổi — chỉ component đọc state mới
+  re-render. Đây là tối ưu re-render chính thức React docs khuyên, "mini Redux".
+• Reducer = HÀM THUẦN `(state, action) => newState` — đúng họ với Array.reduce.
+  Vì thuần (không async, không mutate, deterministic) nên TEST ĐƯỢC RIÊNG, không
+  cần mount React. Đây là lý do chọn useReducer cho logic phức tạp: tách "luật
+  cập nhật state" khỏi UI. Async vẫn nằm ở component rồi dispatch kết quả vào.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API

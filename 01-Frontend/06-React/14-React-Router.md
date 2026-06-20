@@ -33,6 +33,20 @@ React Router (SPA):
   → Không reload, không request server (ngoại trừ data fetch)
 ```
 
+```
+★ Insight ─────────────────────────────────────
+• SPA routing là "giả lập điều hướng" bằng History API: URL đổi, JS đổi component,
+  KHÔNG tải lại trang → giữ nguyên React state. Vì vậy phải dùng `<Link>`/navigate
+  (chặn reload) chứ KHÔNG `<a href>` (reload, mất state). `<a>` chỉ cho link RA
+  NGOÀI app.
+• Hai ý tưởng nâng cao đáng nhớ: (1) `<Outlet>` = chỗ trống trong layout cha để
+  route con render vào → chia sẻ navbar/sidebar cho cả nhóm route mà không lặp.
+  (2) `lazy(() => import())` + `<Suspense>` = CODE SPLITTING: mỗi trang tách thành
+  chunk, chỉ tải khi điều hướng tới → bundle đầu nhỏ, tải nhanh. Liên hệ Core Web
+  Vitals/LCP ở [[../01-HTML-CSS/12-SEO-Co-Ban]].
+─────────────────────────────────────────────────
+```
+
 **v5 → v6 Breaking Changes quan trọng:**
 - `<Switch>` → `<Routes>`
 - `component={Comp}` → `element={<Comp />}`

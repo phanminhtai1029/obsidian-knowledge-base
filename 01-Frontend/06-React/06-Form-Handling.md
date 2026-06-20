@@ -32,6 +32,20 @@ User types → DOM updates directly
     [DOM is source of truth — React chỉ đọc khi cần]
 ```
 
+```
+★ Insight ─────────────────────────────────────
+• Câu hỏi quyết định: AI là "nguồn chân lý" của giá trị ô input? Controlled =
+  React state (value + onChange luôn ĐI CẶP — thiếu onChange thì input thành
+  read-only + warning). Uncontrolled = DOM tự giữ, React đọc qua ref khi cần
+  (bắt buộc cho `<input type=file>`). Mặc định controlled vì nó cho validate
+  realtime + derive UI (disable nút, đếm ký tự) từ state.
+• Bẫy "controlled↔uncontrolled switch": khởi tạo state input là `undefined` rồi
+  gán string sau → React cảnh báo & hành vi lạ. Luôn khởi tạo `useState('')`.
+  Form nhiều ô → 1 state object + 1 handler chung dùng `[e.target.name]` (nhờ
+  computed property, [[../03-Advanced-JavaScript/07-ES6-Enhanced-Object-Literals]]).
+─────────────────────────────────────────────────
+```
+
 **Khi nào dùng gì:**
 - **Controlled**: validation real-time, derive UI từ input (search filter, character count), submit handler cần access values ngay
 - **Uncontrolled**: file input (`<input type="file">`), integrate với thư viện non-React, performance critical form với nhiều fields

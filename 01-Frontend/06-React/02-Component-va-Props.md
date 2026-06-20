@@ -51,6 +51,19 @@ Parent           → passes props down → Child
 
 Props giống như **function arguments** — mỗi lần render component với props khác nhau → kết quả khác nhau.
 
+```
+★ Insight ─────────────────────────────────────
+• Mô hình đúng: component = HÀM nhận props (input) → trả JSX (output), thuần và
+  dự đoán được. Vì là input nên props READ-ONLY — child muốn "đổi" thì gọi
+  callback do parent truyền xuống (sự kiện chảy lên). Đây chính là "one-way data
+  flow" làm React dễ debug: nhìn props là biết vì sao UI ra như vậy.
+• PascalCase KHÔNG phải quy ước thẩm mỹ — JSX dịch thẻ THƯỜNG (`<button>`) thành
+  chuỗi "button" (HTML), thẻ HOA (`<Button>`) thành tham chiếu BIẾN component.
+  Viết thường tên component → React tưởng là HTML tag, render rỗng. `children`
+  là prop đặc biệt = JSX đặt giữa cặp thẻ, nền tảng cho Card/Modal/Layout.
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 2. Cú pháp / API
