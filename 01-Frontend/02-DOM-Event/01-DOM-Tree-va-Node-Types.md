@@ -23,10 +23,10 @@ source: [Javascript.docx]
 
 **DOM = Document Object Model** — một API chuẩn của browser, biến HTML thành **cây đối tượng** mà JavaScript có thể đọc và thay đổi.
 
-```text
-HTML (file tĩnh) → Browser parse → DOM (cây đối tượng sống)
-                                          ↑
-                                JavaScript tương tác vào đây
+```mermaid
+flowchart LR
+    H["HTML (file tĩnh)"] --> B["Browser parse"] --> D["DOM<br/>(cây đối tượng sống)"]
+    JS["JavaScript"] -->|tương tác vào đây| D
 ```
 
 Ba khái niệm cần phân biệt:

@@ -20,8 +20,9 @@ source: [Javascript.docx]
 ## 1. Khái niệm
 
 Workflow tạo element mới:
-```text
-createElement('tag') → set properties → insert into DOM
+```mermaid
+flowchart LR
+    A["createElement('tag')"] --> B["set properties"] --> C["insert into DOM"]
 ```
 
 Element tạo ra bằng `createElement` **không tự xuất hiện trên trang** — phải chèn vào DOM bằng append/insert methods.

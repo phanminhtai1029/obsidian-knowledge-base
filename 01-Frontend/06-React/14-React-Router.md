@@ -24,13 +24,16 @@ source: [reactrouter.com/en/main]
 
 React Router cho phép **Single Page Application (SPA)** — navigation không reload page:
 
-```text
-Truyền thống (Multi-page):
-  Click link → HTTP request → Server trả HTML mới → Page reload
-
-React Router (SPA):
-  Click link → JavaScript intercepts → Update URL (History API) → Render component mới
-  → Không reload, không request server (ngoại trừ data fetch)
+```mermaid
+flowchart LR
+    subgraph MP["Truyền thống (Multi-page)"]
+      direction LR
+      a1["Click link"] --> a2["HTTP request"] --> a3["Server trả HTML mới"] --> a4["Page reload"]
+    end
+    subgraph SPA["React Router (SPA)"]
+      direction LR
+      b1["Click link"] --> b2["JavaScript intercepts"] --> b3["Update URL (History API)"] --> b4["Render component mới<br/>(không reload, không request server, trừ data fetch)"]
+    end
 ```
 
 ```

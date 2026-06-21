@@ -23,12 +23,17 @@ source: [Javascript.docx]
 
 Khi click vào `<button>` bên trong `<div>` bên trong `<section>`, event không chỉ xảy ra ở button — nó **lan truyền**:
 
-```text
-Phase 1 — CAPTURING (từ trên xuống):
-  document → html → body → section → div → button
-
-Phase 2 — BUBBLING (từ dưới lên) [DEFAULT]:
-  button → div → section → body → html → document
+```mermaid
+flowchart LR
+    subgraph P1["Phase 1 — CAPTURING (từ trên xuống)"]
+      direction LR
+      d1["document"] --> h1["html"] --> b1["body"] --> s1["section"] --> v1["div"] --> bt1["button"]
+    end
+    subgraph P2["Phase 2 — BUBBLING (từ dưới lên) [DEFAULT]"]
+      direction LR
+      bt2["button"] --> v2["div"] --> s2["section"] --> b2["body"] --> h2["html"] --> d2["document"]
+    end
+    P1 --> P2
 ```
 
 `addEventListener(event, fn)` mặc định là **bubbling** (phase 2). Truyền `true` làm tham số thứ 3 để bắt capturing.

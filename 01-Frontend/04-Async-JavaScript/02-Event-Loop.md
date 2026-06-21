@@ -32,14 +32,17 @@ source: [javascript.info, MDN, loupe.latentflip.com]
 
 ### Thuật toán Event Loop
 
-```text
-LOOP:
-  1. Chạy hết sync code trong Call Stack
-  2. Drain Microtask Queue (chạy HẾT microtasks — bao gồm cả những cái mới thêm vào)
-  3. Lấy 1 Macrotask từ Task Queue → chạy
-  4. Sau mỗi Macrotask → quay lại drain Microtask Queue
-  5. Nếu cả 2 queue rỗng → đợi (idle)
-  6. GOTO LOOP
+```mermaid
+flowchart TD
+    S["1. Chạy hết sync code trong Call Stack"]
+    M["2. Drain Microtask Queue<br/>(chạy HẾT microtasks, kể cả cái mới thêm)"]
+    T{"3. Có Macrotask trong Task Queue?"}
+    R["3b. Lấy 1 Macrotask → chạy"]
+    M2["4. Drain lại Microtask Queue"]
+    I["5. Cả 2 queue rỗng → đợi (idle)"]
+    S --> M --> T
+    T -->|có| R --> M2 --> T
+    T -->|không| I --> T
 ```
 
 > [!warning] Microtask Queue ưu tiên tuyệt đối

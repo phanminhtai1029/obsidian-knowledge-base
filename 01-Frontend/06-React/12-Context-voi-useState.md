@@ -22,12 +22,12 @@ source: [react.dev/learn/scaling-up-with-reducer-and-context]
 
 ### Pattern: Context + useState
 
-```text
-Provider (useState ở đây)
-    ↓ broadcasts via Context.Provider value
-Consumer A         Consumer B         Consumer C
-useContext() ←————→ useContext() ←————→ useContext()
-(read + update)     (read only)         (update only)
+```mermaid
+flowchart TD
+    P["Provider (useState ở đây)"]
+    P -->|broadcasts via Context.Provider value| A["Consumer A<br/>useContext() — read + update"]
+    P --> B["Consumer B<br/>useContext() — read only"]
+    P --> C["Consumer C<br/>useContext() — update only"]
 ```
 
 Khi `setState` được gọi từ bất kỳ consumer nào → `useState` update → Provider re-render → Context value mới → tất cả consumers re-render.

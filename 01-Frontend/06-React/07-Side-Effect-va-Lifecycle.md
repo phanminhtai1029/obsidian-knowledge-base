@@ -54,10 +54,14 @@ React yêu cầu: component function phải là **pure** (render phải determin
 
 ### Component Lifecycle
 
-```text
-MOUNT         → Component xuất hiện lần đầu trên DOM
-UPDATE        → Props hoặc State thay đổi → re-render
-UNMOUNT       → Component bị xóa khỏi DOM
+```mermaid
+stateDiagram-v2
+    [*] --> MOUNT: xuất hiện lần đầu trên DOM
+    MOUNT --> UPDATE: Props/State thay đổi → re-render
+    UPDATE --> UPDATE: re-render tiếp
+    UPDATE --> UNMOUNT: bị xóa khỏi DOM
+    MOUNT --> UNMOUNT: bị xóa khỏi DOM
+    UNMOUNT --> [*]
 ```
 
 ---

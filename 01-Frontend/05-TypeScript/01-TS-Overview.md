@@ -23,16 +23,13 @@ source: [TypeScript Handbook, typescriptlang.org/docs]
 
 **TypeScript** = JavaScript + Static Type System + Modern JS features.
 
-```text
-Developer Code (.ts)
-        │
-        ▼  tsc (TypeScript Compiler)
-        │  ─ type checking (compile time)
-        │  ─ transpile syntax (ES6+ → ES5/ES2020)
-        ▼
-  JavaScript (.js)
-        │
-        ▼  Browser / Node.js (runtime)
+```mermaid
+flowchart TD
+    A["Developer Code (.ts)"]
+    B["tsc (TypeScript Compiler)<br/>• type checking (compile time)<br/>• transpile syntax (ES6+ → ES5/ES2020)"]
+    C["JavaScript (.js)"]
+    D["Browser / Node.js (runtime)"]
+    A --> B --> C --> D
 ```
 
 **Lợi ích cốt lõi:**

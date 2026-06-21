@@ -24,12 +24,11 @@ source: [React.docx, react.dev]
 
 React wrap browser native events trong **SyntheticEvent** — object chuẩn hóa với cùng API trên mọi browser:
 
-```text
-User action (click, type, submit)
-    → Browser native event
-    → React intercepts (event delegation tại root)
-    → Wraps trong SyntheticEvent
-    → Gọi handler của bạn
+```mermaid
+flowchart TD
+    A["User action (click, type, submit)"] --> B["Browser native event"]
+    B --> C["React intercepts (event delegation tại root)"]
+    C --> D["Wraps trong SyntheticEvent"] --> E["Gọi handler của bạn"]
 ```
 
 SyntheticEvent có đủ properties quen thuộc: `target`, `currentTarget`, `preventDefault()`, `stopPropagation()`, `type`, `nativeEvent`.

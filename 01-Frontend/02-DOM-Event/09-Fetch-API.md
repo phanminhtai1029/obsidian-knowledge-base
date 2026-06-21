@@ -23,11 +23,10 @@ source: [Javascript.docx, MDN]
 
 Trước Fetch API, ta dùng `XMLHttpRequest` (XHR) — cú pháp phức tạp với nhiều callback lồng nhau. Fetch API (ES2015+) cung cấp interface dựa trên Promise, gọn và dễ đọc hơn nhiều.
 
-```text
-fetch(url)
-  └─ Promise<Response>        ← tầng 1: network OK/fail
-       └─ response.json()
-            └─ Promise<Data>  ← tầng 2: parse body thành JS object
+```mermaid
+flowchart TB
+    A["fetch(url)"] --> B["Promise&lt;Response&gt;<br/>tầng 1: network OK/fail"]
+    B --> C["response.json()"] --> D["Promise&lt;Data&gt;<br/>tầng 2: parse body thành JS object"]
 ```
 
 ### Lỗi HTTP vs Lỗi Network

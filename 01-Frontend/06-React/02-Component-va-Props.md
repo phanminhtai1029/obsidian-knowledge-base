@@ -44,9 +44,9 @@ function App() {
 
 **Props** (properties) là cách truyền dữ liệu từ parent component xuống child component:
 
-```text
-Parent           → passes props down → Child
-<Card title="..." />              function Card({ title }) {}
+```mermaid
+flowchart LR
+    P["Parent<br/>&lt;Card title='...' /&gt;"] -->|passes props down| C["Child<br/>function Card({ title }) {}"]
 ```
 
 Props giống như **function arguments** — mỗi lần render component với props khác nhau → kết quả khác nhau.

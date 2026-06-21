@@ -21,14 +21,11 @@ source: [React.docx, react.dev]
 
 ### useEffect Flow
 
-```text
-Component render
-    ↓
-React update DOM
-    ↓
-useEffect cleanup (từ lần trước, nếu có)
-    ↓
-useEffect effect (lần này) chạy
+```mermaid
+flowchart TD
+    A["Component render"] --> B["React update DOM"]
+    B --> C["useEffect cleanup<br/>(từ lần trước, nếu có)"]
+    C --> D["useEffect effect (lần này) chạy"]
 ```
 
 Thứ tự quan trọng: effect chạy **sau** khi DOM đã update — không block browser paint.

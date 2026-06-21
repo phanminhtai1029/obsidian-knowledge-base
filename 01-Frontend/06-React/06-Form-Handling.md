@@ -22,14 +22,16 @@ source: [React.docx, react.dev]
 
 ### Controlled vs Uncontrolled
 
-```text
-Controlled Component:
-User types → onChange fires → setState() → re-render → input hiển thị giá trị mới
-    [React is source of truth]
-
-Uncontrolled Component:
-User types → DOM updates directly
-    [DOM is source of truth — React chỉ đọc khi cần]
+```mermaid
+flowchart LR
+    subgraph CC["Controlled Component — React is source of truth"]
+      direction LR
+      a1["User types"] --> a2["onChange fires"] --> a3["setState()"] --> a4["re-render"] --> a5["input hiển thị giá trị mới"]
+    end
+    subgraph UC["Uncontrolled Component — DOM is source of truth (React đọc khi cần)"]
+      direction LR
+      b1["User types"] --> b2["DOM updates directly"]
+    end
 ```
 
 ```
