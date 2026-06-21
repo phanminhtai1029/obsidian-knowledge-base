@@ -5,8 +5,8 @@ tags: [dsa, sorting, bubble-sort, merge-sort, quicksort, divide-conquer, foundat
 module: L1_AL_NLS_DSAA
 related:
   - "[[02-Do-phuc-tap-Big-O]]"
-  - "[[07-De-quy-Recursion]]"
-  - "[[09-Searching]]"
+  - "[[11-De-quy-Recursion]]"
+  - "[[13-Searching]]"
 difficulty: ⭐⭐⭐⭐
 estimated_time: 45m
 source: ["Programming Foundations: Algorithms — Joe Marini (LinkedIn Learning)"]
@@ -22,7 +22,7 @@ source: ["Programming Foundations: Algorithms — Joe Marini (LinkedIn Learning)
 ## 1. Vì sao cần sort?
 
 - **Hiển thị:** người dùng app bất động sản muốn xem nhà theo giá tăng dần.
-- **Hiệu quả xử lý:** nếu dữ liệu đã sort, app lọc theo khoảng giá / **binary search** nhanh hơn nhiều ([[09-Searching]]).
+- **Hiệu quả xử lý:** nếu dữ liệu đã sort, app lọc theo khoảng giá / **binary search** nhanh hơn nhiều ([[13-Searching]]).
 
 3 thuật toán đại diện 3 cách tiếp cận: Bubble (ngây thơ), Merge & Quick (divide & conquer).
 
@@ -49,6 +49,42 @@ def bubble_sort(data):
 ```
 
 > **2 vòng `for` lồng nhau → O(n²).** Bubble sort còn không biết "mảng đã sort xong" nên vẫn chạy hết các vòng → kém. Chỉ dùng làm công cụ dạy học.
+
+---
+
+## 2b. Selection Sort — O(n²)
+
+Mỗi vòng **tìm phần tử nhỏ nhất** trong phần chưa sort rồi **đưa về đầu**. Khác bubble: chỉ **1 lần swap** mỗi vòng (ít hoán đổi hơn).
+
+```python
+def selection_sort(data):
+    for i in range(len(data)):
+        min_idx = i
+        for j in range(i + 1, len(data)):   # tìm min phần còn lại
+            if data[j] < data[min_idx]:
+                min_idx = j
+        data[i], data[min_idx] = data[min_idx], data[i]   # 1 swap/vòng
+    return data
+```
+
+## 2c. Insertion Sort — O(n²), nhưng tốt với mảng gần sort
+
+Như xếp bài trên tay: lấy từng phần tử, **chèn vào đúng chỗ** trong phần đã sort bên trái. **Best-case O(n)** khi mảng **đã gần sort** → là sort O(n²) "tốt nhất" trong nhóm; dùng cho mảng nhỏ (Timsort của Python dùng insertion cho đoạn nhỏ).
+
+```python
+def insertion_sort(data):
+    for i in range(1, len(data)):
+        key = data[i]
+        j = i - 1
+        while j >= 0 and data[j] > key:     # dịch phần tử lớn sang phải
+            data[j + 1] = data[j]
+            j -= 1
+        data[j + 1] = key                   # chèn key vào chỗ đúng
+    return data
+```
+
+> [!tip] 3 sort O(n²) khác nhau ở đâu?
+> **Bubble** so cặp kề & swap nhiều · **Selection** ít swap nhất (1/vòng) · **Insertion** nhanh nhất khi mảng **gần sort** (best O(n)). Cả 3 đều O(n²) worst-case, đơn giản, **in-place**.
 
 ---
 
@@ -139,16 +175,29 @@ def partition(data, first, last):
 
 ---
 
-## 5. Bảng so sánh
+## 5. Heap Sort — O(n log n)
 
-| | Bubble | Merge | Quick |
-|---|--------|-------|-------|
-| Big-O trung bình | O(n²) | **O(n log n)** | **O(n log n)** |
-| Big-O worst | O(n²) | O(n log n) | **O(n²)** |
-| Bộ nhớ phụ | O(1) | **O(n)** ❌ | **O(log n)** (in-place) ✅ |
-| Kỹ thuật | So cặp kề | Divide & conquer (merge) | Divide & conquer (partition) |
-| Việc chính ở | mỗi lần swap | **bước merge** | **bước partition** |
-| Dùng khi | Dạy học | Cần ổn định, RAM dư | Mặc định, RAM hạn chế |
+Dùng **[[09-Heap-Priority-Queue|heap]]**: build heap từ mảng (O(n)), rồi liên tục **extract** phần tử lớn/nhỏ nhất ở root đưa về cuối (n × O(log n)). Sort **in-place**, worst-case vẫn **O(n log n)** (hơn quick sort ở điểm không có gót chân O(n²)), nhưng thực tế thường chậm hơn quick do hằng số lớn + truy cập bộ nhớ kém locality.
+
+```python
+import heapq
+def heap_sort(data):
+    heapq.heapify(data)                  # O(n) build min heap
+    return [heapq.heappop(data) for _ in range(len(data))]   # n × O(log n)
+```
+
+---
+
+## 6. Bảng so sánh
+
+| | Bubble | Selection | Insertion | Merge | Quick | Heap |
+|---|--------|-----------|-----------|-------|-------|------|
+| Trung bình | O(n²) | O(n²) | O(n²) | **O(n log n)** | **O(n log n)** | **O(n log n)** |
+| Worst | O(n²) | O(n²) | O(n²) | O(n log n) | **O(n²)** | **O(n log n)** |
+| Best | O(n²) | O(n²) | **O(n)** | O(n log n) | O(n log n) | O(n log n) |
+| Bộ nhớ phụ | O(1) | O(1) | O(1) | **O(n)** ❌ | O(log n) | O(1) |
+| In-place | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| Đặc điểm | dạy học | ít swap nhất | tốt khi gần sort | ổn định, đoán được | nhanh thực tế | worst tốt, no O(n²) |
 
 > [!question] Phỏng vấn: "Merge ở đâu, Quick ở đâu?"
 > Trong **Merge sort**, mảng được chẻ "ngây thơ" rồi **mọi công sức nằm ở bước GỘP**. Trong **Quick sort** ngược lại — **mọi công sức ở bước PHÂN HOẠCH** (đặt nhỏ-trái/lớn-phải quanh pivot), bước gộp chẳng làm gì vì đã sort in-place. Đây là câu hỏi "bẫy" rất hay gặp.
@@ -181,6 +230,6 @@ def partition(data, first, last):
 ---
 
 ## Liên quan
-- [[07-De-quy-Recursion]] — nền tảng cho merge & quick
+- [[11-De-quy-Recursion]] — nền tảng cho merge & quick
 - [[02-Do-phuc-tap-Big-O]] — vì sao O(n²) vs O(n log n)
-- [[09-Searching]] — sort xong để binary search
+- [[13-Searching]] — sort xong để binary search

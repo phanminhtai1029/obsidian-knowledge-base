@@ -5,8 +5,8 @@ tags: [dsa, recursion, call-stack, base-case, factorial, foundations, fresher]
 module: L1_AL_NLS_DSAA
 related:
   - "[[05-Stack-va-Queue]]"
-  - "[[08-Sorting]]"
-  - "[[10-Thuat-toan-ung-dung]]"
+  - "[[12-Sorting]]"
+  - "[[14-Thuat-toan-ung-dung]]"
 difficulty: ⭐⭐⭐
 estimated_time: 35m
 source: ["Programming Foundations: Algorithms — Joe Marini (LinkedIn Learning)"]
@@ -140,5 +140,5 @@ factorial(5)   # 120
 
 ## Liên quan
 - [[05-Stack-va-Queue]] — call stack chính là Stack
-- [[08-Sorting]] — Merge & Quick sort dùng đệ quy
-- [[10-Thuat-toan-ung-dung]] — find max đệ quy
+- [[12-Sorting]] — Merge & Quick sort dùng đệ quy
+- [[14-Thuat-toan-ung-dung]] — find max đệ quy

@@ -5,7 +5,7 @@ tags: [dsa, algorithms, overview, complexity, foundations, fresher]
 module: L1_AL_NLS_DSAA
 related:
   - "[[02-Do-phuc-tap-Big-O]]"
-  - "[[07-De-quy-Recursion]]"
+  - "[[11-De-quy-Recursion]]"
 difficulty: ⭐⭐
 estimated_time: 25m
 source: ["Programming Foundations: Algorithms — Joe Marini (LinkedIn Learning)"]
@@ -73,10 +73,10 @@ flowchart TD
 
 | Nhóm | Làm gì | Ví dụ |
 |------|--------|-------|
-| **Searching** | Tìm một phần tử trong cấu trúc lớn hơn | Tìm chuỗi con trong chuỗi, tìm file trong cây thư mục → [[09-Searching]] |
-| **Sorting** | Đưa tập dữ liệu về một thứ tự | Sắp xếp bất động sản theo giá → [[08-Sorting]] |
+| **Searching** | Tìm một phần tử trong cấu trúc lớn hơn | Tìm chuỗi con trong chuỗi, tìm file trong cây thư mục → [[13-Searching]] |
+| **Sorting** | Đưa tập dữ liệu về một thứ tự | Sắp xếp bất động sản theo giá → [[12-Sorting]] |
 | **Computational** | Lấy tập dữ liệu này, **suy ra** tập khác | Kiểm tra số nguyên tố, đổi đơn vị nhiệt độ |
-| **Collection** | Thao tác/điều hướng trên tập dữ liệu trong một cấu trúc | Đếm phần tử, lọc dữ liệu thừa → [[10-Thuat-toan-ung-dung]] |
+| **Collection** | Thao tác/điều hướng trên tập dữ liệu trong một cấu trúc | Đếm phần tử, lọc dữ liệu thừa → [[14-Thuat-toan-ung-dung]] |
 
 ---
 
@@ -115,7 +115,7 @@ print(gcd(20, 8))    # 4
   Big-O. Kỹ năng cốt lõi không phải "biết 1 cách" mà là "chọn cách
   tốt nhất cho ngữ cảnh" (dữ liệu lớn/nhỏ, đã sort chưa, RAM ít…).
 • Euclid GCD là ví dụ đẹp của "vòng lặp + giảm dần bài toán" — cùng
-  ý tưởng với đệ quy ở [[07-De-quy-Recursion]].
+  ý tưởng với đệ quy ở [[11-De-quy-Recursion]].
 ─────────────────────────────────────────────────
 ```
 

@@ -5,8 +5,8 @@ tags: [dsa, stack, queue, lifo, fifo, deque, data-structure, foundations, freshe
 module: L1_AL_NLS_DSAA
 related:
   - "[[04-Linked-List]]"
-  - "[[07-De-quy-Recursion]]"
-  - "[[10-Thuat-toan-ung-dung]]"
+  - "[[11-De-quy-Recursion]]"
+  - "[[14-Thuat-toan-ung-dung]]"
 difficulty: ⭐⭐
 estimated_time: 30m
 source: ["Programming Foundations: Algorithms — Joe Marini (LinkedIn Learning)"]
@@ -39,8 +39,8 @@ Cả push và pop đều **O(1)** (không phụ thuộc số phần tử đang c
 
 **Ứng dụng Stack:**
 - **Nút Back trình duyệt:** mỗi link click đẩy vào stack; bấm Back → pop URL gần nhất.
-- **Đánh giá biểu thức** (vd Reverse Polish Notation), **cân bằng ngoặc** → [[10-Thuat-toan-ung-dung]].
-- **Backtracking** và **call stack** của đệ quy → [[07-De-quy-Recursion]].
+- **Đánh giá biểu thức** (vd Reverse Polish Notation), **cân bằng ngoặc** → [[14-Thuat-toan-ung-dung]].
+- **Backtracking** và **call stack** của đệ quy → [[11-De-quy-Recursion]].
 
 ```python
 stack = []
@@ -70,6 +70,13 @@ flowchart LR
 - **Xử lý đơn hàng:** đảm bảo đơn được xử lý đúng thứ tự nhận.
 - **Hàng đợi tin nhắn (SMS):** gửi tin theo đúng thứ tự soạn.
 - Hàng đợi tác vụ, BFS duyệt cây/đồ thị.
+
+### Queue chuyên biệt (specialized queues)
+| Loại | Khác queue thường | Dùng khi |
+|------|-------------------|----------|
+| **Deque** (double-ended) | Thêm/lấy ở **cả 2 đầu**, đều O(1) | Cần linh hoạt 2 đầu; làm cả stack lẫn queue |
+| **Circular queue** (vòng) | Cuối nối lại đầu (mảng cố định, dùng modulo) | Buffer cố định: streaming, vòng đệm I/O |
+| **Priority queue** | Lấy ra theo **độ ưu tiên**, không theo thứ tự vào | Lập lịch, Dijkstra → cài bằng **heap**, xem [[09-Heap-Priority-Queue]] |
 
 ---
 
@@ -130,5 +137,5 @@ y = queue.pop()        # → 3 (lấy cuối)
 
 ## Liên quan
 - [[04-Linked-List]] — nền tảng cài đặt stack/queue
-- [[07-De-quy-Recursion]] — call stack
-- [[10-Thuat-toan-ung-dung]] — Stack cân bằng ngoặc
+- [[11-De-quy-Recursion]] — call stack
+- [[14-Thuat-toan-ung-dung]] — Stack cân bằng ngoặc

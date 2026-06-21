@@ -53,6 +53,17 @@ hàng 2  →  [ e ,   f  ]   ← arr[2][1] = f
 
 `arr[2][1]`: index 2 cho chiều thứ nhất (hàng), index 1 cho chiều thứ hai (cột).
 
+### Jagged array (mảng răng cưa)
+Mảng 2D thường có mọi hàng **cùng độ dài** (hình chữ nhật). **Jagged array** (ragged array) = mảng của các mảng có **độ dài khác nhau**:
+
+```
+hàng 0  →  [ a, b, c ]
+hàng 1  →  [ d ]
+hàng 2  →  [ e, f ]
+```
+
+Trong Python mọi list lồng nhau đều "jagged được" tự nhiên (`[[1,2,3],[4],[5,6]]`). Một số ngôn ngữ (C#, Java) phân biệt rõ **rectangular array** (`int[,]`) vs **jagged array** (`int[][]`). Dùng jagged khi mỗi hàng có số phần tử khác nhau → tiết kiệm bộ nhớ so với mảng chữ nhật phải đệm cho đủ.
+
 ---
 
 ## 3. Big-O của Array
@@ -63,7 +74,7 @@ hàng 2  →  [ e ,   f  ]   ← arr[2][1] = f
 | Chèn/xóa ở **cuối** | **O(1)** | Không phải dịch phần tử nào (nếu còn chỗ) |
 | Chèn/xóa ở **đầu** | **O(n)** | Mọi phần tử sau phải dịch sang vị trí mới |
 | Chèn/xóa ở **giữa** | **O(n)** | Các phần tử còn lại phải dịch chỗ |
-| Tìm giá trị (chưa sort) | **O(n)** | Phải duyệt từng phần tử → [[09-Searching]] |
+| Tìm giá trị (chưa sort) | **O(n)** | Phải duyệt từng phần tử → [[13-Searching]] |
 
 > [!question] Phỏng vấn: "Tại sao truy cập array O(1) nhưng chèn đầu O(n)?"
 > Truy cập chỉ là **một phép tính địa chỉ** (random access) → O(1). Nhưng chèn vào đầu buộc **tất cả phần tử phía sau dời 1 ô** để nhường chỗ → tỉ lệ với n → O(n). Đây chính là ví dụ "một cấu trúc có nhiều Big-O" ở [[02-Do-phuc-tap-Big-O]].
@@ -108,4 +119,4 @@ hàng 2  →  [ e ,   f  ]   ← arr[2][1] = f
 ## Liên quan
 - [[04-Linked-List]] — cấu trúc tuyến tính "đối thủ" của array
 - [[02-Do-phuc-tap-Big-O]] — vì sao mỗi thao tác một Big-O
-- [[09-Searching]] — tìm kiếm trên array
+- [[13-Searching]] — tìm kiếm trên array

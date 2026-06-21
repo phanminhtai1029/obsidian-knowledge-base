@@ -5,8 +5,8 @@ tags: [dsa, cheatsheet, big-o, glossary, reference, foundations, fresher]
 module: L1_AL_NLS_DSAA
 related:
   - "[[02-Do-phuc-tap-Big-O]]"
-  - "[[08-Sorting]]"
-  - "[[09-Searching]]"
+  - "[[12-Sorting]]"
+  - "[[13-Searching]]"
 difficulty: ⭐⭐
 estimated_time: 20m
 source: ["Programming Foundations: Algorithms — Joe Marini (LinkedIn Learning)"]
@@ -29,18 +29,25 @@ source: ["Programming Foundations: Algorithms — Joe Marini (LinkedIn Learning)
 | **Queue (deque)** | O(n) | O(n) | **O(1)** (enqueue) | **O(1)** (dequeue) | FIFO |
 | **Dictionary / Hash** | — | **O(1)**\* | **O(1)**\* | **O(1)**\* | \*trung bình; worst O(n) khi collision |
 | **Set** | — | **O(1)**\* | **O(1)**\* | **O(1)**\* | giá trị duy nhất |
+| **BST (cân bằng)** | O(log n) | **O(log n)** | **O(log n)** | O(log n) | suy biến → O(n); giữ thứ tự |
+| **Heap** | — (peek O(1)) | O(n) | **O(log n)** | **O(log n)** | max/min ở root, priority queue |
+| **Graph** (adj list) | — | — | O(1) thêm cạnh | O(E) | duyệt BFS/DFS O(V+E) |
 
 ---
 
 ## 2. Big-O thuật toán Sort & Search
 
-| Thuật toán | Trung bình | Worst | Bộ nhớ phụ | Loại |
-|------------|-----------|-------|------------|------|
-| **Bubble sort** | O(n²) | O(n²) | O(1) | dạy học |
-| **Merge sort** | **O(n log n)** | O(n log n) | **O(n)** | divide & conquer |
-| **Quick sort** | **O(n log n)** | O(n²) | O(log n) in-place | divide & conquer |
-| **Linear search** | O(n) | O(n) | O(1) | list bất kỳ |
-| **Binary search** | **O(log n)** | O(log n) | O(1) | list **đã sort** |
+| Thuật toán | Trung bình | Worst | Best | Bộ nhớ phụ | Loại |
+|------------|-----------|-------|------|------------|------|
+| **Bubble sort** | O(n²) | O(n²) | O(n²) | O(1) | dạy học |
+| **Selection sort** | O(n²) | O(n²) | O(n²) | O(1) | ít swap nhất |
+| **Insertion sort** | O(n²) | O(n²) | **O(n)** | O(1) | tốt khi gần sort |
+| **Merge sort** | **O(n log n)** | O(n log n) | O(n log n) | **O(n)** | divide & conquer, ổn định |
+| **Quick sort** | **O(n log n)** | **O(n²)** | O(n log n) | O(log n) | in-place, nhanh thực tế |
+| **Heap sort** | **O(n log n)** | **O(n log n)** | O(n log n) | O(1) | in-place, worst tốt |
+| **Linear search** | O(n) | O(n) | O(1) | O(1) | list bất kỳ |
+| **Binary search** | **O(log n)** | O(log n) | O(1) | O(1) | list **đã sort** |
+| **BFS / DFS** (graph) | O(V+E) | O(V+E) | — | O(V) | duyệt đồ thị/cây |
 
 ---
 
@@ -66,6 +73,10 @@ source: ["Programming Foundations: Algorithms — Joe Marini (LinkedIn Learning)
 | Vào trước ra trước (hàng đợi, đơn hàng) | **Queue / deque** |
 | Tra cứu theo khóa, đếm tần suất | **Dictionary** |
 | Khử trùng, kiểm tra "đã có chưa" | **Set** |
+| Tra cứu **có thứ tự**, range query, min/max | **BST** |
+| Luôn lấy phần tử **ưu tiên nhất** (max/min) | **Heap / Priority Queue** |
+| Dữ liệu **phân cấp** (thư mục, DOM, cây quyết định) | **Tree** |
+| Quan hệ mạng lưới, đường đi (bản đồ, social) | **Graph** |
 | Bài toán phân rã (cây, chia để trị) | **Recursion** |
 
 ---
@@ -94,6 +105,19 @@ i = bisect.bisect_left(sorted_list, x)
 # Sort có sẵn (Timsort, O(n log n))
 data.sort()                 # in-place
 new = sorted(data, reverse=True)
+
+# Heap / Priority Queue (heapq là MIN heap)
+import heapq
+h = []; heapq.heappush(h, x); heapq.heappop(h)   # nhỏ nhất
+heapq.heapify(lst)                               # build O(n)
+
+# Binary tree node
+class TreeNode:
+    def __init__(self, data):
+        self.data, self.left, self.right = data, None, None
+
+# Graph adjacency list
+graph = {"A": ["B", "C"], "B": ["A", "D"]}
 ```
 
 ---
@@ -127,6 +151,17 @@ new = sorted(data, reverse=True)
 | **Exact / Approximate** | Kết quả đúng tuyệt đối / có thể xấp xỉ |
 | **Factorial** | n! = n×(n-1)×…×1 |
 | **Filtering** | Giữ phần tử thỏa điều kiện, bỏ phần còn lại |
+| **Tree / root / leaf** | Cấu trúc phân cấp / node gốc (không cha) / node không con |
+| **Parent / child / sibling** | Node cha / node con / 2 con cùng cha |
+| **Binary tree** | Cây mỗi node tối đa 2 con (trái/phải) |
+| **BST** | Binary tree: con trái < cha < con phải |
+| **Traversal (DFS/BFS)** | Duyệt cây/đồ thị: theo chiều sâu (stack) / chiều rộng (queue) |
+| **Pre/In/Post-order** | 3 kiểu DFS: thăm gốc trước/giữa/sau |
+| **Heap (max/min)** | Complete binary tree: root lớn nhất / nhỏ nhất |
+| **Priority queue** | Hàng đợi lấy ra theo độ ưu tiên (cài bằng heap) |
+| **Graph / vertex / edge** | Đồ thị / đỉnh / cạnh |
+| **Adjacency list/matrix** | 2 cách biểu diễn graph (list hàng xóm / ma trận V×V) |
+| **Dijkstra** | Tìm đường ngắn nhất, trọng số không âm |
 
 ```
 ★ Insight ─────────────────────────────────────
@@ -141,5 +176,5 @@ new = sorted(data, reverse=True)
 ---
 
 ## Liên quan
-- [[02-Do-phuc-tap-Big-O]] · [[08-Sorting]] · [[09-Searching]]
+- [[02-Do-phuc-tap-Big-O]] · [[12-Sorting]] · [[13-Searching]]
 - [[00-MOC-DSA]] — quay lại MOC

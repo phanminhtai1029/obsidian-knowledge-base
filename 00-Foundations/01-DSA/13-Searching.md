@@ -5,7 +5,7 @@ tags: [dsa, searching, linear-search, binary-search, foundations, fresher]
 module: L1_AL_NLS_DSAA
 related:
   - "[[02-Do-phuc-tap-Big-O]]"
-  - "[[08-Sorting]]"
+  - "[[12-Sorting]]"
   - "[[03-Array]]"
 difficulty: ⭐⭐⭐
 estimated_time: 30m
@@ -114,7 +114,7 @@ def is_sorted_py(itemlist):
   đều mang log n trong Big-O.
 • Điều kiện "đã sort" chính là THÔNG TIN giúp binary nhanh. Bài học:
   thuật toán giỏi là thuật toán tận dụng tối đa thông tin sẵn có
-  (đối lập với bubble sort "mù" ở [[08-Sorting]]).
+  (đối lập với bubble sort "mù" ở [[12-Sorting]]).
 • Tính toán chi phí TỔNG THỂ: sort O(n log n) + nhiều binary O(log n)
   vs nhiều linear O(n). Tìm 1 lần → linear thắng; tìm vạn lần → sort
   trước rồi binary thắng. Luôn nghĩ theo workload, không theo 1 thao tác.
@@ -134,6 +134,6 @@ def is_sorted_py(itemlist):
 ---
 
 ## Liên quan
-- [[08-Sorting]] — sort trước để binary search
+- [[12-Sorting]] — sort trước để binary search
 - [[02-Do-phuc-tap-Big-O]] — O(n) vs O(log n)
 - [[03-Array]] — binary search chạy trên array đã sort

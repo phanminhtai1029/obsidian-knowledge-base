@@ -6,7 +6,7 @@ module: L1_AL_NLS_DSAA
 related:
   - "[[06-Dictionary-Hash-Table]]"
   - "[[05-Stack-va-Queue]]"
-  - "[[07-De-quy-Recursion]]"
+  - "[[11-De-quy-Recursion]]"
 difficulty: ⭐⭐⭐
 estimated_time: 35m
 source: ["Programming Foundations: Algorithms — Joe Marini (LinkedIn Learning)"]
@@ -77,7 +77,7 @@ def find_max(items):
 find_max([7, 3, 9, 2, 8])   # 9
 ```
 
-**Big-O = O(n):** mỗi lần gọi xử lý 1 phần tử → n lời gọi. (Ví dụ "có tính minh họa" — đệ quy ở đây không tối ưu hơn vòng lặp, nhưng dạy cách đệ quy hoạt động → xem [[07-De-quy-Recursion]].)
+**Big-O = O(n):** mỗi lần gọi xử lý 1 phần tử → n lời gọi. (Ví dụ "có tính minh họa" — đệ quy ở đây không tối ưu hơn vòng lặp, nhưng dạy cách đệ quy hoạt động → xem [[11-De-quy-Recursion]].)
 
 ---
 
@@ -146,5 +146,5 @@ def is_balanced(statement):
 ## Liên quan
 - [[06-Dictionary-Hash-Table]] — Set & Dict
 - [[05-Stack-va-Queue]] — Stack cho cân bằng ngoặc
-- [[07-De-quy-Recursion]] — find max đệ quy
-- [[11-DSA-Cheatsheet]] — tra cứu nhanh
+- [[11-De-quy-Recursion]] — find max đệ quy
+- [[15-DSA-Cheatsheet]] — tra cứu nhanh

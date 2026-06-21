@@ -6,8 +6,8 @@ module: L1_AL_NLS_DSAA
 related:
   - "[[01-Tong-quan-Thuat-toan]]"
   - "[[03-Array]]"
-  - "[[08-Sorting]]"
-  - "[[09-Searching]]"
+  - "[[12-Sorting]]"
+  - "[[13-Searching]]"
 difficulty: ⭐⭐⭐
 estimated_time: 35m
 source: ["Programming Foundations: Algorithms — Joe Marini (LinkedIn Learning)"]
@@ -57,7 +57,7 @@ flowchart LR
 | **Space complexity** | Bộ nhớ phụ cần dùng theo `n` | Tốn **RAM** cỡ nào? |
 
 > [!question] Phỏng vấn: "Merge sort và Quick sort cùng O(n log n), chọn cái nào?"
-> Khác nhau ở **space**: **Merge sort** cần **bộ nhớ phụ O(n)** (tạo mảng mới khi merge). **Quick sort** sắp xếp **in-place** (O(log n) cho call stack), tiết kiệm RAM hơn → thường nhanh hơn thực tế. Nhưng Quick sort **worst-case O(n²)** khi mảng đã gần sort. Xem [[08-Sorting]].
+> Khác nhau ở **space**: **Merge sort** cần **bộ nhớ phụ O(n)** (tạo mảng mới khi merge). **Quick sort** sắp xếp **in-place** (O(log n) cho call stack), tiết kiệm RAM hơn → thường nhanh hơn thực tế. Nhưng Quick sort **worst-case O(n²)** khi mảng đã gần sort. Xem [[12-Sorting]].
 
 ---
 
@@ -98,7 +98,7 @@ def has_dup(arr):
 > - **1 vòng lặp** qua n → O(n)
 > - **2 vòng lặp lồng nhau** → O(n²)
 > - **Chia đôi dữ liệu mỗi bước** (binary search, divide & conquer) → có `log n`
-> - **Đệ quy:** Big-O ≈ **số lần hàm được gọi** → xem [[07-De-quy-Recursion]]
+> - **Đệ quy:** Big-O ≈ **số lần hàm được gọi** → xem [[11-De-quy-Recursion]]
 
 ```
 ★ Insight ─────────────────────────────────────
@@ -128,4 +128,4 @@ def has_dup(arr):
 ## Liên quan
 - [[01-Tong-quan-Thuat-toan]] — đặc điểm thuật toán
 - [[03-Array]] · [[04-Linked-List]] · [[05-Stack-va-Queue]] · [[06-Dictionary-Hash-Table]] — Big-O từng cấu trúc
-- [[11-DSA-Cheatsheet]] — bảng Big-O tổng hợp
+- [[15-DSA-Cheatsheet]] — bảng Big-O tổng hợp

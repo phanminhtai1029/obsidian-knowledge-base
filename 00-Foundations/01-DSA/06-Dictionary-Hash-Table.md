@@ -5,7 +5,7 @@ tags: [dsa, dictionary, hash-table, hash-function, set, collision, foundations, 
 module: L1_AL_NLS_DSAA
 related:
   - "[[03-Array]]"
-  - "[[10-Thuat-toan-ung-dung]]"
+  - "[[14-Thuat-toan-ung-dung]]"
   - "[[02-Do-phuc-tap-Big-O]]"
 difficulty: ⭐⭐⭐
 estimated_time: 30m
@@ -97,7 +97,7 @@ nums.add(7)                       # mới → thêm vào
 unique = {c for c in "Hello World".lower() if c.isalnum()}
 ```
 
-→ Ứng dụng lọc unique / đếm: xem [[10-Thuat-toan-ung-dung]].
+→ Ứng dụng lọc unique / đếm: xem [[14-Thuat-toan-ung-dung]].
 
 ```
 ★ Insight ─────────────────────────────────────
@@ -126,5 +126,5 @@ unique = {c for c in "Hello World".lower() if c.isalnum()}
 
 ## Liên quan
 - [[03-Array]] — dict là "array + hàm băm"
-- [[10-Thuat-toan-ung-dung]] — counter & filter bằng dict/set
+- [[14-Thuat-toan-ung-dung]] — counter & filter bằng dict/set
 - [[02-Do-phuc-tap-Big-O]] — O(1) trung bình vs O(n) worst-case
