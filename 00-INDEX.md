@@ -28,12 +28,14 @@ tags: [index, moc, fresher, frontend, backend, database, ai, cloud]
 
 ## 🗺️ Lộ trình ôn thi (theo khung chương trình)
 
-```text
-Foundations (DSA · Git · Agile)
-   → Frontend (HTML/CSS · DOM · JS · TS · React)
-   → Database (PostgreSQL)
-   → AI 🎯 (RAG → RAG nâng cao → LLMOps → LangGraph/Agentic)
-   → Backend (FastAPI)
+```mermaid
+flowchart TD
+    F["Foundations<br/>(DSA · Git · Agile)"]
+    FE["Frontend<br/>(HTML/CSS · DOM · JS · TS · React)"]
+    DB["Database<br/>(PostgreSQL)"]
+    AI["AI 🎯<br/>(RAG → RAG nâng cao → LLMOps → LangGraph/Agentic)"]
+    BE["Backend<br/>(FastAPI)"]
+    F --> FE --> DB --> AI --> BE
 ```
 
 ## 🗂️ Quy ước vault
