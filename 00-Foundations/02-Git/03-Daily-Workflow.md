@@ -20,15 +20,12 @@ source: [Pro Git book, Git docs]
 
 ## 1. Bức tranh tổng thể
 
-```text
-   remote (GitHub)
-        │  ▲
-   pull │  │ push
-        ▼  │
-   ┌─────────────┐   commit   ┌──────────┐   add   ┌─────────────────┐
-   │ Local Repo  │ ◀───────── │ Staging  │ ◀────── │ Working Directory│
-   │  (.git)     │            │ (Index)  │         │ (file bạn sửa)   │
-   └─────────────┘            └──────────┘         └─────────────────┘
+```mermaid
+flowchart LR
+    WD["Working Directory<br/>(file bạn sửa)"] -->|git add| SA["Staging<br/>(Index)"]
+    SA -->|git commit| LR["Local Repo (.git)"]
+    LR -->|git push| RM["remote (GitHub)"]
+    RM -->|git pull| LR
 ```
 
 | Lệnh | Chuyển từ → tới | Ý nghĩa |

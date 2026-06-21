@@ -22,14 +22,11 @@ source: [Pro Git book, GitHub docs]
 
 Branch cho phép bạn "tách dòng" lịch sử để phát triển song song. Như đã nói ở [[01-How-Git-Works]], **branch chỉ là một con trỏ (41 byte) tới một commit** — nên tạo branch cực nhẹ và nhanh.
 
-```text
-              feature/login
-                    │
-                    ▼
-        C1 ─── C2 ─── C3
-               │
-               ▼
-              main
+```mermaid
+flowchart LR
+    C1 --> C2 --> C3
+    main["main"] -.->|trỏ| C2
+    feat["feature/login"] -.->|trỏ| C3
 ```
 
 ### Tạo & chuyển branch
@@ -85,21 +82,29 @@ Có **2 kiểu merge** — đây là kiến thức phỏng vấn quan trọng:
 
 Xảy ra khi `main` **không có commit mới** kể từ lúc tách nhánh. Git chỉ cần **dời con trỏ `main`** lên trùng `feature/login` — không tạo commit mới, lịch sử thẳng tắp.
 
-```text
-TRƯỚC:   C1 ─── C2(main) ─── C3 ─── C4(feature)
-
-SAU:     C1 ─── C2 ─── C3 ─── C4(main, feature)   ← main chỉ "tiến lên"
+```mermaid
+flowchart LR
+    C1 --> C2 --> C3 --> C4
+    M0["main TRƯỚC"] -.->|trỏ| C2
+    M1["main SAU — tiến thẳng, KHÔNG tạo merge commit"] -.->|trỏ| C4
+    feat["feature"] -.->|trỏ| C4
 ```
 
 ### b) 3-way merge (tạo merge commit)
 
 Xảy ra khi **cả hai branch đều có commit mới** sau điểm tách. Git tìm tổ tiên chung (common ancestor) và tạo một **merge commit** mới có **2 cha**.
 
-```text
-        C3 ─── C4 (feature)
-       /              \
-C1 ── C2 ────── C5 ─── M (main)   ← M là merge commit, 2 cha: C4 và C5
-              (main)
+```mermaid
+gitGraph
+    commit id: "C1"
+    commit id: "C2"
+    branch feature
+    checkout feature
+    commit id: "C3"
+    commit id: "C4"
+    checkout main
+    commit id: "C5"
+    merge feature id: "M"
 ```
 
 ```bash

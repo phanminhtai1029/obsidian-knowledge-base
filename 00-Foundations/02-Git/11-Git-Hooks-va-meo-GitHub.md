@@ -125,12 +125,12 @@ pre-commit run --all-files   # chạy thử trên toàn repo
 
 **Fork** = tạo **bản sao repo** vào tài khoản của bạn (vì bạn không có quyền push thẳng vào repo gốc).
 
-```text
-Repo gốc (owner)  ──fork──▶  Bản sao (của bạn)  ──clone──▶  máy bạn
-                                                              │
-                                                          sửa, commit, push
-                                                              │
-   Repo gốc  ◀────── Pull Request ──────────────────────────┘
+```mermaid
+flowchart LR
+    O["Repo gốc (owner)"] -->|fork| F["Bản sao (của bạn)"]
+    F -->|clone| L["máy bạn"]
+    L -->|"sửa, commit, push"| F
+    F -->|Pull Request| O
 ```
 
 Luồng đóng góp open-source:

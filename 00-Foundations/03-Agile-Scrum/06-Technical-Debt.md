@@ -21,9 +21,10 @@ source: ["Agile Practitioner with Scrum", Ward Cunningham]
 
 Ẩn dụ "nợ" (Ward Cunningham): chọn giải pháp nhanh-nhưng-không-tối-ưu hôm nay = "vay" thời gian; sau này phải "trả" bằng công sửa/viết lại, kèm "lãi" (càng để lâu càng đắt).
 
-```text
-   Quyết định nhanh hôm nay  ──▶  nợ kỹ thuật  ──▶  để lâu = "lãi"
-   (vội, deadline, chưa biết)      (code khó sửa)    (sửa càng tốn kém)
+```mermaid
+flowchart LR
+    A["Quyết định nhanh hôm nay<br/>(vội, deadline, chưa biết)"] --> B["nợ kỹ thuật<br/>(code khó sửa)"]
+    B --> C["để lâu = 'lãi'<br/>(sửa càng tốn kém)"]
 ```
 
 ```

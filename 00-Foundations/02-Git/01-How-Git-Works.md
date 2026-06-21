@@ -44,11 +44,20 @@ source: [Pro Git book, Git docs]
 
 Nghe có vẻ tốn dung lượng, nhưng Git tối ưu rất khéo: **file nào không đổi giữa 2 commit thì Git không lưu lại bản sao** — nó chỉ lưu một **con trỏ (reference)** tới file y hệt ở commit trước.
 
-```text
-Commit 1:   fileA(v1)   fileB(v1)   fileC(v1)
-                │           │           │
-Commit 2:   fileA(v2)   ───┘ (trỏ về B v1)   fileC(v2)
-            (đổi)        (giữ nguyên)        (đổi)
+```mermaid
+flowchart LR
+    subgraph C1["Commit 1"]
+      A1["fileA v1"]
+      B1["fileB v1"]
+      D1["fileC v1"]
+    end
+    subgraph C2["Commit 2"]
+      A2["fileA v2 (đổi)"]
+      D2["fileC v2 (đổi)"]
+    end
+    A1 -.->|đổi| A2
+    B1 ==>|"giữ nguyên → trỏ lại B v1"| C2
+    D1 -.->|đổi| D2
 ```
 
 ```
@@ -68,15 +77,14 @@ Commit 2:   fileA(v2)   ───┘ (trỏ về B v1)   fileC(v2)
 
 Mọi file trong project Git luôn ở một trong các vùng sau. Hiểu rõ 3 vùng này là hiểu 80% Git.
 
-```text
-  Working Directory          Staging Area            Repository (.git)
-  (thư mục làm việc)         (Index / vùng chờ)      (kho lịch sử)
- ┌──────────────────┐      ┌─────────────────┐     ┌──────────────────┐
- │  file bạn đang    │  add │ ảnh chụp dự kiến │ commit│ snapshot vĩnh viễn│
- │  sửa trực tiếp    │ ───▶ │ cho commit kế   │ ────▶ │ + lịch sử commit  │
- └──────────────────┘      └─────────────────┘     └──────────────────┘
-        ▲                                                    │
-        └──────────────── checkout / restore ◀──────────────┘
+```mermaid
+flowchart LR
+    WD["Working Directory<br/>(thư mục làm việc — sửa file trực tiếp)"]
+    SA["Staging Area<br/>(Index — ảnh chụp dự kiến cho commit kế)"]
+    RP["Repository .git<br/>(snapshot vĩnh viễn + lịch sử commit)"]
+    WD -->|git add| SA
+    SA -->|git commit| RP
+    RP -->|checkout / restore| WD
 ```
 
 | Vùng | Là gì | Lệnh đưa vào |
@@ -87,10 +95,14 @@ Mọi file trong project Git luôn ở một trong các vùng sau. Hiểu rõ 3 
 
 ### Trạng thái của một file
 
-```text
-Untracked ──(git add)──▶ Staged ──(git commit)──▶ Committed/Unmodified
-                            ▲                            │
-                            └────(sửa file)──── Modified ┘
+```mermaid
+stateDiagram-v2
+    [*] --> Untracked
+    Untracked --> Staged: git add
+    Staged --> Committed: git commit
+    Committed --> Modified: sửa file
+    Modified --> Staged: git add
+    note right of Committed: Committed / Unmodified
 ```
 
 - **Untracked:** file mới, Git chưa từng biết tới.
@@ -122,10 +134,12 @@ Một **commit** là một snapshot + metadata:
 - **Commit message** (mô tả thay đổi).
 - **Con trỏ tới (các) commit cha** (parent) — tạo thành chuỗi lịch sử.
 
-```text
-  C1 ◀─── C2 ◀─── C3        (mỗi commit trỏ về cha của nó)
-                   ▲
-                  HEAD ──▶ main
+```mermaid
+flowchart RL
+    C3 -->|cha| C2
+    C2 -->|cha| C1
+    HEAD -->|trỏ| main
+    main -->|trỏ| C3
 ```
 
 ### HEAD là gì?

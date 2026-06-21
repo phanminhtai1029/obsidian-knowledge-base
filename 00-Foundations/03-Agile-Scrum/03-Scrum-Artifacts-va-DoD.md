@@ -20,12 +20,13 @@ source: [Scrum Guide, "Agile Practitioner with Scrum"]
 
 ## 1. Bức tranh: 3 artifacts liên kết với nhau
 
-```text
- PRODUCT BACKLOG            SPRINT BACKLOG               INCREMENT
- (toàn bộ việc,    ──pull──▶ (việc của Sprint này   ──build──▶ (phần mềm chạy được,
-  PO ưu tiên)      cho Sprint  + kế hoạch Dev Team)            đạt Definition of Done)
-                                                              = giá trị Sprint này
-                                                                + mọi Sprint trước
+```mermaid
+flowchart LR
+    PB["PRODUCT BACKLOG<br/>(toàn bộ việc, PO ưu tiên)"]
+    SB["SPRINT BACKLOG<br/>(việc của Sprint này + kế hoạch Dev Team)"]
+    IN["INCREMENT<br/>(phần mềm chạy được, đạt Definition of Done)<br/>= giá trị Sprint này + mọi Sprint trước"]
+    PB -->|pull cho Sprint| SB
+    SB -->|build| IN
 ```
 
 | Artifact | Là gì | Ai sở hữu |

@@ -37,15 +37,12 @@ Ngày xưa, các lập trình viên code riêng nhiều tuần rồi mới gộp
 
 ## 2. Ba khái niệm — phân biệt cho rõ (câu hỏi phỏng vấn)
 
-```text
- Code  →  CI  ─────────────────────────────────────────►  Production
-          │                    │                    │
-   build + test         tạo artifact          deploy
-       (CI)            sẵn-sàng-deploy        lên prod
-                       (Cont. Delivery)    (Cont. Deployment)
-                              │                    │
-                       bấm nút THỦ CÔNG      TỰ ĐỘNG hoàn toàn
-                       để lên production
+```mermaid
+flowchart LR
+    Code["Code"] --> CI["CI<br/>build + test"]
+    CI --> CD["Continuous Delivery<br/>tạo artifact sẵn-sàng-deploy<br/>(bấm nút THỦ CÔNG để lên prod)"]
+    CD --> CDep["Continuous Deployment<br/>deploy lên prod<br/>(TỰ ĐỘNG hoàn toàn)"]
+    CDep --> Prod["Production"]
 ```
 
 | | **Continuous Integration** | **Continuous Delivery** | **Continuous Deployment** |
@@ -62,13 +59,10 @@ Ngày xưa, các lập trình viên code riêng nhiều tuần rồi mới gộp
 
 **Pipeline** là quy trình gồm nhiều **stage** chạy nối tiếp; một stage fail thì dừng (không deploy code lỗi). Pipeline điển hình:
 
-```text
- ┌────────┐  ┌────────┐  ┌────────┐  ┌────────┐  ┌──────────┐
- │ Checkout│→ │  Lint   │→ │  Test   │→ │  Build  │→ │  Deploy   │
- │  code   │  │ (style) │  │(unit/IT)│  │artifact │  │ (staging/ │
- └────────┘  └────────┘  └────────┘  └────────┘  │   prod)   │
-                                                  └──────────┘
-   ↑ trigger: push / pull request / theo lịch / bấm tay
+```mermaid
+flowchart LR
+    T(["trigger: push / PR / lịch / bấm tay"]) --> A
+    A["Checkout code"] --> B["Lint (style)"] --> C["Test (unit/IT)"] --> D["Build artifact"] --> E["Deploy (staging/prod)"]
 ```
 
 | Stage | Làm gì |
@@ -125,8 +119,9 @@ Sức mạnh thật của CI lộ ra khi gắn vào PR ([[05-Branch-Merge-PR]]):
 
 **Môi trường (environment) thường gặp:**
 
-```text
- dev  →  staging (giống prod, để QA/UAT)  →  production (người dùng thật)
+```mermaid
+flowchart LR
+    dev["dev"] --> staging["staging<br/>(giống prod, để QA/UAT)"] --> prod["production<br/>(người dùng thật)"]
 ```
 
 > [!tip] Một số công cụ CI/CD phổ biến: **GitHub Actions** (tích hợp sẵn GitHub — sẽ học ở [[13-GitHub-Actions]]), GitLab CI, Jenkins, CircleCI, Travis CI. Khái niệm pipeline/stage giống nhau, chỉ khác cú pháp cấu hình.

@@ -23,15 +23,11 @@ source: ["Git superpowers (Ronnie Sheer)", Pro Git book]
 
 ## 1. Quy tắc nền tảng: local vs đã push
 
-```text
-        ┌─────────────────────────────────────────┐
-        │   Code đã push lên remote chưa?          │
-        └─────────────────────────────────────────┘
-              │                          │
-         CHƯA (local)                ĐÃ PUSH
-              │                          │
-   amend / reset / rebase          chỉ git revert
-   (viết lại lịch sử OK)        (thêm commit đảo ngược)
+```mermaid
+flowchart TD
+    Q{"Code đã push<br/>lên remote chưa?"}
+    Q -->|CHƯA (local)| A["amend / reset / rebase<br/>(viết lại lịch sử OK)"]
+    Q -->|ĐÃ PUSH| B["chỉ git revert<br/>(thêm commit đảo ngược)"]
 ```
 
 ```
@@ -129,11 +125,10 @@ git revert a1b2c3d          # tạo commit mới "Revert ..." đảo ngược a1
 # Git mở editor cho message revert — lưu lại (Vim: :wq) là xong
 ```
 
-```text
-Trước:    C1 ── C2 ── C3(lỗi) ── C4
-git revert C3:
-          C1 ── C2 ── C3(lỗi) ── C4 ── C3'(đảo ngược C3)
-          ↑ C3 vẫn còn trong lịch sử, C3' triệt tiêu tác dụng của nó
+```mermaid
+flowchart LR
+    C1 --> C2 --> C3["C3 (lỗi)"] --> C4 --> C3p["C3' (đảo ngược C3)"]
+    C3 -.->|"C3 vẫn còn trong lịch sử,<br/>C3' triệt tiêu tác dụng"| C3p
 ```
 
 ```bash

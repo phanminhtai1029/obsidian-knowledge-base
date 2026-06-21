@@ -164,17 +164,14 @@ Sự kiện **cuối cùng** của Sprint. Timebox **≤ 3 giờ**. Cả Scrum T
 
 ## 7. Tổng kết dòng chảy một Sprint
 
-```text
- ┌─ Sprint Planning (≤8h) ──────────────────────────────────────┐
- │   Phần 1 WHAT: chọn item + Sprint Goal                        │
- │   Phần 2 HOW: chẻ task → Sprint Backlog                       │
- ├──────────────────────────────────────────────────────────────┤
- │   Daily Scrum (≤15') × mỗi ngày — Dev Team đồng bộ            │
- │   → Increment lớn dần, đạt Definition of Done                 │
- ├──────────────────────────────────────────────────────────────┤
- │   Sprint Review (≤4h): + stakeholder, soi sản phẩm, sửa backlog│
- │   Sprint Retrospective (≤3h): cải tiến cách làm việc           │
- └──────────────── 1 Sprint (≤30 ngày) → lặp lại ───────────────┘
+```mermaid
+flowchart TD
+    SP["Sprint Planning (≤8h)<br/>Phần 1 WHAT: chọn item + Sprint Goal<br/>Phần 2 HOW: chẻ task → Sprint Backlog"]
+    DS["Daily Scrum (≤15') × mỗi ngày — Dev Team đồng bộ<br/>→ Increment lớn dần, đạt Definition of Done"]
+    RV["Sprint Review (≤4h): + stakeholder, soi sản phẩm, sửa backlog"]
+    RT["Sprint Retrospective (≤3h): cải tiến cách làm việc"]
+    SP --> DS --> RV --> RT
+    RT -->|"1 Sprint (≤30 ngày) → lặp lại"| SP
 ```
 
 (Ngoài 5 event này còn **Product Backlog Refinement** — hoạt động liên tục, không tính là event chính thức: xem [[05-Product-Backlog-Refinement]].)

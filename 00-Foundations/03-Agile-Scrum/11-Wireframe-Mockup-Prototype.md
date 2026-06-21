@@ -29,17 +29,14 @@ source: [tổng hợp UX/UI practice]
 | Công cụ | Balsamiq, giấy bút, Figma | Figma, Sketch, Adobe XD | Figma, InVision, Axure |
 | Thời điểm | Sớm (ý tưởng) | Giữa (chốt giao diện) | Trước khi code (test luồng) |
 
-```text
- ĐỘ THẬT / CHI TIẾT tăng dần ───────────────────────────────────▶
- Wireframe              Mockup                  Prototype
- ┌──────────┐          ┌──────────┐            ┌──────────┐
- │ [ logo ] │          │  🏋 GymUp │            │  🏋 GymUp │  ← bấm "Đăng nhập"
- │ ▭▭▭▭▭▭▭ │   →      │ ████ xanh│    →       │  → nhảy sang
- │ ▭▭▭  ▭▭ │          │ ảnh, font│            │     màn hình kế
- │ [ nút  ] │          │ đẹp, tĩnh│            │  (tương tác thật)
- └──────────┘          └──────────┘            └──────────┘
- khung xương           trông như thật          dùng thử được
+```mermaid
+flowchart LR
+    W["Wireframe<br/>khung xương (logo, ô, nút)"]
+    M["Mockup<br/>trông như thật (ảnh, font đẹp, tĩnh)"]
+    P["Prototype<br/>dùng thử được (bấm → nhảy màn hình, tương tác thật)"]
+    W --> M --> P
 ```
+> ĐỘ THẬT / CHI TIẾT tăng dần từ trái sang phải ▶
 
 ---
 

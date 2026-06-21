@@ -20,17 +20,14 @@ source: [BABOK, IEEE 830, tổng hợp thực hành]
 
 ## 1. Toàn cảnh: từ yêu cầu khách → code
 
-```text
- Khách hàng          BA / team                              Dev Team
- ─────────           ─────────                              ────────
- nêu nhu cầu  ─▶ 1.Tiếp nhận ─▶ 2.Làm rõ ─▶ 3.Rã scope ─▶ 4.Phân loại
-                                                               │
-                              ┌────────────────────────────────┘
-                              ▼
-                 5.Viết tài liệu (BRD→SRS→Spec)  ─▶ 6.Khách DUYỆT (sign-off)
-                              │
-                              ▼
-                 7.Chẻ thành Epic→User Story→Task ─▶ 8.Estimate ─▶ vào Sprint
+```mermaid
+flowchart TD
+    KH(["Khách hàng: nêu nhu cầu"]) --> S1["1. Tiếp nhận"]
+    S1 --> S2["2. Làm rõ"] --> S3["3. Rã scope"] --> S4["4. Phân loại"]
+    S4 --> S5["5. Viết tài liệu (BRD→SRS→Spec)"]
+    S5 --> S6["6. Khách DUYỆT (sign-off)"]
+    S6 --> S7["7. Chẻ Epic→User Story→Task"]
+    S7 --> S8["8. Estimate"] --> SP(["vào Sprint"])
 ```
 
 > Tài liệu chi tiết (BRD/SRS/Spec): [[10-Tai-lieu-Yeu-cau-va-Dac-ta]]. Chẻ story & estimate: [[05-Product-Backlog-Refinement]], [[12-Estimation]].
@@ -116,18 +113,13 @@ Hệ thống quản lý phòng gym
 
 ## 4. Bước 4: Phân loại yêu cầu — 4 loại ⭐⭐ (rất hay hỏi)
 
-```text
-   BUSINESS requirement   "Vì sao làm?" — mục tiêu tổ chức
-          │  (tăng 20% hội viên online)
-          ▼
-   USER requirement       "Người dùng cần làm gì?"
-          │  (hội viên muốn đặt lịch qua app)
-          ▼
-   FUNCTIONAL requirement "Hệ thống PHẢI LÀM GÌ?"
-          │  (cho phép chọn lớp, xác nhận chỗ trống, gửi email)
-          ▼
-   NON-FUNCTIONAL         "Hệ thống phải TỐT THẾ NÀO?"
-              (tải < 2s, 1000 user đồng thời, mã hóa mật khẩu)
+```mermaid
+flowchart TD
+    B["BUSINESS requirement — 'Vì sao làm?'<br/>mục tiêu tổ chức (tăng 20% hội viên online)"]
+    U["USER requirement — 'Người dùng cần làm gì?'<br/>(hội viên muốn đặt lịch qua app)"]
+    F["FUNCTIONAL — 'Hệ thống PHẢI LÀM GÌ?'<br/>(chọn lớp, xác nhận chỗ trống, gửi email)"]
+    N["NON-FUNCTIONAL — 'Hệ thống phải TỐT THẾ NÀO?'<br/>(tải < 2s, 1000 user đồng thời, mã hóa mật khẩu)"]
+    B --> U --> F --> N
 ```
 
 | Loại | Trả lời | Ví dụ |

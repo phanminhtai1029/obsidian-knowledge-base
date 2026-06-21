@@ -20,15 +20,14 @@ source: [IEEE 830, BABOK, tổng hợp thực hành]
 
 ## 1. Chuỗi tài liệu: từ WHY → WHAT → HOW
 
-```text
-   WHY (nghiệp vụ)        WHAT (yêu cầu)         HOW (thiết kế)
- ┌──────────────┐     ┌──────────────────┐   ┌──────────────────┐
- │     BRD       │ ──▶ │  SRS  (+ FSD)     │──▶│   SDD / TSD       │
- │ mục tiêu KD   │     │ chức năng + phi   │   │ kiến trúc, DB,    │
- │ (BA/PO)       │     │ chức năng (BA)    │   │ API (dev/architect)│
- └──────────────┘     └──────────────────┘   └──────────────────┘
-       càng xuống dưới càng KỸ THUẬT, càng cụ thể ─────────────▶
+```mermaid
+flowchart LR
+    BRD["BRD — WHY (nghiệp vụ)<br/>mục tiêu KD (BA/PO)"]
+    SRS["SRS (+ FSD) — WHAT (yêu cầu)<br/>chức năng + phi chức năng (BA)"]
+    SDD["SDD / TSD — HOW (thiết kế)<br/>kiến trúc, DB, API (dev/architect)"]
+    BRD --> SRS --> SDD
 ```
+> Càng sang phải càng **kỹ thuật**, càng **cụ thể**.
 
 | Tài liệu | Tên đầy đủ | Trả lời | Ai viết | Nội dung chính |
 |----------|-----------|---------|---------|----------------|
