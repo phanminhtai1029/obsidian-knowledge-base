@@ -23,23 +23,53 @@ source: [sql-answers/ — bài tự giải của bạn (AutoGarage)]
 
 ## 1. Lược đồ (schema) — 6 bảng
 
-```
-CarBrand (CarBrandCode PK, CarBrandName)
-   ▲ 1
-   │ M
-Car (CarID PK, LicensePlate, Owner, Address, District, PhoneNumber, CarBrandCode FK→CarBrand)
-   ▲ 1
-   │ M
-ServiceHistory (ServiceCode PK, CarID FK→Car, EmployeeID FK→Employee,
-                ServiceNumber, ServiceFee, ServiceDate)
-   ▲ 1                                   ▲ M
-   │ M                                   │ 1
-ServiceDetails (DetailCode PK,        Employee (EmployeeID PK, EmployeeName,
-   ServiceCode FK→ServiceHistory,       Gender, DateofBirth, Address, PhoneNumber)
-   PartNumber FK→Part, ServiceDescription)
-   ▼ M
-   │ 1
-Part (PartNumber PK, PartName)
+```mermaid
+erDiagram
+    CarBrand   ||--o{ Car            : "1 hãng — N xe"
+    Car        ||--o{ ServiceHistory : "1 xe — N lần bảo dưỡng"
+    Employee   ||--o{ ServiceHistory : "1 NV — N lần thực hiện"
+    ServiceHistory ||--o{ ServiceDetails : "1 phiếu — N chi tiết"
+    Part       ||--o{ ServiceDetails : "1 phụ tùng — N chi tiết"
+
+    CarBrand {
+        varchar CarBrandCode PK
+        varchar CarBrandName
+    }
+    Car {
+        varchar CarID PK
+        varchar LicensePlate
+        varchar Owner
+        varchar Address
+        varchar District
+        varchar PhoneNumber
+        varchar CarBrandCode FK
+    }
+    Employee {
+        varchar EmployeeID PK
+        varchar EmployeeName
+        varchar Gender
+        date    DateofBirth
+        varchar Address
+        varchar PhoneNumber
+    }
+    Part {
+        varchar PartNumber PK
+        varchar PartName
+    }
+    ServiceHistory {
+        varchar ServiceCode PK
+        varchar CarID FK
+        varchar EmployeeID FK
+        int     ServiceNumber
+        decimal ServiceFee
+        date    ServiceDate
+    }
+    ServiceDetails {
+        varchar DetailCode PK
+        varchar ServiceCode FK
+        varchar PartNumber FK
+        varchar ServiceDescription
+    }
 ```
 
 **Quan hệ:** CarBrand 1—M Car · Car 1—M ServiceHistory · Employee 1—M ServiceHistory · ServiceHistory 1—M ServiceDetails · Part 1—M ServiceDetails. (ServiceDetails là **bảng nối** giữa ServiceHistory và Part — xem [[03-Quan-he-va-mo-hinh-ER]].)
