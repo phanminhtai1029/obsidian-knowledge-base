@@ -188,9 +188,16 @@ async def toggle_locked(self, todo_id: int) -> Todo | None:
     return todo
 ```
 
-```
-Request A: khóa dòng → đọc completed → đảo → commit → NHẢ KHÓA
-Request B: muốn đọc cùng dòng → PHẢI CHỜ A commit → đọc giá trị mới → đảo đúng
+```mermaid
+sequenceDiagram
+    participant A as Request A
+    participant Row as Dòng DB
+    participant B as Request B
+    A->>Row: khóa dòng
+    A->>Row: đọc completed → đảo
+    B--xRow: muốn đọc cùng dòng → PHẢI CHỜ
+    A->>Row: commit → NHẢ KHÓA
+    B->>Row: đọc giá trị mới → đảo đúng
 ```
 
 Mỗi request nằm trong **một transaction riêng** (session async); commit xong mới nhả khóa → 2 lần toggle đổi đúng 2 lần.

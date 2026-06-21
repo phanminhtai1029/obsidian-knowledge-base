@@ -94,10 +94,13 @@ async def redis_listener(manager: ConnectionManager):
             await manager.broadcast(message["data"].decode())
 ```
 
-```
-        Worker A ──publish──┐                 ┌──subscribe── Worker A → client A
-user1 ─▶ (broadcast local)  ├──▶  REDIS  ──▶ ─┤
-        Worker B ──publish──┘   (Pub/Sub)     └──subscribe── Worker B → client B,C
+```mermaid
+flowchart LR
+    U["user1"] --> WA["Worker A<br/>(broadcast local)"]
+    WA -->|publish| R["REDIS<br/>(Pub/Sub)"]
+    WB["Worker B"] -->|publish| R
+    R -->|subscribe| WA2["Worker A → client A"]
+    R -->|subscribe| WB2["Worker B → client B, C"]
 ```
 
 | Vai trò | Ai làm |

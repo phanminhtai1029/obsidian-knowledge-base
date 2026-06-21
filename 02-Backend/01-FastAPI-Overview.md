@@ -29,13 +29,13 @@ source: [QN26_FR_AI_01, "01.Async Programming Fundamentals", "02.Building Async 
 
 **Tier** là cách chia hệ thống theo **ranh giới triển khai/process** — mỗi tier *có thể* chạy trên máy/server khác nhau, giao tiếp qua mạng. Mô hình kinh điển là **3-tier**:
 
-```
-┌──────────────┐   HTTP/HTTPS   ┌──────────────┐   SQL/TCP   ┌──────────────┐
-│ Presentation │ ─────────────▶ │  Application  │ ──────────▶ │     Data     │
-│   (Client)   │ ◀───────────── │   (Server)    │ ◀────────── │  (Database)  │
-│ Web/Mobile UI│                │  FastAPI app  │             │ Postgres/... │
-└──────────────┘                └──────────────┘             └──────────────┘
-   Tier 1                          Tier 2                        Tier 3
+```mermaid
+flowchart LR
+    T1["Tier 1 — Presentation (Client)<br/>Web/Mobile UI"]
+    T2["Tier 2 — Application (Server)<br/>FastAPI app"]
+    T3["Tier 3 — Data (Database)<br/>Postgres/..."]
+    T1 <-->|HTTP/HTTPS| T2
+    T2 <-->|SQL/TCP| T3
 ```
 
 | Tier | Tên gọi | Vai trò | Ví dụ |
@@ -51,26 +51,14 @@ source: [QN26_FR_AI_01, "01.Async Programming Fundamentals", "02.Building Async 
 
 Bên trong **một tier** (cụ thể là Tier 2 — FastAPI app), code lại được chia thành các **layer** để tách trách nhiệm. Đây là kiến trúc **N-layer** (thường gặp 4 lớp):
 
-```
-        HTTP request
-            │
-            ▼
-┌────────────────────────────┐
-│ 1. API / Presentation Layer│  ← router, endpoint, validate input/output
-│    (FastAPI router)         │     (Pydantic), trả HTTP status
-├────────────────────────────┤
-│ 2. Service / Business Layer│  ← logic nghiệp vụ, quy tắc, điều phối
-│    (services/)             │     (vd: "không cho rút quá số dư")
-├────────────────────────────┤
-│ 3. Repository / Data Access│  ← truy vấn DB, CRUD, giấu chi tiết SQL
-│    (repositories/)         │
-├────────────────────────────┤
-│ 4. Model / Domain Layer    │  ← định nghĩa thực thể (SQLAlchemy model,
-│    (models/, schemas/)     │     Pydantic schema)
-└────────────────────────────┘
-            │
-            ▼
-        Database
+```mermaid
+flowchart TD
+    REQ(["HTTP request"]) --> L1
+    L1["1. API / Presentation Layer (FastAPI router)<br/>router, endpoint, validate I/O (Pydantic), trả HTTP status"]
+    L2["2. Service / Business Layer (services/)<br/>logic nghiệp vụ, quy tắc, điều phối (vd: không cho rút quá số dư)"]
+    L3["3. Repository / Data Access (repositories/)<br/>truy vấn DB, CRUD, giấu chi tiết SQL"]
+    L4["4. Model / Domain Layer (models/, schemas/)<br/>định nghĩa thực thể (SQLAlchemy model, Pydantic schema)"]
+    L1 --> L2 --> L3 --> L4 --> DB[("Database")]
 ```
 
 | Layer | Trách nhiệm | Thành phần trong FastAPI |
@@ -107,16 +95,14 @@ Bên trong **một tier** (cụ thể là Tier 2 — FastAPI app), code lại đ
 
 ### 1.4. Vòng đời một HTTP request đi xuyên các lớp
 
-```
-Client gửi POST /items {name, price}
-   │
-   ▼  [API Layer]  router nhận, Pydantic validate body → Item schema
-   ▼  [Service]    kiểm tra quy tắc (price > 0?), điều phối
-   ▼  [Repository] session.add(item); await session.commit()
-   ▼  [Model/DB]   ghi 1 dòng vào bảng items
-   ▲  trả Item đã lưu (có id) ngược lên
-   ▲  [API Layer]  serialize qua response_model → JSON
-Client nhận 201 Created {id, name, price}
+```mermaid
+flowchart TD
+    C(["Client gửi POST /items {name, price}"]) --> API1["[API Layer] router nhận, Pydantic validate body → Item schema"]
+    API1 --> SV["[Service] kiểm tra quy tắc (price > 0?), điều phối"]
+    SV --> RP["[Repository] session.add(item); await session.commit()"]
+    RP --> DB["[Model/DB] ghi 1 dòng vào bảng items"]
+    DB -->|"trả Item đã lưu (có id) ngược lên"| API2["[API Layer] serialize qua response_model → JSON"]
+    API2 --> R(["Client nhận 201 Created {id, name, price}"])
 ```
 
 ---

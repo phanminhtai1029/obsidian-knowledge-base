@@ -22,8 +22,11 @@ source: [QN26_FR_AI_01, "09.Streaming-Pattern(SSE & Websocket)"]
 
 ## 1. Vì sao request/response không đủ
 
-```
-Request/Response:  Client → request → Server → response (MỘT lần) → đóng kết nối
+```mermaid
+flowchart LR
+    C["Client"] -->|request| S["Server"]
+    S -->|"response (MỘT lần)"| C
+    S -.->|đóng kết nối| X(["hết"])
 ```
 
 Không đáp ứng được:
