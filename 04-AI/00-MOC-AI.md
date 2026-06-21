@@ -21,8 +21,10 @@ modules: [L2_AI_AIF, L2_AI_RAGO, L2_AI_LLMO, L2_AI_LGAA]
 | 4 | LangGraph & Agentic AI | `L2_AI_LGAA` | [[04-LangGraph-Agentic/00-MOC-LangGraph-Agentic\|MOC]] | ✅ 5 note |
 
 ## Lộ trình gợi ý
-```text
-AI/GenAI cơ bản → RAG → RAG nâng cao → Đánh giá & vận hành (LLMOps) → Agent (LangGraph)
+```mermaid
+flowchart LR
+    A["AI/GenAI cơ bản"] --> B["RAG"] --> C["RAG nâng cao"]
+    C --> D["Đánh giá & vận hành (LLMOps)"] --> E["Agent (LangGraph)"]
 ```
 
 ## Liên quan

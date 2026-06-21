@@ -86,13 +86,22 @@ Brute-force (tính khoảng cách tới **mọi** điểm) bất khả thi về 
 3. Node tìm được trở thành entry point cho tầng dưới.
 4. Lặp đến **Layer 0** → tìm cục bộ chính xác → trả kết quả cuối.
 
-```text
-   Tầng cao  ●───────────────●          (thưa, link dài → nhảy nhanh)
-              \             /
-   Tầng giữa   ●──●─────●──●             (dày hơn)
-                \  \    /  /
-   Layer 0   ●─●─●─●─●─●─●─●─●─●         (đủ điểm, link ngắn → chính xác)
-   query ──► bắt đầu trên cùng, "trượt" dần xuống dưới
+```mermaid
+flowchart TB
+    Q(["query: bắt đầu trên cùng, trượt dần xuống"])
+    subgraph H["Tầng cao — thưa, link dài → nhảy nhanh"]
+      direction LR
+      h1((●)) --- h2((●))
+    end
+    subgraph M["Tầng giữa — dày hơn"]
+      direction LR
+      m1((●)) --- m2((●)) --- m3((●)) --- m4((●))
+    end
+    subgraph L0["Layer 0 — đủ điểm, link ngắn → chính xác"]
+      direction LR
+      l1((●)) --- l2((●)) --- l3((●)) --- l4((●)) --- l5((●)) --- l6((●))
+    end
+    Q --> H --> M --> L0
 ```
 
 ### Ba tham số phải thuộc

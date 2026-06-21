@@ -19,10 +19,24 @@ source: [QN26_FR_AI_01, "02-agentic-patterns-reflection-planning.mdx"]
 
 ## 1. Từ Simple Agent đến Agentic Workflow
 
-```
-Simple:   Question → Search → Answer
-ReAct:    Question → [Think → Act → Observe]* → Answer
-Advanced: Question → Plan → [Execute → Reflect]* → Synthesize
+```mermaid
+flowchart LR
+    subgraph S["Simple"]
+      direction LR
+      s1["Question"] --> s2["Search"] --> s3["Answer"]
+    end
+    subgraph R["ReAct"]
+      direction LR
+      r1["Question"] --> r2["Think"] --> r3["Act"] --> r4["Observe"]
+      r4 -->|lặp| r2
+      r4 --> r5["Answer"]
+    end
+    subgraph A["Advanced"]
+      direction LR
+      a1["Question"] --> a2["Plan"] --> a3["Execute"] --> a4["Reflect"]
+      a4 -->|lặp| a3
+      a4 --> a5["Synthesize"]
+    end
 ```
 
 Agent đơn giản gặp 4 vấn đề: **một tool duy nhất** (web search) → hẹp chuyên môn; **không suy luận** về chất lượng; **không lập kế hoạch** cho câu hỏi phức tạp; **không reflection** để tự cải thiện.

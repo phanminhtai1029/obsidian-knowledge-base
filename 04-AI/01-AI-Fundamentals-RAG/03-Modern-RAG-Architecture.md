@@ -20,19 +20,23 @@ source: [QN26_FR_AI_01, "03-modern-rag-architecture.mdx"]
 
 ## 1. Tổng quan: 3 phase
 
-```text
-            ┌───────────── INDEXING (offline) ─────────────┐
-Raw data →  Load → Chunking → Embedding → Vector Store
-            └───────────────────────────────────────────────┘
-                                   │
-User query ─────────────────────────────────────────────────┐
-            ┌───────────── RETRIEVAL ──────────────┐         │
-            Query processing → Similarity/Hybrid →  Re-rank   │
-            └───────────────────────────────────────┘         │
-                                   │                           │
-            ┌───────────── GENERATION ─────────────┐           │
-            Context prep → Prompt → LLM → Answer + citation  ◄─┘
-            └────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph IDX["INDEXING (offline)"]
+      direction LR
+      RD["Raw data"] --> LD["Load"] --> CH["Chunking"] --> EM["Embedding"] --> VS[("Vector Store")]
+    end
+    subgraph RET["RETRIEVAL"]
+      direction LR
+      QP["Query processing"] --> SIM["Similarity / Hybrid"] --> RR["Re-rank"]
+    end
+    subgraph GEN["GENERATION"]
+      direction LR
+      CP["Context prep"] --> PR["Prompt"] --> LLM["LLM"] --> ANS["Answer + citation"]
+    end
+    UQ(["User query"]) --> QP
+    VS --> SIM
+    RR --> CP
 ```
 
 ---
@@ -117,16 +121,12 @@ Sau khi có tập candidate (vd Top 50), thứ tự chưa chắc đúng vì vect
 
 - **Chiến lược "Funnel" (cái phễu)**: tên gọi xuất phát từ **hình cái phễu** — rộng ở trên, hẹp ở dưới. Ý tưởng: **lọc dần** từ nhiều xuống ít, dùng phương pháp **rẻ/nhanh ở đầu** để bắt được nhiều ứng viên (recall cao), rồi **đắt/chính xác ở cuối** để giữ lại tinh hoa (precision cao):
 
-```text
-        ┌─────────────────────────────┐
-  rộng  │ Retrieve Many: 50 docs       │  ← Bi-Encoder (nhanh, rẻ) → recall cao
-        └──────────────┬──────────────┘
-                ┌───────┴───────┐
-  hẹp dần       │ Re-rank: 5    │          ← Cross-Encoder (chậm, chính xác) → precision cao
-                └───────┬───────┘
-                    ┌───┴───┐
-  hẹp nhất          │ →LLM  │              ← chỉ 5 doc tinh nhất vào prompt
-                    └───────┘
+```mermaid
+flowchart TD
+    A["RỘNG — Retrieve Many: 50 docs<br/>Bi-Encoder (nhanh, rẻ) → recall cao"]
+    B["HẸP DẦN — Re-rank: 5<br/>Cross-Encoder (chậm, chính xác) → precision cao"]
+    C["HẸP NHẤT — chỉ 5 doc tinh nhất vào prompt → LLM"]
+    A --> B --> C
 ```
 
   → Vì chạy Cross-Encoder trên cả 50k doc thì quá chậm, ta chỉ chạy nó trên **50 ứng viên** mà Bi-Encoder đã lọc. Đây là cách **cân bằng tốc độ & độ chính xác** kinh điển của RAG.

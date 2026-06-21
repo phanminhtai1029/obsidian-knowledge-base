@@ -23,13 +23,11 @@ source: [QN26_FR_AI_01, "05-building-rag-agent-using-langchain.mdx"]
 
 - **Cơ chế hoạt động** — vòng lặp:
 
-```text
-┌──────────────────────────────────────────────┐
-│  Reasoning  →  Action (gọi tool)  →  Observation │
-│       ▲                                    │      │
-│       └────────────── lặp lại ─────────────┘      │
-└──────────────────────────────────────────────┘
-            (đến khi đủ thông tin → Final Answer)
+```mermaid
+flowchart LR
+    R["Reasoning"] --> A["Action (gọi tool)"] --> O["Observation"]
+    O -->|lặp lại| R
+    O -->|đủ thông tin| F["Final Answer"]
 ```
 
 - **Flexibility**: là nền tảng để dựng hệ thống Agent phức tạp (Deep Agents), xử lý task nhiều bước thông minh.
@@ -60,11 +58,22 @@ source: [QN26_FR_AI_01, "05-building-rag-agent-using-langchain.mdx"]
 | Truy cập dữ liệu ngoài | ❌ (chỉ kiến thức train) | Có nếu có bước retrieval | Có, **chủ động** gọi khi cần |
 | Phù hợp | Hỏi-đáp đơn giản | Pipeline xác định (RAG cố định) | Task nhiều bước, cần suy luận & công cụ |
 
-```text
-LLM thuần :  hỏi ─────────────────► đáp                (không tự hành động)
-Chain     :  hỏi → retrieve → prompt → LLM → đáp        (luồng cứng, lập trình viên định)
-Agent     :  hỏi → [Reason → Act(tool) → Observe]✷ → đáp (LLM tự lặp, tự chọn tool)
-                     └──────── lặp đến khi đủ ────────┘
+```mermaid
+flowchart LR
+    subgraph LLM["LLM thuần — không tự hành động"]
+      direction LR
+      l1["hỏi"] --> l2["đáp"]
+    end
+    subgraph CH["Chain — luồng cứng, lập trình viên định"]
+      direction LR
+      c1["hỏi"] --> c2["retrieve"] --> c3["prompt"] --> c4["LLM"] --> c5["đáp"]
+    end
+    subgraph AG["Agent — LLM tự lặp, tự chọn tool"]
+      direction LR
+      a1["hỏi"] --> a2["Reason"] --> a3["Act (tool)"] --> a4["Observe"]
+      a4 -->|lặp đến khi đủ| a2
+      a4 --> a5["đáp"]
+    end
 ```
 
 > [!note] Liên hệ LangChain vs LangGraph
@@ -91,8 +100,10 @@ Agent     :  hỏi → [Reason → Act(tool) → Observe]✷ → đáp (LLM tự
 
 ### Pipeline
 
-```text
-FPT internal docs → Embeddings → VectorDB → ReAct Agent (Retrieval Tool) → Final Answer
+```mermaid
+flowchart LR
+    D["FPT internal docs"] --> E["Embeddings"] --> V[("VectorDB")]
+    V --> A["ReAct Agent (Retrieval Tool)"] --> F["Final Answer"]
 ```
 
 > 📓 Notebook tham khảo gốc: `0_create_agent.ipynb` (langchain-ai/deep-agents-from-scratch).

@@ -29,9 +29,11 @@ AI (Artificial Intelligence) là một nhánh của khoa học máy tính, mục
 
 ### Phân tầng khái niệm (cần nhớ cho thi)
 
-```text
-AI  ⊃  Machine Learning  ⊃  Deep Learning  ⊃  LLM / Generative AI
+```mermaid
+flowchart LR
+    AI["AI"] --> ML["Machine Learning"] --> DL["Deep Learning"] --> LLM["LLM / Generative AI"]
 ```
+> Quan hệ **bao hàm**: AI ⊃ ML ⊃ DL ⊃ LLM (mỗi tầng là tập con của tầng trước).
 
 | Tầng | Ý nghĩa |
 |------|---------|
@@ -78,8 +80,10 @@ LLM mạnh nhưng có "điểm mù" cố hữu:
 
 **RAG (Retrieval-Augmented Generation)** cho phép mô hình "tra cứu" thông tin từ nguồn ngoài *trước khi* sinh câu trả lời → đảm bảo câu trả lời được **grounded** (neo) vào dữ liệu thực tế, cập nhật, hoặc private.
 
-```text
-Câu hỏi → [Tra cứu tài liệu liên quan] → Nhồi context vào prompt → LLM sinh đáp án có căn cứ
+```mermaid
+flowchart LR
+    Q["Câu hỏi"] --> R["Tra cứu tài liệu liên quan"]
+    R --> P["Nhồi context vào prompt"] --> A["LLM sinh đáp án có căn cứ"]
 ```
 
 → Chi tiết cơ chế xem [[02-RAG-Theoretical-Foundations]] và [[03-Modern-RAG-Architecture]].

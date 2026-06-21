@@ -134,9 +134,17 @@ Tuy tên gọi "RAG" giữ nguyên, **tư duy triển khai đã thay đổi căn
 
 → RAG hiện đại: giữ nguyên trọng số LLM, **chỉ tối ưu khâu lấy dữ liệu** rồi nhồi vào prompt cho mô hình xử lý. Đây là lý do RAG trở thành chuẩn cho ứng dụng AI production.
 
-```text
-[RAG gốc]     Query + Docs → (train cả Encoder + Generator) → Answer
-[RAG hiện đại] Query → Retrieve docs → Prompt(context + question) → LLM(frozen) → Answer
+```mermaid
+flowchart LR
+    subgraph G["RAG gốc"]
+      direction LR
+      a1["Query + Docs"] --> a2["train cả Encoder + Generator"] --> a3["Answer"]
+    end
+    subgraph M["RAG hiện đại"]
+      direction LR
+      b1["Query"] --> b2["Retrieve docs"] --> b3["Prompt(context + question)"] --> b4["LLM (frozen)"] --> b5["Answer"]
+    end
+    G --> M
 ```
 
 ---

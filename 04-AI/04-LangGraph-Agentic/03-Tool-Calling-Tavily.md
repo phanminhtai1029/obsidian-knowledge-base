@@ -25,9 +25,11 @@ source: [QN26_FR_AI_01, "03-tool-calling-tavily-search.mdx"]
 3. **Parse kết quả** tool trả về.
 4. **Suy luận tiếp** với thông tin mới → câu trả lời cuối.
 
-```
-User Query → LLM phân tích → quyết dùng tool → gọi tool(params)
-→ Tool chạy → trả kết quả → LLM xử lý → câu trả lời cuối
+```mermaid
+flowchart LR
+    Q["User Query"] --> P["LLM phân tích"] --> D["quyết dùng tool"]
+    D --> G["gọi tool(params)"] --> T["Tool chạy"] --> R["trả kết quả"]
+    R --> X["LLM xử lý"] --> A["câu trả lời cuối"]
 ```
 
 **Vì sao cần?** Vượt **knowledge cutoff**; truy cập **dữ liệu real-time** (thời tiết, giá cổ phiếu, tin); **thực hiện hành động** (gửi email, tạo ticket, update DB); **tích hợp API** bên thứ ba.

@@ -67,12 +67,14 @@ workflow.add_conditional_edges("process_transaction", check_needs_approval)
 
 ### Luồng thực thi 5 bước
 
-```
-1. Run đến interrupt   → graph chạy bình thường, gặp điểm dừng thì ngừng
-2. Save checkpoint     → serialize state, sinh checkpoint_id + metadata (thread_id, node, time)
-3. Return control      → trả quyền cho app; app hiện UI cho người duyệt; query state để hiển thị
-4. Human reviews       → người xem context, quyết approve/reject/modify, có thể update state hoặc huỷ
-5. Resume with decision→ gọi lại app.invoke/stream với CÙNG config → load checkpoint, chạy node tiếp
+```mermaid
+flowchart TD
+    S1["1. Run đến interrupt<br/>graph chạy bình thường, gặp điểm dừng thì ngừng"]
+    S2["2. Save checkpoint<br/>serialize state, sinh checkpoint_id + metadata (thread_id, node, time)"]
+    S3["3. Return control<br/>trả quyền cho app; hiện UI cho người duyệt; query state để hiển thị"]
+    S4["4. Human reviews<br/>xem context, approve/reject/modify, có thể update state hoặc huỷ"]
+    S5["5. Resume with decision<br/>gọi lại app.invoke/stream với CÙNG config → load checkpoint, chạy node tiếp"]
+    S1 --> S2 --> S3 --> S4 --> S5
 ```
 
 > [!example] Mẫu approve giao dịch

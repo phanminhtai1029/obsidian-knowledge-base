@@ -56,18 +56,12 @@ Sau Indexing + Retrieval ta có Top-K, nhưng thường chưa đủ tốt vì 2 
 
 Vì Cross-Encoder chậm, **không** áp lên toàn bộ dữ liệu. Quy trình chuẩn:
 
-```text
-   ┌─────────────────────────────────────────────┐
-   │  1. RETRIEVE (Bi-Encoder)                     │  rộng: hàng triệu → Top 50
-   │     nhanh, recall cao, "vơ" nhiều ứng viên    │
-   └───────────────────┬─────────────────────────┘
-        ┌──────────────▼──────────────┐
-        │  2. RE-RANK (Cross-Encoder)  │            chấm lại 50 ứng viên
-        │     chậm, precision cao       │
-        └──────────┬───────────────────┘
-              ┌─────▼─────┐
-              │ 3. SELECT │                          hẹp: Top 5 → context LLM
-              └───────────┘
+```mermaid
+flowchart TD
+    A["1. RETRIEVE (Bi-Encoder)<br/>nhanh, recall cao, 'vơ' nhiều ứng viên<br/>rộng: hàng triệu → Top 50"]
+    B["2. RE-RANK (Cross-Encoder)<br/>chậm, precision cao<br/>chấm lại 50 ứng viên"]
+    C["3. SELECT<br/>hẹp: Top 5 → context LLM"]
+    A --> B --> C
 ```
 
 1. **Retrieve** — Bi-Encoder lấy nhanh Top 50 từ hàng triệu docs (ưu tiên **recall**).
