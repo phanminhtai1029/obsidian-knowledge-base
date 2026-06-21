@@ -4,7 +4,7 @@ section: 04-AI/01-AI-Fundamentals-RAG
 tags: [ai, rag, indexing, retrieval, generation, chunking, hybrid-search, reranking, prompt-engineering, fresher]
 related:
   - "[[02-RAG-Theoretical-Foundations]]"
-  - "[[05-LangChain-Framework-Core]]"
+  - "[[04-LangChain-Framework-Core]]"
   - "[[../02-RAG-Optimization/00-MOC-RAG-Optimization]]"
 difficulty: ⭐⭐⭐⭐
 estimated_time: 60m
@@ -242,6 +242,6 @@ Answer:
 ## 9. Liên kết
 
 - [[02-RAG-Theoretical-Foundations]] — nền tảng lý thuyết
-- [[05-LangChain-Framework-Core]] — hiện thực từng component
+- [[04-LangChain-Framework-Core]] — hiện thực từng component
 - [[../02-RAG-Optimization/00-MOC-RAG-Optimization|MOC: RAG & Optimization]] — đào sâu indexing/hybrid/rerank
 - [[00-MOC-AI-Fundamentals-RAG|MOC: AI Fundamentals & RAG]]

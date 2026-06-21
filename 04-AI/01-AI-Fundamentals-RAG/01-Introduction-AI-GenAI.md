@@ -4,7 +4,7 @@ section: 04-AI/01-AI-Fundamentals-RAG
 tags: [ai, genai, llm, machine-learning, deep-learning, fresher]
 related:
   - "[[02-RAG-Theoretical-Foundations]]"
-  - "[[04-Modern-RAG-Architecture]]"
+  - "[[03-Modern-RAG-Architecture]]"
 difficulty: ⭐⭐
 estimated_time: 20m
 source: [QN26_FR_AI_01, "01-introduction-to-ai-and-generative-ai.mdx"]
@@ -82,7 +82,7 @@ LLM mạnh nhưng có "điểm mù" cố hữu:
 Câu hỏi → [Tra cứu tài liệu liên quan] → Nhồi context vào prompt → LLM sinh đáp án có căn cứ
 ```
 
-→ Chi tiết cơ chế xem [[02-RAG-Theoretical-Foundations]] và [[04-Modern-RAG-Architecture]].
+→ Chi tiết cơ chế xem [[02-RAG-Theoretical-Foundations]] và [[03-Modern-RAG-Architecture]].
 
 ---
 
@@ -119,5 +119,5 @@ Câu hỏi → [Tra cứu tài liệu liên quan] → Nhồi context vào prompt
 ## 8. Liên kết
 
 - [[02-RAG-Theoretical-Foundations]] — vì sao & nguồn gốc RAG
-- [[04-Modern-RAG-Architecture]] — kiến trúc RAG 3 phase
+- [[03-Modern-RAG-Architecture]] — kiến trúc RAG 3 phase
 - [[00-MOC-AI-Fundamentals-RAG|MOC: AI Fundamentals & RAG]]

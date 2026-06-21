@@ -4,7 +4,7 @@ section: 04-AI/01-AI-Fundamentals-RAG
 tags: [ai, rag, parametric-memory, in-context-learning, fine-tuning, fresher]
 related:
   - "[[01-Introduction-AI-GenAI]]"
-  - "[[04-Modern-RAG-Architecture]]"
+  - "[[03-Modern-RAG-Architecture]]"
 difficulty: ⭐⭐⭐
 estimated_time: 30m
 source: [QN26_FR_AI_01, "02-introduction-to-rag-and-theoretical-foundations.mdx", "arXiv:2005.11401"]
@@ -174,6 +174,6 @@ Tuy tên gọi "RAG" giữ nguyên, **tư duy triển khai đã thay đổi căn
 ## 8. Liên kết
 
 - [[01-Introduction-AI-GenAI]] — vì sao LLM cần RAG
-- [[04-Modern-RAG-Architecture]] — 3 phase Indexing/Retrieval/Generation
-- [[05-LangChain-Framework-Core]] — công cụ hiện thực RAG
+- [[03-Modern-RAG-Architecture]] — 3 phase Indexing/Retrieval/Generation
+- [[04-LangChain-Framework-Core]] — công cụ hiện thực RAG
 - [[00-MOC-AI-Fundamentals-RAG|MOC: AI Fundamentals & RAG]]
