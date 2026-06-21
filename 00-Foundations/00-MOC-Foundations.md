@@ -1,12 +1,12 @@
 ---
 title: "MOC: Foundations"
 section: 00-Foundations
-tags: [moc, foundations, dsa, git, agile, cis, leap, soft-skill, fresher]
+tags: [moc, foundations, dsa, python, git, agile, cis, leap, soft-skill, fresher]
 ---
 
 # MOC: Foundations (Nền tảng)
 
-> Các môn nền tảng Level 1 (NLS) có trong đề thi FresherAI: DSA, Git, Agile/Scrum, và 2 môn kỹ năng mềm CIS & LEAP.
+> Các môn nền tảng Level 1 (NLS) có trong đề thi FresherAI: DSA, Python, Git, Agile/Scrum, và 2 môn kỹ năng mềm CIS & LEAP.
 
 ## Các section
 
@@ -17,6 +17,7 @@ tags: [moc, foundations, dsa, git, agile, cis, leap, soft-skill, fresher]
 | 3 | Agile Practitioner with Scrum | `L1_AL_NLS_APWS` | [[03-Agile-Scrum/00-MOC-Agile-Scrum\|MOC Agile-Scrum]] | ✅ 13 note |
 | 4 | CIS — Client Interview Skills | `CIS` | [[04-CIS-Client-Interview/00-MOC-CIS\|MOC CIS]] | ✅ 9 note |
 | 5 | LEAP — Effective Communication | `LEAP` | [[05-LEAP-Communication/00-MOC-LEAP\|MOC LEAP]] | ✅ 6 note |
+| 6 | Python (ngôn ngữ nền tảng) | — | [[06-Python/00-MOC-Python\|MOC Python]] | ✅ 20 note |
 
 ## Liên quan
 - [[../00-INDEX|🏠 Index tổng]]
