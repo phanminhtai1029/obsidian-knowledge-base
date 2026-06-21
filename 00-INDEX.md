@@ -12,7 +12,7 @@ tags: [index, moc, fresher, frontend, backend, database, ai, cloud]
 
 | #   | Domain        | MOC                                                  | Trạng thái |
 | --- | ------------- | ---------------------------------------------------- | ---------- |
-| 00  | Foundations   | [[00-Foundations/00-MOC-Foundations\|MOC Foundations]] | 🔜 khung   |
+| 00  | Foundations   | [[00-Foundations/00-MOC-Foundations\|MOC Foundations]] | ✅ xong     |
 | 01  | Frontend      | [[01-Frontend/00-MOC-Frontend\|MOC Frontend]]          | ✅ xong     |
 | 02  | Backend       | [[02-Backend/00-MOC-Backend\|MOC Backend (FastAPI)]]   | 🔜 khung   |
 | 03  | Database      | [[03-Database/00-MOC-Database\|MOC Database]]           | ✅ 17 note  |

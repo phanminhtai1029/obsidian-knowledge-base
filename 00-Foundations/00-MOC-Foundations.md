@@ -12,7 +12,7 @@ tags: [moc, foundations, dsa, git, agile, cis, leap, soft-skill, fresher]
 
 | # | Section | Module code | MOC | Trạng thái |
 |---|---------|-------------|-----|------------|
-| 1 | Data Structures & Algorithms | `L1_AL_NLS_DSAA` | [[01-DSA/00-MOC-DSA\|MOC DSA]] | 🔜 khung |
+| 1 | Data Structures & Algorithms | `L1_AL_NLS_DSAA` | [[01-DSA/00-MOC-DSA\|MOC DSA]] | ✅ 11 note |
 | 2 | Version Control - Git | `L1_AL_NLS_VCG` | [[02-Git/00-MOC-Git\|MOC Git]] | ✅ 14 note |
 | 3 | Agile Practitioner with Scrum | `L1_AL_NLS_APWS` | [[03-Agile-Scrum/00-MOC-Agile-Scrum\|MOC Agile-Scrum]] | ✅ 13 note |
 | 4 | CIS — Client Interview Skills | `CIS` | [[04-CIS-Client-Interview/00-MOC-CIS\|MOC CIS]] | ✅ 9 note |
