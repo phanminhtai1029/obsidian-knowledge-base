@@ -36,10 +36,10 @@ source: ["DevOps Foundations — Ernest Mueller & James Wickett (LinkedIn Learni
 
 ```mermaid
 flowchart TD
-    PROV["1. Provisioning hạ tầng"] --> CFG["2. Cấu hình hệ thống"]
-    CFG --> ORCH["3. Orchestration"]
-    ORCH --> DEP["4. Deployment ứng dụng"]
-    DEP --> TEST["5. Testing chiến lược"]
+    PROV["1 — Provisioning hạ tầng"] --> CFG["2 — Cấu hình hệ thống"]
+    CFG --> ORCH["3 — Orchestration"]
+    ORCH --> DEP["4 — Deployment ứng dụng"]
+    DEP --> TEST["5 — Testing chiến lược"]
 ```
 
 ### 2.1. Provisioning — chọn theo "độ mạnh"

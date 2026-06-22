@@ -22,12 +22,12 @@ source: [BABOK, IEEE 830, tổng hợp thực hành]
 
 ```mermaid
 flowchart TD
-    KH(["Khách hàng: nêu nhu cầu"]) --> S1["1. Tiếp nhận"]
-    S1 --> S2["2. Làm rõ"] --> S3["3. Rã scope"] --> S4["4. Phân loại"]
-    S4 --> S5["5. Viết tài liệu (BRD→SRS→Spec)"]
-    S5 --> S6["6. Khách DUYỆT (sign-off)"]
-    S6 --> S7["7. Chẻ Epic→User Story→Task"]
-    S7 --> S8["8. Estimate"] --> SP(["vào Sprint"])
+    KH(["Khách hàng: nêu nhu cầu"]) --> S1["1 — Tiếp nhận"]
+    S1 --> S2["2 — Làm rõ"] --> S3["3 — Rã scope"] --> S4["4 — Phân loại"]
+    S4 --> S5["5 — Viết tài liệu (BRD→SRS→Spec)"]
+    S5 --> S6["6 — Khách DUYỆT (sign-off)"]
+    S6 --> S7["7 — Chẻ Epic→User Story→Task"]
+    S7 --> S8["8 — Estimate"] --> SP(["vào Sprint"])
 ```
 
 > Tài liệu chi tiết (BRD/SRS/Spec): [[10-Tai-lieu-Yeu-cau-va-Dac-ta]]. Chẻ story & estimate: [[05-Product-Backlog-Refinement]], [[12-Estimation]].

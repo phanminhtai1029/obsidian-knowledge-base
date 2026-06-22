@@ -69,11 +69,11 @@ workflow.add_conditional_edges("process_transaction", check_needs_approval)
 
 ```mermaid
 flowchart TD
-    S1["1. Run đến interrupt<br/>graph chạy bình thường, gặp điểm dừng thì ngừng"]
-    S2["2. Save checkpoint<br/>serialize state, sinh checkpoint_id + metadata (thread_id, node, time)"]
-    S3["3. Return control<br/>trả quyền cho app; hiện UI cho người duyệt; query state để hiển thị"]
-    S4["4. Human reviews<br/>xem context, approve/reject/modify, có thể update state hoặc huỷ"]
-    S5["5. Resume with decision<br/>gọi lại app.invoke/stream với CÙNG config → load checkpoint, chạy node tiếp"]
+    S1["1 — Run đến interrupt<br/>graph chạy bình thường, gặp điểm dừng thì ngừng"]
+    S2["2 — Save checkpoint<br/>serialize state, sinh checkpoint_id + metadata (thread_id, node, time)"]
+    S3["3 — Return control<br/>trả quyền cho app; hiện UI cho người duyệt; query state để hiển thị"]
+    S4["4 — Human reviews<br/>xem context, approve/reject/modify, có thể update state hoặc huỷ"]
+    S5["5 — Resume with decision<br/>gọi lại app.invoke/stream với CÙNG config → load checkpoint, chạy node tiếp"]
     S1 --> S2 --> S3 --> S4 --> S5
 ```
 

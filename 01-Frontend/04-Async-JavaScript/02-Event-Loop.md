@@ -34,12 +34,12 @@ source: [javascript.info, MDN, loupe.latentflip.com]
 
 ```mermaid
 flowchart TD
-    S["1. Chạy hết sync code trong Call Stack"]
-    M["2. Drain Microtask Queue<br/>(chạy HẾT microtasks, kể cả cái mới thêm)"]
-    T{"3. Có Macrotask trong Task Queue?"}
-    R["3b. Lấy 1 Macrotask → chạy"]
-    M2["4. Drain lại Microtask Queue"]
-    I["5. Cả 2 queue rỗng → đợi (idle)"]
+    S["1 — Chạy hết sync code trong Call Stack"]
+    M["2 — Drain Microtask Queue<br/>(chạy HẾT microtasks, kể cả cái mới thêm)"]
+    T{"3 — Có Macrotask trong Task Queue?"}
+    R["3b — Lấy 1 Macrotask → chạy"]
+    M2["4 — Drain lại Microtask Queue"]
+    I["5 — Cả 2 queue rỗng → đợi (idle)"]
     S --> M --> T
     T -->|có| R --> M2 --> T
     T -->|không| I --> T

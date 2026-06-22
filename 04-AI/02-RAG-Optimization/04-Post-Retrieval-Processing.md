@@ -58,9 +58,9 @@ Vì Cross-Encoder chậm, **không** áp lên toàn bộ dữ liệu. Quy trình
 
 ```mermaid
 flowchart TD
-    A["1. RETRIEVE (Bi-Encoder)<br/>nhanh, recall cao, 'vơ' nhiều ứng viên<br/>rộng: hàng triệu → Top 50"]
-    B["2. RE-RANK (Cross-Encoder)<br/>chậm, precision cao<br/>chấm lại 50 ứng viên"]
-    C["3. SELECT<br/>hẹp: Top 5 → context LLM"]
+    A["1 — RETRIEVE (Bi-Encoder)<br/>nhanh, recall cao, 'vơ' nhiều ứng viên<br/>rộng: hàng triệu → Top 50"]
+    B["2 — RE-RANK (Cross-Encoder)<br/>chậm, precision cao<br/>chấm lại 50 ứng viên"]
+    C["3 — SELECT<br/>hẹp: Top 5 → context LLM"]
     A --> B --> C
 ```
 
