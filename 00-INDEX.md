@@ -1,6 +1,6 @@
 ---
 title: "FresherAI Vault — Index"
-tags: [index, moc, fresher, frontend, backend, database, ai, cloud]
+tags: [index, moc, fresher, frontend, backend, database, ai, cloud, devops]
 ---
 
 # 🏠 FresherAI Vault — Bảng mục lục tổng hợp
@@ -18,6 +18,7 @@ tags: [index, moc, fresher, frontend, backend, database, ai, cloud]
 | 03  | Database      | [[03-Database/00-MOC-Database\|MOC Database]]           | ✅ 17 note  |
 | 04  | AI 🎯         | [[04-AI/00-MOC-AI\|MOC AI (RAG/LangChain/LangGraph)]]   | ✅ 18 note  |
 | 05  | Cloud         | [[05-Cloud/00-MOC-Cloud\|MOC Cloud (AWS + Azure)]]      | 🔜 khung   |
+| 06  | DevOps        | [[06-DevOps/00-MOC-DevOps\|MOC DevOps]]                 | ✅ 12 note  |
 
 ## 📋 Cheatsheet (Frontend)
 
