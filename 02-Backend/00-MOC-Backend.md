@@ -8,16 +8,18 @@ module: L3_PP_FASTAPI
 # MOC: Backend — Building High-Performance APIs with FastAPI
 
 > Module `L3_PP_FASTAPI`. Thi: Part 1 Theory (Quiz) + Part 2 Practice (Coding) + Final Project.
-> ✅ Đã viết đủ 16 note — bám học liệu gốc (`_shared/_source/02-Backend-FastAPI`), bổ sung GraphQL + cụm Streaming/Production theo mentor dặn.
+> ✅ Đã viết đủ 18 note — bám học liệu gốc (`_shared/_source/02-Backend-FastAPI`), bổ sung GraphQL + cụm Streaming/Production theo mentor dặn, thêm note nền tảng Web (00b) + Request/Response nâng cao (17) từ khoá LinkedIn của Miki Tebeka.
 
 ## Note
 
 ### Phần A — Nền tảng & Web cơ bản
 | # | Note | Nội dung | Độ khó | Trạng thái |
 |---|------|----------|--------|------------|
+| 0b | [[00b-REST-HTTP-JSON-Fundamentals\|REST, HTTP & JSON Fundamentals]] | **REST/RPC**, **CRUD ↔ HTTP verb**, giải phẫu HTTP (request/status line, header `Host`, status code, chunked), **JSON ↔ Python** + kiểu thiếu (datetime/Base64/set) | ⭐⭐ | ✅ |
 | 1 | [[01-FastAPI-Overview\|FastAPI Overview, Backend Architecture & Async]] | **Tier vs Layer vs Component**, 3-tier, N-layer, ASGI/WSGI, **sync vs async**, event loop, FastAPI intro | ⭐⭐⭐ | ✅ |
 | 2 | [[02-Path-Query-Parameters\|Path & Query Parameters]] | Path/query params, type conversion, validation tự động | ⭐⭐ | ✅ |
 | 3 | [[03-Pydantic-Data-Modeling\|Data Modeling (Pydantic)]] | BaseModel, nested, response_model, validator, Pydantic v2 | ⭐⭐⭐ | ✅ |
+| 17 | [[17-Request-Response-Advanced\|Request & Response nâng cao]] | **Form** / **raw body** (+chặn kích thước), **file/CSV response**, **`@field_serializer`**, **content negotiation** (`Accept`) | ⭐⭐⭐ | ✅ |
 
 ### Phần B — Database & Ứng dụng
 | # | Note | Nội dung | Độ khó | Trạng thái |
@@ -31,7 +33,7 @@ module: L3_PP_FASTAPI
 | # | Note | Nội dung | Độ khó | Trạng thái |
 |---|------|----------|--------|------------|
 | 8 | [[08-Authentication-OAuth2-JWT\|Authentication (JWT & OAuth2)]] | OAuth2 Password/Google flow, JWT, passlib | ⭐⭐⭐⭐ | ✅ |
-| 9 | [[09-Authorization-RBAC\|Authorization & Current User]] | `OAuth2PasswordBearer`, `get_current_user`, RBAC | ⭐⭐⭐⭐ | ✅ |
+| 9 | [[09-Authorization-RBAC\|Authorization & Current User]] | `OAuth2PasswordBearer`, `get_current_user`, RBAC, **OWASP Top 10 & security mindset** | ⭐⭐⭐⭐ | ✅ |
 | 10 | [[10-Testing-Pytest\|Testing với Pytest]] | Pytest, TestClient, async test, fixtures, mock DB | ⭐⭐⭐ | ✅ |
 | 11 | [[11-Middleware-Error-CORS\|Middleware, Error Handling & CORS]] | Middleware, exception handler, CORS | ⭐⭐ | ✅ |
 | 12 | [[12-Deployment-Uvicorn\|Deployment & Config]] | pydantic-settings, env vars, Uvicorn/Gunicorn | ⭐⭐ | ✅ |

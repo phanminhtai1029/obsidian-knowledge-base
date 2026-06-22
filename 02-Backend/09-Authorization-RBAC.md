@@ -140,7 +140,31 @@ admin_router = APIRouter(prefix="/admin", dependencies=[Depends(require_role("ad
 
 ---
 
-## 6. Q&A phỏng vấn
+## 6. OWASP Top 10 & tư duy bảo mật
+
+Bảo mật **không chỉ** là việc của sysadmin — code của bạn là tuyến đầu. **OWASP Top 10** là danh sách 10 lỗ hổng ứng dụng web phổ biến nhất (cập nhật định kỳ). Buồn ở chỗ: chúng tồn tại đã lâu nhưng lập trình viên vẫn lặp lại.
+
+| OWASP (rút gọn) | Lỗi điển hình | Phòng trong FastAPI |
+|---|---|---|
+| **A01 Broken Access Control** | Ai cũng gọi được API admin; sửa được tài nguyên của người khác | `get_current_user` + `require_role` + **ownership check** (mục 3–5 note này) |
+| **A02 Cryptographic Failures** | Lưu mật khẩu plaintext, secret hardcode | hash bcrypt ([[08-Authentication-OAuth2-JWT]]), secret từ env ([[12-Deployment-Uvicorn]]) |
+| **A03 Injection** | SQL injection do nối chuỗi | ORM/tham số hoá truy vấn ([[04-SQLAlchemy-Database]]), validate input |
+| **A04 Insecure Design** | Không nghĩ tới lạm dụng từ đầu | threat-modeling, "nghĩ như kẻ tấn công" |
+| **A05 Security Misconfiguration** | Bật debug/`--reload` ở prod, CORS `*` | checklist production ([[12-Deployment-Uvicorn]]) |
+| **(DoS)** | Body khổng lồ làm cạn RAM | **giới hạn kích thước input** ([[17-Request-Response-Advanced]]) |
+
+> [!warning] Hai bẫy hay quên
+> 1. **Lộ thông tin qua thông báo lỗi:** trả nguyên `str(exception)` ra client có thể lộ token, đường dẫn, query. Hãy trả lỗi **đã được kiểm soát**, log chi tiết ở server thôi. 2. **Tin dữ liệu client:** mọi input (body, query, header, file) đều phải validate — kích thước, kiểu, giá trị hợp lệ.
+
+> [!tip] Security mindset (Bruce Schneier)
+> Lập trình viên mặc định **lạc quan** ("người dùng sẽ dùng đúng"). Đội nón bảo mật là tự hỏi ngược: *"Kẻ xấu sẽ lạm dụng chỗ này thế nào? Mình phải validate gì?"*. Đặt câu hỏi đó trong **mỗi code review** → code an toàn hơn hẳn. An toàn là **thói quen**, không phải bước cuối.
+
+> [!question] Phỏng vấn: "Lỗ hổng web phổ biến nhất? Phòng thế nào?"
+> **A01 Broken Access Control** đứng đầu OWASP Top 10: endpoint không kiểm quyền → user thường truy cập tài nguyên/API của admin hoặc của người khác. Phòng: bắt buộc xác thực (`get_current_user`), phân quyền theo vai trò (`require_role`), và **ownership check** (chỉ chủ sở hữu sửa được). Kèm theo: validate mọi input, không hardcode secret, không lộ chi tiết lỗi.
+
+---
+
+## 7. Q&A phỏng vấn
 
 > [!question] 1. Sau khi có JWT, request tiếp theo xác thực thế nào?
 > Client gửi header `Authorization: Bearer <token>`. FastAPI dùng `OAuth2PasswordBearer` rút token, rồi `get_current_user` decode + verify token, tìm user trong DB; hợp lệ → trả user, sai → 401.
@@ -162,7 +186,7 @@ admin_router = APIRouter(prefix="/admin", dependencies=[Depends(require_role("ad
 
 ---
 
-## 7. Bài tập tự luyện
+## 8. Bài tập tự luyện
 
 1. Tạo `oauth2_scheme` + `get_current_user` (verify JWT, tìm user, 401 khi sai). Bảo vệ `GET /me`.
 2. Thêm claim `roles` khi phát token; viết `require_role("admin")` và bảo vệ `DELETE /users/{id}` (user thường → 403).
@@ -171,7 +195,8 @@ admin_router = APIRouter(prefix="/admin", dependencies=[Depends(require_role("ad
 
 ---
 
-## 8. Liên quan
-- [[08-Authentication-OAuth2-JWT]] — phát & verify JWT, claim `roles`
+## 9. Liên quan
+- [[08-Authentication-OAuth2-JWT]] — phát & verify JWT, claim `roles`, hash mật khẩu
 - [[06-Dependency-Injection]] — `get_current_user` là sub-dependency
+- [[17-Request-Response-Advanced]] — validate kích thước input (chống DoS)
 - [[00-MOC-Backend|MOC: Backend]]
