@@ -41,6 +41,50 @@ source: [QN26_FR_AI_01, "03.Database Setup"]
 
 Note này (và hầu hết dự án FastAPI) dùng **ORM**.
 
+### Có bắt buộc dùng ORM không?
+
+**Không.** Vẫn chạy DB được mà không cần ORM, bằng **driver thô** (`asyncpg`: tự viết `SELECT ... WHERE id = $1`) hoặc **query builder / SQLAlchemy Core** (dựng SQL có cấu trúc nhưng không map class). ORM là một **đánh đổi**, không phải điều kiện bắt buộc:
+
+| Tiêu chí | **Dùng ORM** | **SQL tay (driver thô)** |
+|---|---|---|
+| Năng suất | Cao — CRUD bằng object, ít boilerplate | Thấp — viết & sửa từng câu SQL |
+| An toàn injection | **Mặc định** truy vấn tham số hoá | Phải tự nhớ tham số hoá, dễ quên |
+| Đổi DB (Postgres↔MySQL) | Gần như không sửa code | Viết lại SQL theo dialect |
+| Migration (Alembic) | Có sẵn, sinh từ model | Tự quản tay |
+| Hiệu năng hot-path | Có overhead (sinh SQL, map object) | **Nhanh hơn**, kiểm soát từng byte |
+| Query siêu phức tạp | Đôi khi gò bó | Toàn quyền tinh chỉnh |
+
+> [!tip] Khi nào rớt xuống SQL thô?
+> Dự án vừa/lớn → dùng ORM cho năng suất & an toàn. Chỗ nào cần tối ưu cực hạn (báo cáo nặng, truy vấn phức tạp) → viết SQL tay. **SQLAlchemy cho trộn cả hai** (ORM + `text()`/Core) nên không phải chọn "tất cả hoặc không".
+
+> [!warning] Cạm bẫy ORM kinh điển: N+1 query
+> Lazy-load quan hệ trong vòng lặp → bắn **1 + N** câu SQL (1 câu lấy danh sách, rồi mỗi phần tử 1 câu lấy quan hệ). Khắc phục bằng eager-load: `selectinload()` / `joinedload()`.
+
+### Chống SQL injection (vì sao ORM an toàn)
+
+**SQL injection** = kẻ tấn công nhét **mã SQL** vào input, khiến câu SQL bị "bẻ" thành lệnh khác ý muốn. Gốc rễ: **ghép chuỗi input thẳng vào SQL**.
+
+```python
+# ❌ DỄ DÍNH: ghép chuỗi trực tiếp
+uname = request.input             # kẻ tấn công nhập:  ' OR '1'='1
+sql = f"SELECT * FROM users WHERE name = '{uname}'"
+# → SELECT * FROM users WHERE name = '' OR '1'='1'   → trả về TẤT CẢ user
+# Nhập:  '; DROP TABLE users; --   → có thể xoá cả bảng
+
+# ✅ AN TOÀN: truy vấn tham số hoá — DB coi input là DỮ LIỆU, không phải LỆNH
+await conn.execute("SELECT * FROM users WHERE name = $1", uname)   # asyncpg
+session.execute(select(User).where(User.name == uname))           # SQLAlchemy ORM
+```
+
+| Tầng phòng thủ | Cách làm |
+|---|---|
+| **1. Tham số hoá / prepared statement** | Biện pháp số 1 — tách **lệnh** khỏi **dữ liệu**. ORM làm việc này **mặc định** |
+| 2. Validate / whitelist input | Pydantic siết kiểu, độ dài, định dạng |
+| 3. Least privilege | User app của DB không có quyền `DROP`/`ALTER` |
+| 4. Không f-string/`+` vào SQL | Tuyệt đối không ghép chuỗi input vào câu lệnh |
+
+> **Vì sao phải chống:** injection có thể lộ/đánh cắp toàn bộ dữ liệu, **bypass đăng nhập**, sửa/xoá dữ liệu, leo thang chiếm server. Đây là rủi ro **Injection** trong **OWASP Top 10** (xem [[09-Authorization-RBAC|OWASP & security]]). Đây cũng chính là **lý do cốt lõi khiến ORM an toàn hơn ghép SQL tay**: SQLAlchemy luôn sinh truy vấn tham số hoá.
+
 ---
 
 ## 2. Kết nối: URL → Engine → Session factory
@@ -256,6 +300,12 @@ async def make_async_session_db():       # KHÔNG bọc @asynccontextmanager
 
 > [!question] 7. Vì sao không nên dùng `create_all` ở production?
 > `create_all` chỉ tạo bảng còn thiếu, **không xử lý thay đổi schema** (đổi/ thêm cột trên bảng đã có), không có lịch sử/rollback. Production cần **Alembic migration** để versioning schema an toàn.
+
+> [!question] 8. Có bắt buộc dùng ORM không? Đánh đổi là gì?
+> **Không** — vẫn chạy DB được bằng driver thô (`asyncpg`, viết SQL tay) hoặc SQLAlchemy Core. ORM là **đánh đổi**: hi sinh chút hiệu năng & quyền kiểm soát để lấy **năng suất, an toàn (chống injection), migration, độc lập DB**. Dự án vừa/lớn nên dùng ORM; chỗ cần tối ưu cực hạn thì rớt xuống SQL thô — SQLAlchemy cho **trộn cả hai**.
+
+> [!question] 9. SQL injection là gì? Vì sao dùng ORM lại giảm rủi ro này?
+> Injection là khi input bị hiểu nhầm thành **lệnh SQL** do **ghép chuỗi** input vào câu lệnh (vd `' OR '1'='1`). Chống bằng **truy vấn tham số hoá** để DB coi input là **dữ liệu**, không phải **lệnh**. ORM (SQLAlchemy) **luôn sinh truy vấn tham số hoá mặc định** → tách lệnh khỏi dữ liệu, nên an toàn hơn ghép SQL tay. (Bổ trợ: validate input bằng Pydantic, least privilege cho user DB.)
 
 ---
 

@@ -58,8 +58,12 @@ flowchart TD
     L2["2. Service / Business Layer (services/)<br/>logic nghiệp vụ, quy tắc, điều phối (vd: không cho rút quá số dư)"]
     L3["3. Repository / Data Access (repositories/)<br/>truy vấn DB, CRUD, giấu chi tiết SQL"]
     L4["4. Model / Domain Layer (models/, schemas/)<br/>định nghĩa thực thể (SQLAlchemy model, Pydantic schema)"]
-    L1 --> L2 --> L3 --> L4 --> DB[("Database")]
+    L1 --> L2 --> L3 --> L4
+    L3 -->|"đọc/ghi qua AsyncSession"| DB[("Database")]
 ```
+
+> [!warning] Sửa hay nhầm: lớp nào "chạm" database?
+> **Repository** mới là lớp *duy nhất* nói chuyện với DB (mở session, chạy SQL). **Model/Domain** chỉ *định nghĩa* thực thể để Repository dùng map dòng ↔ object — nó **không** nằm "giữa Repository và DB". Vẽ `Repository → Model → Database` là sai luồng (Model không tự ghi xuống DB); đúng phải là `Repository → Database`, còn Model được Repository *tham chiếu*.
 
 | Layer | Trách nhiệm | Thành phần trong FastAPI |
 |---|---|---|

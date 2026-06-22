@@ -38,6 +38,36 @@ class Item(BaseModel):
 > [!note] Pydantic v2 — phiên bản hiện hành
 > FastAPI hiện dùng **Pydantic v2**. Vài đổi tên cần nhớ: `@validator` → **`@field_validator`**; `.dict()` → **`.model_dump()`**; `.json()` → **`.model_dump_json()`**; `parse_obj()` → **`.model_validate()`**; `class Config` → **`model_config = ConfigDict(...)`**; `BaseSettings` tách sang gói riêng **`pydantic-settings`** (xem [[12-Deployment-Uvicorn]]).
 
+### `dataclass` vs Pydantic — vì sao FastAPI chọn Pydantic?
+
+`@dataclass` (thư viện chuẩn `dataclasses`) cũng khai báo dữ liệu bằng class + type hint, nhưng **chỉ tự sinh boilerplate** (`__init__`, `__repr__`, `__eq__`) — **KHÔNG validate**:
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Item:
+    name: str
+    price: float
+
+Item(name="Sách", price="abc")   # ❌ KHÔNG báo lỗi! price vẫn là chuỗi "abc"
+```
+
+Type hint với `dataclass` chỉ để gợi ý/đọc, không kiểm tra lúc chạy. Pydantic thì **bắt buộc validate + ép kiểu**.
+
+| Tiêu chí | `dataclass` (stdlib) | **Pydantic `BaseModel`** |
+|---|---|---|
+| Validate runtime | ❌ Không | ✅ Có (sai kiểu → lỗi) |
+| Ép kiểu (coercion) | ❌ `"3"` vẫn là str | ✅ `"3"` → `3` |
+| Parse JSON ↔ object | Tự làm tay | ✅ `model_validate` / `model_dump` |
+| Ràng buộc (`gt`, `min_length`) | Không | ✅ qua `Field` |
+| Tích hợp FastAPI/OpenAPI | Không | ✅ first-class (docs, trả 422) |
+| Phụ thuộc ngoài | Không (built-in) | Có (cài `pydantic`) |
+| Tốc độ tạo object thuần | Nhanh hơn | Chậm hơn chút (vì validate) |
+
+> [!tip] Dùng cái nào khi nào?
+> `dataclass` hợp cho **object nội bộ** mà dữ liệu đã tin là sạch. Pydantic dùng ở **biên hệ thống** (request/response, config, dữ liệu ngoài) nơi dữ liệu **không đáng tin** → phải validate/ép kiểu/parse. FastAPI chọn Pydantic vì API luôn nhận dữ liệu từ bên ngoài. (Muốn cú pháp dataclass *có* validate: dùng `pydantic.dataclasses.dataclass`.)
+
 ---
 
 ## 2. Request Body — dữ liệu gửi lên trong thân request
@@ -229,6 +259,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 > [!question] 7. (Pydantic v2) Vài thay đổi tên cần nhớ so với v1?
 > `@validator`→`@field_validator`, `.dict()`→`.model_dump()`, `.json()`→`.model_dump_json()`, `parse_obj()`→`.model_validate()`, `class Config`→`model_config = ConfigDict()`, `BaseSettings` chuyển sang gói `pydantic-settings`.
+
+> [!question] 8. `dataclass` và Pydantic khác nhau gì? Vì sao FastAPI dùng Pydantic?
+> `dataclass` chỉ **tự sinh boilerplate** (`__init__`/`__repr__`/`__eq__`) và **KHÔNG validate** — `price="abc"` vẫn lọt. Pydantic thì **validate + ép kiểu + parse JSON** dựa trên type hint. FastAPI chọn Pydantic vì API luôn nhận dữ liệu **không đáng tin từ bên ngoài**, cần kiểm tra ở biên (sai → 422) và tự sinh OpenAPI. `dataclass` hợp cho object nội bộ đã tin dữ liệu sạch.
 
 ---
 
