@@ -15,6 +15,11 @@ source: [TypeScript Handbook, typescriptlang.org/docs]
 > [!summary] TL;DR
 > TypeScript là **typed superset của JavaScript** — mọi code JS hợp lệ đều là TS hợp lệ. TS thêm **static type system** giúp bắt lỗi lúc compile thay vì runtime. Compiler `tsc` transpile `.ts` → `.js`. **Type inference** tự suy ra type từ context — không cần annotate mọi thứ. `tsconfig.json` với `strict: true` là cấu hình khuyến nghị.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **TypeScript = JavaScript + "khai báo kiểu dữ liệu".** Nó là *superset* (tập cha) — mọi code JS đều là TS hợp lệ, bạn chỉ thêm phần ghi rõ "biến này là số, hàm này trả về chuỗi". Lợi ích: lỗi kiểu (vd cộng số với chữ, gọi sai tên thuộc tính) bị **bắt ngay lúc gõ code/biên dịch** (*compile-time*) thay vì để người dùng gặp lỗi lúc chạy (*runtime*); cộng thêm IDE gợi ý code chuẩn hơn.
+> - Trình duyệt/Node **không hiểu TS** → phải **biên dịch** (`tsc`) ra JS thường trước khi chạy. Tức TS chỉ "đứng gác" lúc code, chạy thật vẫn là JS.
+> - **Type inference** = TS *tự đoán* kiểu từ ngữ cảnh (`let x = 5` → tự hiểu `number`), nên không phải ghi kiểu cho mọi thứ. Bật `strict: true` để TS bắt lỗi chặt nhất.
+
 ---
 
 ## 1. Khái niệm
@@ -246,6 +251,12 @@ const status: 'active' | 'inactive' = 'active';
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "TypeScript khác JavaScript thế nào, vì sao dùng?"
+> *"TypeScript là một superset có kiểu của JavaScript, nghĩa là mọi code JS hợp lệ đều là TS hợp lệ, và nó thêm hệ thống kiểu tĩnh. Lợi ích lớn nhất là bắt lỗi kiểu ngay lúc compile hoặc lúc đang gõ code thay vì để lỗi xảy ra lúc runtime, ví dụ truyền nhầm kiểu tham số hay gõ sai tên thuộc tính. Ngoài ra IDE hỗ trợ tốt hơn nhiều, autocomplete và refactor an toàn, và bản thân type annotation cũng là tài liệu mô tả dữ liệu. Về runtime thì TypeScript được biên dịch ra JavaScript thuần nên trình duyệt và Node không biết TS tồn tại; nó chỉ giúp ở khâu phát triển."*
+
+> [!note] 🧠 Mẹo nhớ
+> **TS = JS + kiểu, bắt lỗi lúc CODE (compile-time) thay vì lúc CHẠY (runtime).** Phải **biên dịch ra JS** mới chạy. `strict: true`.
 
 **Q1: TypeScript khác gì JavaScript? Tại sao dùng TypeScript?**
 

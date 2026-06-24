@@ -16,6 +16,14 @@ source: [TypeScript Handbook, typescriptlang.org/docs/handbook/2/types-from-type
 > [!summary] TL;DR
 > **Union** (`A | B`) = value có thể là A **hoặc** B. **Intersection** (`A & B`) = value phải thỏa mãn **cả** A **và** B (merge types). **Literal types** giới hạn value về tập hữu hạn. **`keyof T`** lấy union of keys của type T. **`typeof`** ở type level lấy type của một value. **Utility types** (`Partial`, `Required`, `Pick`, `Omit`, `Record`…) là type transformations có sẵn — tránh viết lại boilerplate.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Hai cách ghép kiểu, đọc đúng nghĩa của ký hiệu:
+> - **Union `A | B`** = "**HOẶC**" — giá trị có thể là A *hoặc* B. Ví dụ `string | number` nhận cả chữ lẫn số; `'success' | 'error'` chỉ cho đúng 2 chuỗi đó (**literal type** = giới hạn vào tập giá trị cụ thể).
+> - **Intersection `A & B`** = "**VÀ**" — giá trị phải có *cả* thuộc tính của A *lẫn* B (gộp 2 type lại).
+> - Mẹo nhớ ngược trực giác: `|` (hoặc) cho ra type *rộng hơn* (nhiều khả năng); `&` (và) cho ra type *hẹp hơn* (đòi hỏi nhiều hơn).
+>
+> **Utility types** (`Partial<T>` cho tất cả thành tùy chọn, `Pick`/`Omit` chọn/bỏ field, `Record`...) là các "khuôn biến đổi type" có sẵn — đỡ viết lại bằng tay.
+
 ---
 
 ## 1. Khái niệm
@@ -345,6 +353,12 @@ console.log(devConfig.debug);    // true (override)
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Union vs Intersection?"
+> *"Union viết bằng dấu gạch đứng, nghĩa là hoặc: giá trị có thể là một trong các kiểu liệt kê, ví dụ string hoặc number, hay một literal union như success hoặc error để giới hạn giá trị. Em dùng union khi hàm nhận nhiều loại đầu vào, hoặc khi mô hình hóa các trạng thái. Intersection viết bằng dấu và, nghĩa là phải thỏa tất cả: nó gộp các type lại, giá trị phải có đủ thuộc tính của mọi type thành phần, hay dùng khi compose nhiều type hoặc thêm thuộc tính. Một điểm hay nhầm là union cho ra kiểu rộng hơn vì nhiều khả năng, còn intersection cho ra kiểu hẹp hơn vì đòi hỏi nhiều hơn."*
+
+> [!note] 🧠 Mẹo nhớ
+> **`|` = HOẶC (rộng hơn) · `&` = VÀ (hẹp hơn).** Literal union (`'a' | 'b'`) để giới hạn giá trị. Utility types (`Partial`/`Pick`/`Omit`) = khuôn biến đổi type có sẵn.
 
 **Q1: Union và Intersection types — phân biệt và khi nào dùng?**
 

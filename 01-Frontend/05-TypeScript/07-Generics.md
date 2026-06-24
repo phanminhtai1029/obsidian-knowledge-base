@@ -16,6 +16,12 @@ source: [TypeScript Handbook, typescriptlang.org/docs/handbook/2/generics.html]
 > [!summary] TL;DR
 > **Generics** (`<T>`) là "placeholder type" được điền khi sử dụng — giúp viết code reusable mà vẫn type-safe. **Constraint** `T extends SomeType` giới hạn T phải là subtype của SomeType. **Default type** `<T = string>` dùng khi không truyền type arg. **Conditional types** `T extends U ? X : Y` cho logic type-level. **`infer`** extract type từ conditional. Utility types built-in (`Partial`, `Pick`, `ReturnType`) đều viết bằng generics + mapped types.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Generic = "kiểu để trống điền sau", viết là `<T>`.** Nó giải bài toán: bạn muốn một hàm/lớp dùng được với *nhiều kiểu* mà **vẫn giữ thông tin kiểu** (không phải dùng `any` rồi mất an toàn).
+> - Ví dụ `function first<T>(arr: T[]): T` — `T` là chỗ trống; gọi `first([1,2,3])` thì `T` tự thành `number`, gọi với mảng chuỗi thì `T` thành `string`, và kết quả trả về *đúng kiểu* đó. Ví von: `T` như **biến trong công thức** — thay số nào ra kết quả kiểu nấy.
+> - Không có generic thì hoặc phải viết lại hàm cho từng kiểu, hoặc dùng `any` (mất kiểm tra).
+> - **Constraint** `T extends {...}` = giới hạn `T` phải có dạng gì đó (vd `T extends { id: number }`). Cú pháp nâng cao (`conditional types`, `infer`) chỉ là logic ở tầng kiểu, fresher nắm ý tưởng "kiểu để trống điền sau" là đủ.
+
 ---
 
 ## 1. Khái niệm
@@ -355,6 +361,18 @@ console.log(cache.get('user:1')); // { id: 1, name: 'Alice' }
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Generics giải quyết vấn đề gì? Viết cú pháp mô phỏng."
+> *"Generics cho phép viết hàm hoặc class dùng được với nhiều kiểu mà vẫn giữ được an toàn kiểu, thay vì phải viết lại cho từng kiểu hoặc dùng any và mất kiểm tra. T là một tham số kiểu, như chỗ để trống, được điền khi sử dụng. Ví dụ một hàm trả về phần tử đầu mảng: `function first<T>(arr: T[]): T { return arr[0] }`. Khi em gọi với mảng số thì T thành number và kết quả là number, gọi với mảng chuỗi thì T thành string, TypeScript tự suy ra nên em vừa tái sử dụng vừa giữ đúng kiểu. Có thể giới hạn T bằng constraint, ví dụ T extends có thuộc tính id, để đảm bảo T có dạng cần thiết."*
+>
+> ```typescript
+> function first<T>(arr: T[]): T { return arr[0]; }
+> const n = first([1, 2, 3]);      // T = number → n: number
+> const s = first(["a", "b"]);     // T = string → s: string
+> ```
+
+> [!note] 🧠 Mẹo nhớ
+> **Generic `<T>` = kiểu để trống, điền lúc dùng** → tái sử dụng MÀ vẫn type-safe (thay cho viết lại N lần hoặc `any`). `T extends ...` = giới hạn dạng của T.
 
 **Q1: Generics là gì? Tại sao cần?**
 

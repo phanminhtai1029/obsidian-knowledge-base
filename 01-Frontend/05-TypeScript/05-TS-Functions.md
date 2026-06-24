@@ -16,6 +16,14 @@ source: [TypeScript Handbook, typescriptlang.org/docs/handbook/2/functions.html]
 > [!summary] TL;DR
 > TypeScript annotation cho functions: **parameter types**, **return type** (thường có thể infer), **optional** (`name?: string`), **default** (`age = 18`), **rest** (`...args: string[]`). **Function overloads** cho phép một function có nhiều signatures với behavior khác nhau tùy input. **`void`** là return type cho hàm không return giá trị có nghĩa; **`never`** cho hàm không bao giờ return.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Với hàm, TS cho ghi rõ **kiểu của từng tham số** và **kiểu trả về** (`function add(a: number, b: number): number`). Vài "gia vị":
+> - **`name?: string`** = tham số *tùy chọn* (có thể không truyền → bên trong là `string | undefined`, phải tự kiểm tra).
+> - **`age: number = 18`** = tham số *mặc định* (không truyền thì lấy 18 → bên trong luôn là `number`, khỏi kiểm tra). Thường tiện hơn optional.
+> - **`...args: number[]`** = gom nhiều tham số còn lại vào mảng (rest).
+> - **`void`** = hàm không trả về gì có nghĩa; **`never`** = hàm *không bao giờ trả về* (luôn throw / vòng lặp vô tận).
+> - **Overload** = khai báo *nhiều chữ ký* cho cùng một hàm khi nó cư xử khác nhau tùy kiểu đầu vào.
+
 ---
 
 ## 1. Khái niệm
@@ -350,6 +358,12 @@ console.log(validatePassword('weak'));            // "Tối thiểu 8 ký tự"
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Optional `?` và default parameter khác nhau thế nào?"
+> *"Optional parameter viết với dấu hỏi, ví dụ name hỏi chấm string, nghĩa là có thể không truyền; nhưng bên trong hàm kiểu của nó là string hoặc undefined nên em phải kiểm tra trước khi dùng. Default parameter viết với dấu bằng và một giá trị, ví dụ name bằng chuỗi rỗng, cũng cho phép không truyền, nhưng khi không truyền hoặc truyền undefined thì nó nhận giá trị mặc định, nên bên trong hàm kiểu luôn là string đã xử lý undefined. Em thường ưu tiên default parameter vì khỏi phải check undefined, code gọn và an toàn hơn. Ngoài ra TypeScript còn có function overload để một hàm có nhiều chữ ký tùy kiểu đầu vào."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Optional `name?` → bên trong là `T | undefined` (phải check). Default `name = x` → luôn có giá trị (khỏi check) → ưu tiên dùng.** `void` = không trả gì; `never` = không bao giờ trả.
 
 **Q1: Optional parameter `?` và default parameter khác nhau thế nào?**
 

@@ -15,6 +15,15 @@ source: [TypeScript Handbook, typescriptlang.org/docs/handbook/2/everyday-types.
 > [!summary] TL;DR
 > TypeScript cung cấp đủ types cho mọi giá trị JS: **primitive** (`string`, `number`, `boolean`), **array** (`T[]`), **tuple** (fixed-length typed array), **enum** (named constants). **Special types**: `any` (opt-out checking), `unknown` (type-safe any — phải narrow trước), `never` (unreachable / exhaustive check), `void` (không return). `strictNullChecks: true` bắt buộc handle `null`/`undefined` riêng.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Đây là "bộ nhãn kiểu" cơ bản: `string`, `number`, `boolean`, mảng `number[]`, **tuple** (mảng *cố định độ dài & kiểu từng vị trí*, vd `[string, number]`), **enum** (tập hằng số có tên).
+> **Ba "kiểu đặc biệt" hay ra thi — phân biệt cho rõ:**
+> - **`any`** = "tắt kiểm tra kiểu", muốn làm gì cũng được → **nguy hiểm**, mất hết lợi ích của TS.
+> - **`unknown`** = "chưa biết kiểu nhưng vẫn an toàn": gán gì vào cũng được, *nhưng trước khi dùng phải kiểm tra (narrow) bằng `typeof`/`instanceof`*. Đây là phiên bản *an toàn* của `any`.
+> - **`never`** = "không bao giờ có giá trị" (hàm luôn throw, hoặc nhánh không thể xảy ra).
+>
+> Bật `strictNullChecks` thì `null`/`undefined` phải xử lý riêng (không lẫn vào kiểu khác) → tránh lỗi "cannot read property of undefined".
+
 ---
 
 ## 1. Khái niệm
@@ -310,6 +319,12 @@ console.log(canCancel(order));            // true
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "any vs unknown, vì sao API trả về nên dùng unknown?"
+> *"Cả any và unknown đều nhận được mọi giá trị gán vào, nhưng khác nhau ở mức an toàn. any tắt hoàn toàn type checking, em dùng nó như thế nào cũng được mà không bị cảnh báo, nên rất dễ lọt lỗi, coi như mất lợi ích của TypeScript. unknown thì an toàn hơn: gán gì vào cũng được nhưng trước khi dùng em buộc phải thu hẹp kiểu bằng typeof, instanceof hay type predicate, nếu không TypeScript sẽ báo lỗi. Vì vậy với dữ liệu từ API trả về, em không kiểm soát được hình dạng thật, dùng unknown được coi là best practice: nó ép em phải kiểm tra và ép kiểu cẩn thận trước khi truy cập, tránh giả định sai. Tương tự catch error trong TS mới cũng nên để kiểu unknown."*
+
+> [!note] 🧠 Mẹo nhớ
+> **`any` = tắt kiểm tra (nguy hiểm); `unknown` = an toàn, phải narrow trước khi dùng.** Dữ liệu API/catch → **`unknown`**. `never` = không bao giờ có giá trị.
 
 **Q1: Phân biệt `any` và `unknown`?**
 

@@ -15,6 +15,11 @@ source: [TypeScript Handbook, typescriptlang.org/docs/handbook/decorators.html]
 > [!summary] TL;DR
 > **Decorator** là hàm đặc biệt được gọi để *annotate* hoặc *modify* class, method, property, hoặc parameter. Cú pháp: `@decorator` đặt trước target. Có **2 spec**: **Legacy decorators** (`experimentalDecorators: true`, dùng trong Angular/NestJS) và **ECMAScript Stage 3** (TS 5.0+, không cần flag). Decorator factory cho phép truyền config: `@log({ level: 'verbose' })`. Thứ tự áp dụng: class decorators last, method/property decorators bottom-up.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Decorator = một cái "nhãn dán" `@tên` đặt ngay trên class/method/property để *thêm hành vi* cho nó mà không sửa code bên trong.** Thực chất `@log` là *một hàm* chạy lúc class được định nghĩa, nhận target rồi bọc/ghi chú thêm.
+> - Ví von: như **dán tem "dễ vỡ", "ưu tiên" lên kiện hàng** — bản thân kiện hàng không đổi, nhưng hệ thống xử lý nó khác đi.
+> - Hay gặp ở framework: NestJS/Angular dùng `@Injectable`, `@Controller`; TypeORM dùng `@Entity`, `@Column`. Fresher chỉ cần hiểu *nó là hàm chạy lúc khai báo để thêm logic (log, validate, đánh dấu để inject...)* và **phải bật cấu hình** mới dùng được (`experimentalDecorators` cho bản cũ).
+
 ---
 
 ## 1. Khái niệm
@@ -397,6 +402,12 @@ console.log(calc.factorial(5));  // 120
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Decorator là gì, dùng để làm gì?"
+> *"Decorator là một hàm đặc biệt được gọi lúc class, method hoặc property được định nghĩa, không phải lúc tạo instance. Mình đặt nó bằng cú pháp a còng tên decorator ngay trước mục tiêu, để thêm hoặc thay đổi hành vi mà không phải sửa trực tiếp code bên trong, giống như dán nhãn lên một đối tượng. Công dụng phổ biến gồm logging để bọc method ghi lại lời gọi, validation để kiểm tra tham số, đánh dấu metadata cho dependency injection như trong Angular hay NestJS, và mapping ORM như Entity hay Column trong TypeORM. Nó chính là pattern Decorator trong OOP. Lưu ý có hai spec, bản legacy cần bật experimentalDecorators còn bản chuẩn ECMAScript mới thì TypeScript 5 hỗ trợ sẵn."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Decorator = nhãn `@tên` (một hàm) gắn lên class/method để thêm hành vi, không sửa ruột.** Hay thấy ở NestJS/Angular/TypeORM. Cần bật cấu hình (`experimentalDecorators` cho bản cũ).
 
 **Q1: Decorator là gì trong TypeScript? Dùng để làm gì?**
 

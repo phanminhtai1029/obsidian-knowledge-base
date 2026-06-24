@@ -16,6 +16,14 @@ source: [TypeScript Handbook, typescriptlang.org/docs/handbook/2/classes.html]
 > [!summary] TL;DR
 > **Interface** là contract thuần type — mô tả shape của object, không có implementation. **Class** có cả type và implementation. Access modifiers: `public` (default), `private` (TS-level hoặc `#` JS-level), `protected`, `readonly`. **`implements`** = class thỏa mãn interface contract. **`extends`** = kế thừa từ class/interface khác. **`abstract`** = class không thể instantiate, có method chưa implement.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Interface = "bản hợp đồng mô tả hình dạng object"** — chỉ nói *object phải có những thuộc tính/method gì*, **không** chứa code thực thi. Ví dụ `interface User { name: string; age: number }`. **Class** thì có *cả* mô tả *lẫn* code chạy thật.
+> - **`implements`** = class cam kết *làm đúng* theo hợp đồng interface (thiếu field nào TS báo lỗi).
+> - **Access modifier** (mức truy cập): `public` (ai cũng dùng — mặc định), `private` (chỉ trong class), `protected` (class đó + lớp con), `readonly` (chỉ đọc).
+> - **`abstract`** = class "khuôn mẫu" không tạo instance trực tiếp được, để lớp con kế thừa và hoàn thiện.
+>
+> So với **`type`** (note Union/Intersection): cả hai mô tả shape gần như tương đương; interface hợp cho *hình dạng object & kế thừa*, còn `type` mạnh hơn ở *union/intersection/biến đổi type*.
+
 ---
 
 ## 1. Khái niệm
@@ -438,6 +446,12 @@ class DatabaseService extends BaseService {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Interface vs Type alias, khi nào ưu tiên Interface?"
+> *"Về khả năng mô tả hình dạng object thì hai cái gần như tương đương. Khác biệt chính là interface hỗ trợ declaration merging, tức khai báo cùng tên nhiều lần sẽ được gộp lại, và dùng extends để kế thừa rất tự nhiên; nhưng interface không biểu diễn trực tiếp được union hay intersection. Type alias thì linh hoạt hơn cho các phép type phức tạp: union, intersection, mapped type, template literal type, nhưng không có declaration merging. Quy tắc của em là dùng interface để mô tả shape của object và khi cần kế thừa hoặc khi viết public API của thư viện vì nó merge và extend gọn; còn type alias dùng cho union, intersection và các biến đổi type phức tạp. Trong nhiều team, mặc định object shape thì ưu tiên interface."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Interface = hợp đồng shape object (extends, declaration merging) → ưu tiên cho object/kế thừa.** **Type = linh hoạt cho union/intersection/biến đổi.** `implements` = class theo hợp đồng.
 
 **Q1: Interface và Type Alias khác nhau thế nào?**
 

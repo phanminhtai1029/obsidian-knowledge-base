@@ -16,6 +16,11 @@ source: [TypeScript Handbook, typescriptlang.org/docs/handbook/2/narrowing.html]
 > [!summary] TL;DR
 > **Type narrowing** = TypeScript thu hẹp type trong một block code dựa trên điều kiện. Các guard có sẵn: **`typeof`** cho primitives, **`instanceof`** cho class instances, **`in`** operator cho property existence, equality narrowing (`=== null`). **Discriminated union** dùng `kind`/`type` field để TS tự narrow. **Custom type predicate** (`x is T`) để viết guard phức tạp dùng lại được.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Khi một biến có kiểu union (vd `string | number`), TypeScript *chưa biết chắc* nó là cái nào, nên không cho gọi method riêng. **Type guard = câu kiểm tra giúp TS "thu hẹp" (narrow) lại còn đúng một kiểu** trong nhánh `if` đó, rồi mới cho dùng an toàn.
+> - Ví von: hộp ghi "đồ ăn HOẶC đồ điện tử"; sau khi *mở ra kiểm tra* (`if (typeof x === 'string')`) thì trong nhánh đó TS chắc chắn là đồ ăn → cho thao tác đúng loại.
+> - Các "câu kiểm tra" thường dùng: **`typeof`** (cho string/number/boolean), **`instanceof`** (cho object tạo từ class), **`in`** (kiểm tra có thuộc tính nào đó), so sánh `=== null`. Phức tạp hơn thì viết hàm **type predicate** dạng `function isCat(x): x is Cat`.
+
 ---
 
 ## 1. Khái niệm
@@ -386,6 +391,12 @@ function processForm(email: string) {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Type guard là gì, có những loại nào?"
+> *"Type guard là cách giúp TypeScript thu hẹp kiểu của một biến trong một khối code dựa trên điều kiện kiểm tra. Khi biến có kiểu union, trong nhánh đã kiểm tra TS sẽ biết chắc nó là kiểu nào để cho phép thao tác an toàn. Các loại hay dùng gồm: typeof cho các kiểu nguyên thủy như string number boolean; instanceof cho object tạo từ class; toán tử in để kiểm tra có một thuộc tính nào đó; so sánh bằng để loại null hoặc khớp literal; và truthy narrowing với if. Khi logic phức tạp và muốn tái sử dụng, em viết custom type predicate dạng hàm trả về x is T. Với union có field phân biệt như kind hay type thì gọi là discriminated union, TS tự narrow theo field đó."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Type guard = câu kiểm tra để TS "narrow" union còn 1 kiểu rồi mới cho dùng.** Công cụ: **`typeof` · `instanceof` · `in` · `=== null`** · predicate `x is T`.
 
 **Q1: Type Guard là gì? Liệt kê các loại type guard trong TypeScript.**
 
