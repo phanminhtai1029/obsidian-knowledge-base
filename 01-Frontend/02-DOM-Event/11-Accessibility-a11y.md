@@ -115,6 +115,12 @@ widget.addEventListener("keydown", (e) => {
 
 ## 6. Q&A phỏng vấn
 
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "a11y là gì, khi sinh DOM bằng JS cần lưu ý gì?"
+> *"Accessibility, viết tắt a11y, là làm cho web dùng được với mọi người, kể cả người khuyết tật, ví dụ người khiếm thị dùng screen reader hay người không dùng được chuột. Nó quan trọng vì tính bao trùm, cải thiện trải nghiệm cho tất cả, tốt cho SEO và nhiều nơi còn là yêu cầu pháp lý. Khi sinh DOM bằng JS em chú ý: ảnh có alt, input có label, dùng semantic HTML như header nav main thay cho div, đảm bảo thao tác được bằng bàn phím với tabindex và xử lý phím Enter Space, dùng ARIA role cho widget phức tạp, và đủ tương phản màu. Điểm JS quan trọng nhất là screen reader chỉ đọc phần đang focus, nên khi JS cập nhật nội dung ở chỗ khác, ví dụ thông báo hay kết quả tìm kiếm, em phải đặt vùng đó là aria-live thì screen reader mới đọc tự động."*
+
+> [!note] 🧠 Mẹo nhớ
+> **a11y = web cho MỌI người (cả người khuyết tật).** Checklist khi sinh DOM: **alt, label, semantic HTML, bàn phím (tabindex), ARIA, tương phản.** Nội dung JS đổi động → **`aria-live`** mới được screen reader đọc.
+
 > [!question] 1. Accessibility (a11y) là gì và vì sao quan trọng?
 > Là làm web dùng được với mọi người **kể cả người khuyết tật** (khiếm thị dùng screen reader, người không dùng chuột...). Quan trọng vì tính bao trùm, trải nghiệm tốt hơn cho tất cả, SEO, và thường là yêu cầu pháp lý.
 

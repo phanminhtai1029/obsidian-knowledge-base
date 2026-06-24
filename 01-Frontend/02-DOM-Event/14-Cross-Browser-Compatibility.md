@@ -79,6 +79,12 @@ if ("fetch" in window) {
 
 ## 5. Q&A phỏng vấn
 
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Đảm bảo cross-browser thế nào? Feature detection vs browser sniffing?"
+> *"Cross-browser compatibility là đảm bảo web chạy nhất quán trên nhiều trình duyệt và phiên bản, vì mỗi cái hỗ trợ tính năng và có quirk khác nhau. Em tra Can I Use để biết một tính năng được trình duyệt nào hỗ trợ. Khi code em dùng feature detection, tức kiểm tra tính năng có tồn tại không trước khi dùng, ví dụ kiểm tra fetch in window, thay vì browser sniffing là đoán theo User-Agent. Feature detection đáng tin hơn vì User-Agent dễ giả và trình duyệt mới ra liên tục nên sniffing dễ sai. Với tính năng còn thiếu ở trình duyệt cũ em dùng polyfill để cài thêm API, còn cú pháp JS mới thì dùng Babel transpile về cú pháp cũ."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Cross-browser = chạy nhất quán mọi trình duyệt.** Tra **Can I Use**; dùng **feature detection** (`"fetch" in window`) chứ đừng sniff User-Agent. **Polyfill = thêm API thiếu; transpile (Babel) = đổi cú pháp mới→cũ.**
+
 > [!question] 1. Cross-browser compatibility là gì?
 > Đảm bảo web chạy **nhất quán** trên nhiều trình duyệt và phiên bản khác nhau, vốn có mức hỗ trợ tính năng và "quirk" khác nhau.
 

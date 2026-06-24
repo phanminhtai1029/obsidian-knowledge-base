@@ -15,6 +15,13 @@ source: [MDN, tự bổ sung]
 > [!summary] TL;DR
 > Validate form bằng 2 cách: **JS thuần** (kiểm tra `value` trong `submit` listener + `preventDefault()`) và **HTML5 Constraint Validation API** (`required`, `pattern`, `minlength`, `setCustomValidity()`). Kết hợp cả hai: HTML5 xử lý cơ bản, JS xử lý logic phức tạp. Luôn validate lại phía server — client-side validation chỉ là UX.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Validate form = kiểm tra người dùng nhập đúng chưa trước khi gửi đi** (email có hợp lệ không, mật khẩu đủ dài chưa). Hai mức:
+> - **HTML5 sẵn có**: chỉ cần thêm thuộc tính vào thẻ — `required` (bắt buộc), `type="email"`, `minlength`, `pattern` (regex) — trình duyệt tự chặn và báo. Nhanh, ít code.
+> - **JS thuần**: trong handler `submit`, gọi `e.preventDefault()` (chặn gửi đi), tự kiểm tra `value` rồi hiện lỗi. Dùng khi cần logic phức tạp (mật khẩu nhập lại phải khớp, kiểm tra chéo nhiều ô).
+>
+> **Câu chốt CỰC quan trọng (hay bị hỏi):** validate ở client **chỉ để trải nghiệm tốt** (báo lỗi sớm), **KHÔNG bảo mật** — kẻ xấu bỏ qua được dễ dàng. **Server LUÔN phải validate lại.**
+
 ---
 
 ## 1. Khái niệm
@@ -369,6 +376,12 @@ setupFieldValidation('email', 'emailError', value => {
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Validate phía client có đủ chưa? Khi nào HTML5, khi nào JS?"
+> *"Validate phía client không đủ về mặt bảo mật, nó chỉ để cải thiện trải nghiệm, báo lỗi sớm cho người dùng. Vì client chạy trên trình duyệt nên kẻ xấu có thể bỏ qua hoặc gửi request thẳng, do đó server luôn phải validate lại. Về cách làm, validate đơn giản em ưu tiên HTML5 với các thuộc tính như required, type email, minlength, pattern vì ít code và trình duyệt tự báo. Còn logic phức tạp như mật khẩu nhập lại phải khớp, hay kiểm tra phụ thuộc nhiều ô thì em viết JS trong handler submit, gọi preventDefault để chặn gửi mặc định rồi tự kiểm tra và hiện lỗi. Thường em kết hợp cả hai, HTML5 lo cơ bản, JS lo phần khó."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Client validate = UX (báo lỗi sớm), KHÔNG phải bảo mật → server LUÔN validate lại.** Đơn giản dùng **HTML5** (`required`/`pattern`), phức tạp dùng **JS** (`preventDefault` + check tay).
 
 **Q1: Giải thích `preventDefault()` trong context form submit?**
 

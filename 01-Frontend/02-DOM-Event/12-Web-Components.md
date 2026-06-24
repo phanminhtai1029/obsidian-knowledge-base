@@ -111,6 +111,12 @@ document.body.appendChild(clone);             // giờ mới render
 
 ## 6. Q&A phỏng vấn
 
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Web Components là gì, gồm những phần nào?"
+> *"Web Components là chuẩn của trình duyệt cho phép tạo thẻ HTML tái sử dụng của riêng mình mà không cần framework. Nó gồm ba phần. Custom Elements là định nghĩa thẻ riêng bằng một class kế thừa HTMLElement rồi đăng ký với customElements.define, tên thẻ bắt buộc có dấu gạch ngang. Shadow DOM là một DOM ẩn gắn vào phần tử để đóng gói style và cấu trúc, giúp style bên trong không rò rỉ ra ngoài và không bị global đè, giống scoped CSS native. HTML Template là khối markup trong thẻ template, được parse sẵn nhưng chưa render cho tới khi clone ra dùng. So với React hay Vue thì Web Components chạy thuần trình duyệt nhưng hệ sinh thái về state và data binding yếu hơn."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Web Components = thẻ HTML tự chế, chuẩn trình duyệt.** 3 phần: **Custom Elements** (thẻ riêng) + **Shadow DOM** (đóng gói style, không rò rỉ) + **Template** (markup chờ clone).
+
 > [!question] 1. Web Components gồm những gì?
 > 3 phần: **Custom Elements** (thẻ riêng), **Shadow DOM** (đóng gói style/cấu trúc), **HTML Templates** (markup parse sẵn, render khi clone). Là chuẩn trình duyệt, không cần framework.
 

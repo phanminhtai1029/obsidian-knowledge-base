@@ -15,6 +15,11 @@ source: [Javascript.docx]
 > [!summary] TL;DR
 > Render list dùng `createElement` + `appendChild`/`DocumentFragment`. Render table chuyên dụng: `createTHead()`, `createTBody()`, `insertRow(-1)`, `insertCell()`. Khi render từ mảng JSON, dùng `DocumentFragment` hoặc `replaceChildren()` để giảm reflow — append toàn bộ fragment 1 lần thay vì từng item.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Đây là việc cực hay gặp: **có một mảng dữ liệu (từ API) → biến thành danh sách/bảng trên màn hình.** Cách làm: lặp qua mảng, mỗi phần tử *tạo* một thẻ (`<li>`/`<tr>`), *đổ* dữ liệu vào (`textContent`), rồi *gắn* vào trang.
+> - **Mẹo quan trọng (ra thi về hiệu năng):** đừng gắn từng item trực tiếp lên màn hình trong vòng lặp (mỗi lần gắn trình duyệt phải tính lại layout = chậm). Hãy gom hết vào **`DocumentFragment`** (khay nháp ngoài màn hình) rồi gắn **một lần** — chỉ một lần cập nhật layout.
+> - Riêng bảng có API tắt: `table.createTBody()`, `tbody.insertRow(-1)`, `row.insertCell()` — gọn và ít lỗi hơn tự `createElement('tr')`.
+
 ---
 
 ## 1. Khái niệm
@@ -354,6 +359,12 @@ table.addEventListener('click', (e) => {
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Render danh sách lớn từ mảng JSON sao cho hiệu quả?"
+> *"Em lặp qua mảng và với mỗi phần tử thì tạo thẻ bằng createElement, gán dữ liệu bằng textContent cho an toàn. Điểm mấu chốt về hiệu năng là không append từng thẻ trực tiếp vào DOM trong vòng lặp, vì mỗi lần như vậy trình duyệt có thể phải reflow. Thay vào đó em append vào một DocumentFragment nằm ngoài cây hiển thị, rồi append cả fragment vào DOM một lần, chỉ tốn một lần cập nhật layout. Với bảng em dùng API chuyên dụng như createTBody, insertRow và insertCell cho gọn. Nếu cần render lại toàn bộ thì replaceChildren tiện hơn xóa thủ công."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Mảng → lặp → tạo/đổ/gắn.** Nhiều item → **gom `DocumentFragment` rồi gắn 1 lần** (đỡ reflow). Bảng: `createTBody`/`insertRow(-1)`/`insertCell`.
 
 **Q1: DocumentFragment là gì? Khi nào dùng?**
 
