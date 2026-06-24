@@ -13,7 +13,7 @@ source: [MDN, YDKJS]
 # JavaScript Closure
 
 > [!summary] TL;DR
-> **Closure** = function + lexical environment nơi nó được định nghĩa. Inner function "đóng gói" (close over) các biến của outer scope, giữ chúng sống ngay cả khi outer function đã return xong. Ứng dụng thực tế: counter, module pattern, partial application, data encapsulation, mô phỏng useState.
+> **Closure** = một hàm **cộng với** "bộ nhớ biến" của nơi nó được viết ra trong code (thuật ngữ gọi là *lexical environment* — hiểu nôm na: **tập hợp các biến ở khu vực bao quanh hàm tại thời điểm hàm được định nghĩa**). Hàm con "ôm theo" (close over = đóng gói) các biến của hàm cha bao ngoài (outer scope = phạm vi bên ngoài), và **giữ cho các biến đó sống** ngay cả khi hàm cha đã chạy xong và return. Ứng dụng thực tế: bộ đếm (counter), module pattern (giấu biến riêng tư), partial application (cố định sẵn một phần tham số), đóng gói dữ liệu, mô phỏng `useState`.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > Tưởng tượng một hàm khi "sinh ra" được phát cho **một chiếc ba lô**. Trong ba lô đựng tất cả biến ở nơi nó được viết ra (outer scope). Dù sau này hàm đi đâu, chạy lúc nào, **nó vẫn đeo ba lô đó và lấy đồ trong đó ra dùng** — kể cả khi hàm cha (nơi sinh ra nó) đã chạy xong từ lâu.

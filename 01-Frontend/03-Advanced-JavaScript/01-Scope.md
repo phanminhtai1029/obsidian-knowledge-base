@@ -14,7 +14,7 @@ source: [MDN, YDKJS]
 # JavaScript Scope
 
 > [!summary] TL;DR
-> **Scope** xác định nơi một biến có thể được truy cập. JS có 3 loại: **Global** (toàn chương trình), **Function** (`var` khai báo trong function), **Block** (`let`/`const` bên trong `{}`). **Scope chain** — khi không tìm thấy biến, JS leo lên scope cha cho đến Global; nếu không có thì `ReferenceError`.
+> **Scope** (phạm vi) = vùng mà một biến có thể được nhìn thấy / dùng được. JS có 3 loại: **Global** (toàn cục — dùng ở mọi nơi trong chương trình), **Function** (biến khai báo bằng `var` chỉ sống trong hàm chứa nó), **Block** (biến `let`/`const` chỉ sống trong cặp ngoặc nhọn `{}` như của `if`/`for`). **Scope chain** (chuỗi phạm vi) = khi không tìm thấy biến ở chỗ hiện tại, JS "leo" dần ra vùng bao ngoài cho tới global; vẫn không thấy thì báo lỗi `ReferenceError` (lỗi "biến không tồn tại").
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **Scope = "phạm vi nhìn thấy" của một biến** — biến này ở đâu thì gọi được, ra khỏi đó là "không quen biết". Hình dung như **các phòng lồng nhau trong một tòa nhà**: đứng trong phòng nhỏ (block/function) bạn nhìn ra hành lang và sảnh lớn (scope cha, global) được; nhưng đứng ngoài sảnh thì **không nhìn vào trong phòng đóng cửa** được. Khi cần một biến, JS tìm trong phòng hiện tại trước, không thấy thì mở cửa đi ra ngoài tìm tiếp (scope chain) — đến tận sảnh lớn (global) vẫn không thấy thì báo lỗi `ReferenceError`.

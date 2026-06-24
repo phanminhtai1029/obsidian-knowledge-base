@@ -14,7 +14,7 @@ source: [React.docx, react.dev]
 # React: State với useState
 
 > [!summary] TL;DR
-> **State** là dữ liệu thay đổi theo thời gian — khi state thay đổi, React **re-render** component đó và tất cả children. `useState` trả về tuple `[value, setter]` qua **array destructuring**. `setter(newValue)` thay thế state hoàn toàn — không merge như `setState` của class. **Lift state up**: đưa state lên ancestor chung khi nhiều components cần dùng cùng state. **`useReducer`** thay thế `useState` khi state phức tạp, nhiều transitions liên quan nhau.
+> **State** là dữ liệu "trí nhớ" của component, thay đổi theo thời gian — khi state đổi, React **re-render** (vẽ lại) component đó và các component con. `useState` trả về một cặp `[giá trị, hàm-đổi-giá-trị]` mà ta lấy ra bằng array destructuring: `const [count, setCount] = useState(0)`. Gọi `setCount(giá-trị-mới)` sẽ **thay thế hoàn toàn** state (không tự gộp/merge như `setState` của class component cũ). **Lift state up** ("nâng state lên") = đưa state lên component cha chung khi nhiều component cần dùng chung. **`useReducer`** dùng thay `useState` khi state phức tạp, có nhiều kiểu thay đổi (transitions) liên quan nhau.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **State = "trí nhớ" của component.** `props` là thứ *cha đưa cho* (không sửa được), còn `state` là thứ *component tự giữ và tự đổi*. Mỗi khi state đổi, React **vẽ lại (re-render)** component đó để màn hình khớp dữ liệu mới. `useState(0)` đưa cho bạn 2 thứ: **giá trị hiện tại** + **cái nút để đổi nó** → `const [count, setCount] = useState(0)`.

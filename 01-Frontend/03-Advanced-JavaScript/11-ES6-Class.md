@@ -13,7 +13,7 @@ source: [MDN]
 # ES6: Class
 
 > [!summary] TL;DR
-> ES6 Class là **syntactic sugar** trên prototype-based inheritance — không phải OOP kiểu Java/C#. `constructor()` khởi tạo instance. `extends` kế thừa, `super()` gọi constructor cha. `static` methods thuộc class, không phải instance. `#privateField` (ES2022) tạo private fields thực sự.
+> ES6 Class là **syntactic sugar** (lớp áo cú pháp cho dễ đọc) đặt lên cơ chế **kế thừa qua prototype** sẵn có của JS — *không* phải OOP class thuần như Java/C#. `constructor()` = hàm chạy khi tạo đối tượng mới (instance) bằng `new`. `extends` = kế thừa (lớp con dùng lại lớp cha), `super()` = gọi constructor của lớp cha. `static` method = thuộc về *class* chứ không thuộc *instance* (gọi `ClassName.method()`). `#privateField` (từ 2022) = thuộc tính *thật sự riêng tư*, bên ngoài không truy cập được.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **Class = một "khuôn bánh", còn object tạo ra (`new`) là "cái bánh".** Khuôn định nghĩa cái bánh sẽ có gì (`constructor` đổ nguyên liệu) và làm được gì (`method`); mỗi lần `new` là đúc ra một cái bánh riêng với dữ liệu riêng.

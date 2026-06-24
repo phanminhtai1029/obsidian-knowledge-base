@@ -13,7 +13,7 @@ source: [javascript.info, MDN, loupe.latentflip.com]
 # Event Loop
 
 > [!summary] TL;DR
-> Event Loop là cơ chế giúp JS single-threaded có thể xử lý async. **Call Stack** chạy code sync. **Web APIs** xử lý async ops (timer, fetch). Khi xong, callback vào **Microtask Queue** (Promise.then) hoặc **Task Queue** (setTimeout). **Event Loop** liên tục kiểm tra: Stack rỗng? → drain hết Microtask Queue → lấy 1 task từ Task Queue. **Microtask luôn ưu tiên cao hơn Macrotask.**
+> Event Loop (vòng lặp sự kiện) là cơ chế giúp JS đơn luồng vẫn xử lý được bất đồng bộ. **Call Stack** (ngăn xếp lệnh) chạy code đồng bộ (sync = tuần tự, chờ nhau). **Web APIs** (chức năng của trình duyệt, chạy ngoài JS) lo các việc chậm như timer, `fetch`. Khi xong, callback được xếp vào một trong hai hàng chờ: **Microtask Queue** (hàng ưu tiên cao — chứa `Promise.then`) hoặc **Task Queue / Macrotask** (hàng thường — chứa `setTimeout`). **Event Loop** liên tục kiểm tra: Call Stack rỗng chưa? → nếu rỗng thì **chạy hết** (drain) hàng Microtask trước → rồi mới lấy **1** việc từ hàng Macrotask. **Microtask luôn được ưu tiên hơn Macrotask** (nên `Promise.then` chạy trước `setTimeout(…, 0)`).
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > JS chỉ có **một người làm việc** (single-threaded — một luồng). Vậy sao nó vừa gọi API mất 2 giây vừa không "đơ" màn hình? Bí quyết: **việc nào chờ lâu (timer, gọi mạng) thì giao cho "trợ lý" bên ngoài** (Web API của trình duyệt) làm hộ, người làm chính tiếp tục chạy code khác. Khi trợ lý xong, kết quả được **xếp hàng chờ**; người làm chính làm xong việc trước mắt thì mới quay lại lấy từ hàng chờ ra xử lý.

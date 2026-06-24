@@ -13,7 +13,7 @@ source: [MDN]
 # ES6: Template Literals
 
 > [!summary] TL;DR
-> Template literals dùng backtick (`` ` ``) thay dấu nháy. Hỗ trợ **string interpolation** (`${expression}`), **multiline strings** (không cần `\n`), và **tagged templates** (hàm xử lý string — nền tảng của styled-components, gql). Biểu thức trong `${}` có thể là bất kỳ JS expression nào.
+> Template literals (chuỗi mẫu) dùng dấu backtick (`` ` ``) thay cho dấu nháy `'`/`"`. Hỗ trợ: **string interpolation** (chèn biến/biểu thức vào chuỗi qua `${...}`), **multiline strings** (viết chuỗi nhiều dòng mà không cần ký tự xuống dòng `\n`), và **tagged templates** (đặt một *hàm* ngay trước backtick để xử lý chuỗi — đây là nền tảng của styled-components và GraphQL `gql`). Trong `${...}` đặt được bất kỳ **expression** nào (biểu thức có giá trị: biến, phép tính, gọi hàm, ternary).
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **Template literal = chuỗi "thông minh" viết bằng backtick `` ` `` thay vì nháy `'`/`"`.** Thay vì cộng chuỗi lỉnh kỉnh `'Chào ' + name + ', ' + age + ' tuổi'`, bạn viết thẳng `` `Chào ${name}, ${age} tuổi` `` — phần `${...}` là "ô điền" mà JS tự thay bằng giá trị. Ví von như **mẫu thư có chỗ trống điền tên khách hàng**.

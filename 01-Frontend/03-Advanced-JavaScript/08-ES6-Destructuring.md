@@ -13,7 +13,7 @@ source: [MDN]
 # ES6: Destructuring
 
 > [!summary] TL;DR
-> Destructuring cho phép **unpack** giá trị từ array/object vào biến riêng lẻ. **Array destructuring** theo vị trí (index). **Object destructuring** theo tên key — có thể đổi tên (`{name: alias}`), đặt default (`{age = 18}`), và lồng sâu. Dùng rất nhiều trong React (props, useState, useEffect deps).
+> Destructuring (phép "tháo gói") cho phép **lấy giá trị từ array/object ra các biến riêng lẻ** (unpack = mở gói) trong một dòng. **Array destructuring** lấy theo **vị trí** (thứ tự index). **Object destructuring** lấy theo **tên key** — có thể đổi tên biến (`{name: alias}`), đặt giá trị mặc định (`{age = 18}` — nếu thiếu thì dùng 18), và tháo lồng nhiều tầng. Dùng rất nhiều trong React (props, `useState`, dependency của `useEffect`).
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **Destructuring = "mở hộp lấy đồ ra cho gọn".** Thay vì viết `const name = user.name; const age = user.age;` lặp đi lặp lại, bạn viết một dòng `const { name, age } = user` — JS tự lấy đúng món bỏ vào biến cùng tên.

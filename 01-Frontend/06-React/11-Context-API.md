@@ -14,7 +14,7 @@ source: [react.dev/learn/passing-data-deeply-with-context]
 # React: Context API
 
 > [!summary] TL;DR
-> **Context** giải quyết **prop drilling** — truyền data qua nhiều cấp component trung gian không cần dùng data đó. 3 bước: (1) `createContext(defaultValue)` tạo context, (2) `<Context.Provider value={...}>` wrap subtree cần access, (3) `useContext(Context)` đọc giá trị trong component con. **Context không phải state management** — nó chỉ là channel phân phối giá trị. State (useState/useReducer) vẫn cần nằm ở đâu đó.
+> **Context** giải quyết **prop drilling** (cảnh phải "chuyền tay" một prop xuống qua nhiều tầng component trung gian dù chúng không dùng tới). 3 bước: (1) `createContext(giáTrịMặcĐịnh)` tạo context, (2) `<Context.Provider value={...}>` bọc nhánh cây cần dùng (Provider = nơi "phát" giá trị), (3) `useContext(Context)` để component con bất kỳ **đọc thẳng** giá trị. **Context không phải công cụ quản lý state** — nó chỉ là *đường ống phân phối* giá trị; state thật vẫn nằm ở `useState`/`useReducer` đâu đó.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **Prop drilling** = phải "chuyền tay" một món đồ qua 5 người chỉ để đưa cho người cuối, dù 4 người ở giữa chẳng dùng tới. Trong React là truyền 1 prop xuống qua nhiều tầng component trung gian không cần nó — mệt và dễ sai.

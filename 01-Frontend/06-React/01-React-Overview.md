@@ -13,7 +13,7 @@ source: [React.docx, react.dev]
 # React: Tổng quan
 
 > [!summary] TL;DR
-> **React** là JavaScript **library** (không phải framework) do Facebook tạo ra, open source năm 2013, dùng để build **UI theo kiến trúc component**. Cơ chế hoạt động: JSX → React Elements → **Virtual DOM** → diff với real DOM → chỉ update những gì thay đổi. Khởi tạo project: `npm create vite@latest my-app -- --template react`. **React 19** giới thiệu React Compiler tự động optimize, không cần `useMemo`/`useCallback` thủ công.
+> **React** là một **library** (thư viện — tập hàm/công cụ bạn gọi khi cần, khác **framework** là bộ khung lo sẵn nhiều thứ và "gọi ngược" code bạn) của Facebook, mã nguồn mở từ 2013, dùng để dựng **giao diện (UI) bằng các component** (khối UI tái dùng được như mảnh lego). Cơ chế: JSX → React Elements (mô tả UI) → **Virtual DOM** (bản sao giao diện bằng JS, nhẹ) → **diff** (so sánh bản cũ và mới) với DOM thật → chỉ cập nhật đúng phần thay đổi. Khởi tạo: `npm create vite@latest my-app -- --template react`. **React 19** có React Compiler tự tối ưu, giảm nhu cầu dùng `useMemo`/`useCallback` thủ công.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > React là **thư viện** giúp bạn xây giao diện bằng các **"khối lego" tái dùng được** gọi là *component*. Thay vì tự tay ra lệnh sửa từng chỗ trên trang (Vanilla JS: *"tìm thẻ này, đổi chữ kia"* — gọi là *imperative*), với React bạn chỉ **mô tả "giao diện nên trông thế nào ứng với dữ liệu hiện tại"**, còn việc cập nhật màn hình để React lo (gọi là *declarative*).

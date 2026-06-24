@@ -14,7 +14,7 @@ source: [React.docx, react.dev]
 # React: JSX, List & Conditional Rendering
 
 > [!summary] TL;DR
-> **JSX** là JavaScript XML — cú pháp sugar cho `React.createElement`. Quy tắc: một root element (hoặc Fragment `<>...</>`), dùng `className` thay `class`, `htmlFor` thay `for`, camelCase cho attributes. **List**: dùng `.map()` để render array, mỗi item **bắt buộc** có `key` prop duy nhất và ổn định (không dùng index nếu list có thể thay đổi thứ tự). **Conditional**: ternary `? :` cho if/else, `&&` cho if-only, early return cho phức tạp hơn.
+> **JSX** (JavaScript XML) = cú pháp cho viết "HTML" ngay trong JS; thực chất là lớp áo cho lời gọi `React.createElement`. Quy tắc: mỗi component trả về **một thẻ gốc** (hoặc bọc bằng Fragment `<>...</>`); viết `className` thay `class`, `htmlFor` thay `for`; tên thuộc tính dùng camelCase (vd `onClick`). **List** (danh sách): dùng `.map()` để render một mảng ra nhiều phần tử, mỗi phần tử **bắt buộc** có `key` (mã định danh) duy nhất và ổn định — **đừng dùng index** nếu danh sách có thể đổi thứ tự/xóa chèn. **Conditional** (hiển thị có điều kiện): `? :` (ternary) cho if/else, `&&` cho "chỉ hiện khi đúng", hoặc `return` sớm cho trường hợp phức tạp.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **JSX = viết "HTML" ngay trong JavaScript.** Thực chất mỗi thẻ JSX bị dịch thành một lời gọi hàm trả về object, nên trong dấu `{}` bạn chỉ nhét được **biểu thức có giá trị** (biến, phép tính, ternary) — không nhét được `if`/`for`. Và vì `class` là từ khóa JS nên phải viết `className`.

@@ -13,7 +13,7 @@ source: [MDN]
 # ES6: Arrow Function
 
 > [!summary] TL;DR
-> Arrow function (`=>`) là cú pháp ngắn gọn cho function. Điểm khác biệt quan trọng nhất: **không có `this` riêng** — `this` được kế thừa từ outer lexical scope (lexical `this`). Không có `arguments` object, không dùng làm constructor. Thích hợp cho callbacks, array methods; không thích hợp cho object methods cần `this`.
+> Arrow function (hàm mũi tên `=>`) là cách viết hàm ngắn gọn. Khác biệt quan trọng nhất: **không có `this` riêng** — `this` của arrow chính là `this` của vùng code bao quanh **nơi nó được viết ra** (gọi là *lexical `this`* — `this` cố định theo vị trí viết trong code, không đổi theo cách gọi). Arrow cũng **không có** đối tượng `arguments` (danh sách tham số tự động) và **không** dùng làm constructor (hàm khởi tạo cho `new`) được. Hợp cho callbacks và các method của mảng (`map`/`filter`); KHÔNG hợp làm method của object khi cần `this` trỏ vào object đó.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > `this` là "ai đang gọi tôi". Với **function thường**, `this` thay đổi tùy *cách gọi* — gọi kiểu `obj.method()` thì `this` là `obj`, nhưng tách method ra làm callback thì `this` "mất chủ", thành `undefined`/`window`. Đây là nguồn bug `this` kinh điển.

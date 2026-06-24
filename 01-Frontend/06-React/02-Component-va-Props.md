@@ -13,7 +13,7 @@ source: [React.docx, react.dev]
 # React: Component & Props
 
 > [!summary] TL;DR
-> **Component** là function trả về JSX — building block của React app. **Props** là dữ liệu truyền từ parent xuống child qua attributes (giống HTML attributes nhưng là JS). Props là **read-only**: child không được thay đổi props nhận vào. **Destructuring** props trong parameter: `function Card({ title, count })`. **`children`** là prop đặc biệt chứa JSX lồng bên trong. Đặt tên component **PascalCase** (không thể viết thường — React sẽ coi là HTML tag).
+> **Component** là một hàm trả về JSX — viên gạch xây nên app React (building block). **Props** (properties = thuộc tính) là dữ liệu truyền từ component cha (parent) xuống con (child), viết giống thuộc tính HTML nhưng giá trị là JS. Props **read-only** (chỉ đọc): con **không được sửa** props nhận vào. Thường **destructuring** (tháo gói) props ngay ở tham số: `function Card({ title, count })`. **`children`** là prop đặc biệt = phần JSX đặt *giữa* cặp thẻ `<Card>...</Card>`. Tên component viết **PascalCase** (Hoa chữ đầu mỗi từ); viết thường thì React tưởng là thẻ HTML.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **Component = một hàm nhận "nguyên liệu" và trả về "giao diện".** Giống công thức nấu ăn: đưa nguyên liệu khác nhau (props) ra món khác nhau. `<UserCard name="Alice" />` chính là *gọi hàm* `UserCard` với `name = "Alice"`.

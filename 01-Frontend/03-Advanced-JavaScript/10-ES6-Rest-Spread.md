@@ -13,7 +13,7 @@ source: [MDN]
 # ES6: Rest & Spread Operator
 
 > [!summary] TL;DR
-> Cả hai đều dùng `...` nhưng ngược nhau: **Rest** (`...params` trong function/destructuring) — **gom** nhiều giá trị vào 1 mảng. **Spread** (`...arr` khi gọi function/tạo array/object) — **trải** iterable ra thành các giá trị riêng lẻ. Spread tạo **shallow copy** — không deep clone.
+> Cùng ký hiệu `...` nhưng làm hai việc ngược nhau: **Rest** (ở tham số hàm hoặc vế trái destructuring) — **gom** nhiều giá trị lẻ lại thành 1 mảng. **Spread** (khi gọi hàm, hoặc tạo array/object) — **trải** một iterable (thứ duyệt được như mảng, chuỗi) ra thành các giá trị riêng lẻ. Phân biệt theo vị trí: "nhận thì gom, dùng thì trải". Lưu ý: spread chỉ tạo **shallow copy** (sao chép *nông* — chỉ copy tầng ngoài cùng; object/array lồng bên trong vẫn dùng chung), **không** phải deep clone (sao chép *sâu* — độc lập hoàn toàn, dùng `structuredClone()`).
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > Cùng dấu `...` nhưng làm hai việc ngược nhau, phân biệt theo **vị trí**:

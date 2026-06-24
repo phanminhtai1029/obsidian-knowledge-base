@@ -13,7 +13,7 @@ source: [javascript.info, MDN]
 # Async JavaScript: Tổng quan
 
 > [!summary] TL;DR
-> JavaScript là **single-threaded** — chỉ có 1 call stack, không thể làm 2 việc cùng lúc. **Async** cho phép defer các tác vụ chậm (network, timer, I/O) để không block UI thread. Ba pattern tiến hóa: **Callback** → **Promise** → **async/await**, mỗi cái giải quyết nhược điểm của cái trước.
+> JavaScript là **single-threaded** (đơn luồng — chỉ có một "người làm việc", một call stack = ngăn xếp lệnh đang chạy), nên không thể tự làm 2 việc cùng lúc. **Async** (bất đồng bộ) cho phép **hoãn lại** (defer) các tác vụ chậm (gọi mạng/network, hẹn giờ/timer, đọc-ghi/I/O) để không **làm treo giao diện** (block UI thread = chặn luồng vẽ màn hình). Ba cách viết, tiến hóa dần và cái sau sửa nhược điểm cái trước: **Callback** → **Promise** → **async/await**.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > JS như **một thu ngân duy nhất** trong cửa hàng (single-threaded — một luồng). Nếu khách yêu cầu món phải *chờ lâu* (gọi API, đợi timer) mà thu ngân đứng chờ cùng, thì **cả hàng dài phía sau bị kẹt** — đó là *blocking* (đồng bộ). **Async** là cách thu ngân nói "việc chờ lâu để hệ thống lo, mời khách tiếp theo" rồi quay lại xử lý khi món sẵn sàng — hàng không kẹt.

@@ -13,7 +13,7 @@ source: [MDN, javascript.info]
 # Async/Await
 
 > [!summary] TL;DR
-> **`async function`** luôn trả về Promise. **`await`** tạm dừng async function tại chỗ, đợi Promise resolve, rồi tiếp tục — trông như sync nhưng **không block** main thread. Xử lý lỗi với `try/catch`. **Sequential** (từng `await` một) vs **Parallel** (`Promise.all` + `await`) — chọn đúng để tránh mất hiệu năng. **Top-level await** (ES2022) dùng được ở module scope mà không cần wrap.
+> **`async function`** (hàm bất đồng bộ) luôn trả về một Promise. **`await`** = "đợi" — tạm dừng hàm async ngay tại dòng đó, chờ Promise hoàn tất (resolve = trả kết quả) rồi mới chạy tiếp; trông như code tuần tự (sync) nhưng **không làm treo** luồng chính (main thread). Bắt lỗi bằng `try/catch` (thay cho `.catch()`). Phân biệt **Sequential** (tuần tự — `await` lần lượt từng cái, cộng dồn thời gian) vs **Parallel** (song song — `await Promise.all([...])`, chạy cùng lúc): việc độc lập thì nên song song để khỏi chậm. **Top-level await** (từ 2022) = dùng `await` thẳng ở cấp module mà không cần bọc trong hàm async.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **`async/await` = cách viết code "chờ đợi" mà nhìn như code thường, khỏi lồng `.then()`.** `await` nghĩa là *"đứng đây đợi cái này xong rồi mới đi tiếp"* — nhưng **chỉ đợi trong hàm này thôi**, phần còn lại của trang vẫn chạy bình thường (không treo UI).

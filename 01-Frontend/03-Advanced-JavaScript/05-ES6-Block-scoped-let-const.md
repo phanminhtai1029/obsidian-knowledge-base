@@ -13,7 +13,7 @@ source: [MDN]
 # ES6: let và const (Block Scoping)
 
 > [!summary] TL;DR
-> `let` và `const` (ES2015) giải quyết 2 vấn đề của `var`: **không có block scope** và **hoisting bất ngờ**. `const` — không thể reassign (nhưng object/array bên trong vẫn mutable). `let` — cho phép reassign. Quy tắc thực hành: luôn dùng `const` mặc định, `let` khi cần, không dùng `var`.
+> `let` và `const` (ra mắt năm 2015) sửa 2 nhược điểm của `var`: `var` **không có block scope** (không bị giới hạn trong cặp `{}`) và **hoisting bất ngờ** (đọc trước khai báo ra `undefined` gây bug âm thầm). `const` — **không gán lại được** (reassign = trỏ biến sang giá trị khác), nhưng nếu là object/array thì nội dung bên trong vẫn **sửa được** (mutable). `let` — **gán lại được**. Quy tắc thực hành: mặc định dùng `const`, cần gán lại mới dùng `let`, không dùng `var`.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > Ví von **`const` như dán nhãn tên cố định lên một chiếc hộp**: bạn không được lấy nhãn dán sang hộp khác (không reassign), nhưng **đồ bên trong hộp vẫn thêm/bớt được** (`obj.key = ...`, `arr.push(...)` vẫn chạy). `let` thì nhãn gỡ ra dán hộp khác được (reassign). `var` là kiểu cũ, vừa thiếu kỷ luật vừa hay gây bug.

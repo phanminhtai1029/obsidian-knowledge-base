@@ -13,7 +13,7 @@ source: [MDN, YDKJS]
 # JavaScript Hoisting
 
 > [!summary] TL;DR
-> **Hoisting** — JS engine di chuyển khai báo lên đầu scope trước khi chạy code. `var` được hoist và init thành `undefined`. `function declaration` được hoist hoàn toàn (gọi được trước khi khai báo). `let`/`const` được hoist nhưng ở **TDZ** (Temporal Dead Zone) — truy cập trước khai báo → `ReferenceError`.
+> **Hoisting** ("kéo lên") = trước khi chạy, JS engine **đăng ký trước tên** các biến/hàm ở đầu phạm vi (nên trông như khai báo được kéo lên đầu). `var` được đăng ký và gán tạm `undefined` (đọc trước khi khai báo ra `undefined`, không lỗi). `function declaration` (hàm khai báo dạng `function foo(){}`) được kéo lên **đầy đủ cả thân hàm** → gọi được trước dòng khai báo. `let`/`const` cũng được đăng ký nhưng nằm trong **TDZ** (Temporal Dead Zone — "vùng chết tạm thời": khoảng từ đầu phạm vi đến dòng khai báo, đụng vào là lỗi) → truy cập trước khai báo sẽ `ReferenceError`.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > Trước khi chạy, JS **đọc lướt qua code một lượt để "điểm danh" tên các biến/hàm** rồi mới chạy thật. Vì đã điểm danh trước, một số tên "có vẻ như được kéo lên đầu" — đó là hoisting. Ví von: như giáo viên **điểm danh cả lớp đầu giờ** (biết có những ai) rồi mới bắt đầu gọi từng người làm bài (gán giá trị).

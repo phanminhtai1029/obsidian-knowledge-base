@@ -14,7 +14,7 @@ source: [MDN, javascript.info]
 # Promise
 
 > [!summary] TL;DR
-> **Promise** là object đại diện cho một giá trị **chưa có** nhưng sẽ có trong tương lai (hoặc thất bại). 3 trạng thái: **pending → fulfilled / rejected** (không thể quay lại). Dùng `.then()` xử lý thành công, `.catch()` xử lý lỗi, `.finally()` chạy dù kết quả nào. **Promise.all** parallel + fail-fast, **Promise.allSettled** chờ hết không fail-fast, **Promise.race** lấy cái xong đầu tiên, **Promise.any** lấy cái fulfilled đầu tiên.
+> **Promise** ("lời hứa") là một object đại diện cho **một giá trị chưa có ngay** nhưng sẽ có trong tương lai (hoặc sẽ thất bại) — như tờ phiếu hẹn lấy đồ. 3 trạng thái: **pending** (đang chờ) → **fulfilled** (thành công, có giá trị) / **rejected** (thất bại, có lý do); đã chốt thì **không quay lại được**. Dùng `.then()` để xử lý khi thành công, `.catch()` khi lỗi, `.finally()` chạy dù kết quả nào. 4 hàm gộp: **Promise.all** (chạy song song, *fail-fast* = một cái lỗi là bỏ hết), **Promise.allSettled** (chờ tất cả xong, không fail-fast), **Promise.race** (lấy cái xong **trước** nhất, kể cả lỗi), **Promise.any** (lấy cái **thành công** đầu tiên).
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **Promise = "tờ phiếu hẹn lấy đồ".** Giống khi bạn gửi áo ở tiệm giặt: họ đưa **một tờ phiếu** thay cho cái áo (kết quả chưa có ngay). Cầm phiếu này bạn vẫn đi làm việc khác; lúc nào áo xong, phiếu "đổi" được thành áo (`.then`) — hoặc tiệm báo *làm hỏng rồi* (`.catch`).

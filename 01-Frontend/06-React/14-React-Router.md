@@ -14,7 +14,7 @@ source: [reactrouter.com/en/main]
 # React Router v6
 
 > [!summary] TL;DR
-> **React Router v6**: `<BrowserRouter>` wrap app, `<Routes>` chứa tất cả route, `<Route path="..." element={<Component />}>`. **Nested routes** với `<Outlet>` — parent layout render, children render vào vị trí `<Outlet>`. **Hooks**: `useParams()` (URL params), `useNavigate()` (programmatic navigation), `useLocation()` (current path). **Protected routes**: component wrapper check auth, render `<Navigate to="/login">` nếu không authorized. **`lazy()`** + `<Suspense>`: code splitting tự động.
+> **React Router v6** (thư viện điều hướng cho SPA): `<BrowserRouter>` bọc cả app, `<Routes>` chứa toàn bộ route (tuyến đường), mỗi `<Route path="..." element={<Component />}>` ánh xạ một URL tới một component. **Nested routes** (route lồng nhau) dùng `<Outlet>` — layout cha hiển thị, route con render vào "ô trống" `<Outlet>`. **Hooks**: `useParams()` lấy tham số động trên URL (vd `:id`), `useNavigate()` để **chuyển trang bằng code** (programmatic), `useLocation()` lấy URL hiện tại. **Protected route** (route bảo vệ) = một component bọc kiểm tra đăng nhập, nếu chưa thì `<Navigate to="/login">`. **`lazy()`** + `<Suspense>` = **code splitting** (chia nhỏ mã theo trang, tải tới đâu nạp tới đó).
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > Trang web thường: bấm link → tải lại **cả trang** từ server (chậm, chớp trắng). React Router làm **SPA**: bấm link → JS **chỉ đổi URL và thay component**, không tải lại trang → mượt và **giữ nguyên state**. Nó "giả lập" điều hướng bằng History API của trình duyệt.

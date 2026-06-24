@@ -14,7 +14,7 @@ source: [React.docx, react.dev]
 # React: Form Handling
 
 > [!summary] TL;DR
-> **Controlled component**: form value được điều khiển bởi React state — `value={state}` + `onChange={setState}`. **Uncontrolled component**: DOM tự quản lý value, dùng `useRef` để đọc khi cần. Controlled là React-idiomatic — cho phép derive UI từ form state, validate real-time. Uncontrolled phù hợp cho file input hoặc integration với non-React code. Form submit: `onSubmit={e => { e.preventDefault(); /* xử lý data */ }}` để ngăn page reload.
+> **Controlled component** (component "có kiểm soát"): giá trị ô input do React state nắm giữ — `value={state}` đi kèm `onChange={setState}` (mỗi lần gõ là cập nhật state). **Uncontrolled component** (component "không kiểm soát"): để DOM tự giữ giá trị, khi cần mới đọc qua `useRef`. Controlled là cách "thuận React" (React-idiomatic) — cho phép **suy ra UI từ state** (derive: bật/tắt nút, đếm ký tự) và **validate ngay khi gõ** (real-time). Uncontrolled hợp cho `<input type="file">` hoặc khi ghép với thư viện không phải React. Khi submit form phải gọi `e.preventDefault()` để **ngăn trình duyệt tải lại trang** (hành vi mặc định).
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > Câu hỏi cốt lõi: **"Ai là người giữ giá trị thật của ô input?"**

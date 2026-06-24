@@ -13,7 +13,7 @@ source: [React.docx, react.dev]
 # React: useEffect Hook
 
 > [!summary] TL;DR
-> `useEffect(effect, deps?)` chạy side effect sau khi React update DOM. **3 modes**: không có deps (mỗi render), `[]` (chỉ mount), `[deps]` (khi deps thay đổi). **Cleanup**: function return từ effect — chạy trước lần effect tiếp theo và khi unmount. **Data fetching**: luôn dùng `AbortController` để cancel inflight request khi deps thay đổi. **Deps array**: phải bao gồm tất cả reactive values dùng trong effect (ESLint `exhaustive-deps` rule giúp enforce).
+> `useEffect(effect, deps?)` dùng để chạy **side effect** (việc "ngoài lề" đụng tới thế giới ngoài React: gọi API, đặt timer, lắng nghe sự kiện) *sau khi* React đã vẽ xong DOM. **3 chế độ** theo mảng dependency (deps = danh sách "phụ thuộc, đổi thì chạy lại"): không có mảng → chạy sau **mỗi** lần render; `[]` → chỉ chạy 1 lần lúc **mount** (component sinh ra); `[deps]` → chạy lại khi giá trị trong deps đổi. **Cleanup** (dọn dẹp) = hàm `return` bên trong effect — chạy *trước* lần effect kế tiếp và khi component **unmount** (biến mất); dùng để gỡ timer/listener (quên là rò rỉ bộ nhớ). **Data fetching** (lấy dữ liệu): nên dùng `AbortController` để **hủy request đang dở** (inflight) khi deps đổi, tránh race condition. **Mảng deps** phải liệt kê đủ mọi giá trị "động" (reactive — props/state) mà effect dùng; rule ESLint `exhaustive-deps` giúp bắt thiếu sót này.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **`useEffect` = "sau khi vẽ xong màn hình, làm thêm việc này" — dành cho việc đụng tới thế giới bên ngoài React** (gọi API, đặt timer, lắng nghe scroll, đổi `document.title`). Component bình thường chỉ nên "tính ra giao diện"; mấy việc *phụ* (side effect) thì nhét vào `useEffect`.

@@ -13,7 +13,7 @@ source: [MDN]
 # ES6: Enhanced Object Literals
 
 > [!summary] TL;DR
-> ES6 cải tiến cú pháp object literal: **Shorthand property** (`{name}` thay `{name: name}`), **Shorthand method** (`greet() {}` thay `greet: function() {}`), **Computed property name** (`{[key]: value}`). Giảm code thừa, tăng tính đọc được, dùng rất nhiều trong React/Node.
+> ES6 cải tiến cách viết object literal (cách tạo object trực tiếp bằng `{...}`) với 3 lối viết tắt: **Shorthand property** (viết gọn thuộc tính: `{name}` thay cho `{name: name}` khi tên key trùng tên biến), **Shorthand method** (viết gọn method: `greet() {}` thay cho `greet: function() {}`), **Computed property name** (tên key động — tính lúc chạy: `{[bienKey]: value}`). Giúp code ngắn, dễ đọc; dùng rất nhiều trong React/Node.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > Đây chỉ là **3 cách viết tắt cho gọn khi tạo object** — không có khái niệm mới khó nhằn nào:

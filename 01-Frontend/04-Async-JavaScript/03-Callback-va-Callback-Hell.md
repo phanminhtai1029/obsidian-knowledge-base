@@ -14,7 +14,7 @@ source: [javascript.info, MDN]
 # Callback & Callback Hell
 
 > [!summary] TL;DR
-> **Callback** là function được truyền vào function khác để gọi lại sau. Là nền tảng của async JS thời ES5. **Callback Hell** (Pyramid of Doom) xảy ra khi lồng nhiều async callbacks — code thụt lề thành hình tháp, khó đọc và khó xử lý lỗi. Giải pháp: named functions để flatten, hoặc chuyển sang **Promise/async-await**.
+> **Callback** = một hàm được truyền vào hàm khác để "gọi lại sau" khi việc xong (call **back** = gọi ngược lại). Đây là nền tảng xử lý bất đồng bộ của JS thời cũ (ES5). **Callback Hell** (còn gọi *Pyramid of Doom* — "kim tự tháp khổ đau") xảy ra khi nhiều callback bất đồng bộ lồng vào nhau — code thụt lề thành hình tháp, khó đọc và khó bắt lỗi. Cách gỡ: tách thành các hàm có tên (named function) cho **phẳng** (flatten) ra, hoặc chuyển sang **Promise/async-await**.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **Callback = "xong việc thì gọi lại số này".** Bạn đưa cho một hàm *một hàm khác* và dặn: "làm xong thì chạy hàm này giúp tôi". Giống như **để lại số điện thoại ở tiệm sửa xe** — sửa xong họ gọi lại, bạn không phải đứng đợi.

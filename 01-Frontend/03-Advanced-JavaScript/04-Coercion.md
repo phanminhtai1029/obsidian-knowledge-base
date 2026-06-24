@@ -12,7 +12,7 @@ source: [YDKJS, javascript.info]
 # JavaScript Type Coercion
 
 > [!summary] TL;DR
-> **Coercion** = JS tự động chuyển đổi kiểu dữ liệu. **Implicit coercion** xảy ra ngầm (`1 + '2'` → `'12'`). **Explicit coercion** là bạn chủ động convert (`Number('42')`). `==` dùng Abstract Equality (có coerce), `===` không coerce. Luôn dùng `===` trong production. Hiểu các WAT classic để tránh bug ngầm.
+> **Coercion** (ép kiểu) = JS tự động đổi dữ liệu từ kiểu này sang kiểu khác. **Implicit coercion** (ép kiểu ngầm — JS tự làm) ví dụ `1 + '2'` → `'12'`. **Explicit coercion** (ép kiểu tường minh — bạn chủ động đổi) ví dụ `Number('42')`. Toán tử `==` dùng **Abstract Equality** (so sánh "dễ dãi" — *có* ép kiểu hai vế trước khi so), còn `===` **không** ép kiểu (khác kiểu là `false` ngay). Luôn dùng `===` trong code thật (production). Nên biết vài "WAT" (các kết quả kỳ quặc kinh điển của JS, vd `[] == false` ra `true`) để tránh bug ngầm.
 
 > [!tip] 🎯 Hiểu trong 30 giây
 > **Coercion = JS "tự ý dịch ngôn ngữ" giữa các kiểu để phép tính chạy được.** Ví von: bạn đưa cho JS một quả táo (number) và chữ "táo" (string), bảo nó "+", JS lười cãi nên **biến luôn quả táo thành chữ rồi ghép chuỗi** → ra `"3táo"`. Đó là lý do `1 + '2'` ra `"12"` chứ không phải `3`.
