@@ -15,6 +15,15 @@ source: [javascript.info, MDN, loupe.latentflip.com]
 > [!summary] TL;DR
 > Event Loop là cơ chế giúp JS single-threaded có thể xử lý async. **Call Stack** chạy code sync. **Web APIs** xử lý async ops (timer, fetch). Khi xong, callback vào **Microtask Queue** (Promise.then) hoặc **Task Queue** (setTimeout). **Event Loop** liên tục kiểm tra: Stack rỗng? → drain hết Microtask Queue → lấy 1 task từ Task Queue. **Microtask luôn ưu tiên cao hơn Macrotask.**
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> JS chỉ có **một người làm việc** (single-threaded — một luồng). Vậy sao nó vừa gọi API mất 2 giây vừa không "đơ" màn hình? Bí quyết: **việc nào chờ lâu (timer, gọi mạng) thì giao cho "trợ lý" bên ngoài** (Web API của trình duyệt) làm hộ, người làm chính tiếp tục chạy code khác. Khi trợ lý xong, kết quả được **xếp hàng chờ**; người làm chính làm xong việc trước mắt thì mới quay lại lấy từ hàng chờ ra xử lý.
+>
+> Ví von: **đầu bếp một mình** (JS) nhận đơn. Món nào cần *hầm 2 tiếng* thì bỏ vào nồi (Web API) rồi quay ra làm món nhanh khác, không đứng nhìn nồi. Hầm xong, món được xếp ra quầy chờ (queue), đầu bếp rảnh tay mới bưng đi.
+>
+> **2 điều phải nhớ để "đoán output" (ra thi rất nhiều):**
+> 1. Có **2 hàng chờ**: *Microtask* (`Promise.then`, `await`) **ưu tiên cao** — bị xử lý HẾT trước; *Macrotask* (`setTimeout`) ưu tiên thấp — mỗi vòng chỉ lấy 1 cái. → Nên `Promise.then` luôn chạy trước `setTimeout(…, 0)`.
+> 2. Thân `new Promise(fn)` chạy **đồng bộ ngay tại chỗ**; chỉ phần trong `.then`/sau `await` mới là microtask.
+
 ---
 
 ## 1. Khái niệm
@@ -285,6 +294,12 @@ console.log('end');
 ---
 
 ## 6. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "JS đơn luồng sao vẫn xử lý async không block UI?"
+> *"JavaScript chỉ có một luồng thực thi, nên nếu tự nó đứng chờ các tác vụ chậm như timer hay gọi API thì màn hình sẽ đơ. Cách nó tránh điều đó là giao những tác vụ chờ lâu cho Web API của trình duyệt — đây là phần chạy ngoài luồng JS. Trong lúc đó luồng chính tiếp tục chạy code khác. Khi Web API làm xong, callback không nhảy vào ngay mà được xếp vào hàng đợi. Event Loop là vòng lặp liên tục kiểm tra: khi Call Stack rỗng, nó xử lý hết hàng Microtask trước, ví dụ Promise.then, rồi mới lấy một tác vụ từ hàng Macrotask như setTimeout. Nhờ cơ chế chia việc và xếp hàng này, JS đơn luồng vẫn xử lý được nhiều việc bất đồng bộ mà không chặn giao diện."*
+
+> [!note] 🧠 Mẹo nhớ
+> **"Việc chậm giao trợ lý (Web API), người chính không đứng chờ."** Thứ tự bất biến: **sync → HẾT microtask → 1 macrotask → HẾT microtask → …** `new Promise(fn)` thân chạy sync; `.then`/`await` mới là microtask.
 
 **Q1: Event Loop là gì? Mô tả cách nó hoạt động.**
 

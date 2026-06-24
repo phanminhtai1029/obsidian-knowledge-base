@@ -16,6 +16,17 @@ source: [MDN, javascript.info]
 > [!summary] TL;DR
 > **Promise** là object đại diện cho một giá trị **chưa có** nhưng sẽ có trong tương lai (hoặc thất bại). 3 trạng thái: **pending → fulfilled / rejected** (không thể quay lại). Dùng `.then()` xử lý thành công, `.catch()` xử lý lỗi, `.finally()` chạy dù kết quả nào. **Promise.all** parallel + fail-fast, **Promise.allSettled** chờ hết không fail-fast, **Promise.race** lấy cái xong đầu tiên, **Promise.any** lấy cái fulfilled đầu tiên.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Promise = "tờ phiếu hẹn lấy đồ".** Giống khi bạn gửi áo ở tiệm giặt: họ đưa **một tờ phiếu** thay cho cái áo (kết quả chưa có ngay). Cầm phiếu này bạn vẫn đi làm việc khác; lúc nào áo xong, phiếu "đổi" được thành áo (`.then`) — hoặc tiệm báo *làm hỏng rồi* (`.catch`).
+>
+> **3 trạng thái** đúng như tờ phiếu: **pending** (đang chờ) → một là **fulfilled** (xong, có kết quả), hai là **rejected** (hỏng, có lý do). Đã chốt rồi thì **không đổi lại được** — đây là điểm hay bị hỏi.
+>
+> **4 "combinator" — nhớ theo nghĩa, đừng học vẹt** (rất hay ra thi):
+> - `Promise.all` → "cần **TẤT CẢ** thành công; 1 cái hỏng là bỏ hết" (fail-fast).
+> - `Promise.allSettled` → "đợi **HẾT**, hỏng cũng không sao, báo cáo từng cái".
+> - `Promise.race` → "ai xong **TRƯỚC** thắng, kể cả xong kiểu *hỏng*" (hay dùng làm timeout).
+> - `Promise.any` → "ai **THÀNH CÔNG** trước thắng" (fallback nhiều server).
+
 ---
 
 ## 1. Khái niệm
@@ -305,6 +316,12 @@ processUsers([1, 2, 999, 4, 5]);
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "3 API gọi cho 3 widget độc lập: `Promise.all` hay `allSettled`?"
+> *"Em dùng `Promise.allSettled`. Lý do: ba widget độc lập nhau, nếu một API hỏng thì hai widget kia vẫn nên hiển thị bình thường. `Promise.all` là fail-fast — chỉ cần một promise reject là cả nhóm reject ngay, nên nếu một API lỗi thì cả ba widget cùng trắng, trải nghiệm tệ. `allSettled` thì chờ cả ba settle xong và trả về mảng kết quả kèm status fulfilled hay rejected của từng cái, em duyệt qua: cái nào fulfilled thì render dữ liệu, cái nào rejected thì hiện thông báo lỗi riêng cho widget đó. Em chỉ dùng `Promise.all` khi các tác vụ phụ thuộc nhau hoặc bắt buộc tất cả phải thành công mới có ý nghĩa, ví dụ load user và profile để dựng một trang."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Promise = phiếu hẹn lấy đồ; 3 trạng thái pending → fulfilled/rejected, chốt là khóa.** Chọn combinator: **all = tất cả (fail-fast) · allSettled = đợi hết · race = ai xong trước · any = ai thành công trước.** Widget độc lập → **allSettled**.
 
 **Q1: Promise có mấy trạng thái? Có thể chuyển ngược trạng thái không?**
 

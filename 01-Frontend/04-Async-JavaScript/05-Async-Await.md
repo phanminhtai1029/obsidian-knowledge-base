@@ -15,6 +15,13 @@ source: [MDN, javascript.info]
 > [!summary] TL;DR
 > **`async function`** luôn trả về Promise. **`await`** tạm dừng async function tại chỗ, đợi Promise resolve, rồi tiếp tục — trông như sync nhưng **không block** main thread. Xử lý lỗi với `try/catch`. **Sequential** (từng `await` một) vs **Parallel** (`Promise.all` + `await`) — chọn đúng để tránh mất hiệu năng. **Top-level await** (ES2022) dùng được ở module scope mà không cần wrap.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **`async/await` = cách viết code "chờ đợi" mà nhìn như code thường, khỏi lồng `.then()`.** `await` nghĩa là *"đứng đây đợi cái này xong rồi mới đi tiếp"* — nhưng **chỉ đợi trong hàm này thôi**, phần còn lại của trang vẫn chạy bình thường (không treo UI).
+>
+> Nó chỉ là **lớp áo đường trên Promise** — bên dưới vẫn là Promise. `await` ≈ `.then()`, còn bắt lỗi thì dùng **`try/catch`** quen thuộc thay cho `.catch()`.
+>
+> **Bẫy hiệu năng SỐ 1 (hay ra thi):** `await` *tuần tự* những việc *không phụ thuộc nhau* → cộng dồn thời gian. 3 việc mỗi việc 500ms mà `await` lần lượt = 1500ms. Nếu chúng độc lập → khởi động hết rồi `await Promise.all([...])` = chỉ 500ms. Quy tắc: **chỉ `await` tuần tự khi việc sau CẦN kết quả việc trước.**
+
 ---
 
 ## 1. Khái niệm
@@ -367,6 +374,12 @@ try {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Bắt lỗi với async/await, khác gì `.catch()`?"
+> *"Với async/await em bọc đoạn code có await trong khối `try/catch`: nếu một Promise bị reject thì `await` sẽ throw lỗi và rơi vào `catch`, y như bắt lỗi đồng bộ. Còn với Promise truyền thống thì em nối `.catch()` vào cuối chuỗi. Về bản chất hai cách tương đương vì async/await chỉ là lớp áo trên Promise, nhưng `try/catch` đọc tự nhiên hơn, gom được nhiều `await` trong cùng một khối, và dùng được `finally` để dọn dẹp. Một lưu ý là nếu em gọi một async function mà quên `await` thì lỗi bên trong sẽ bị nuốt mất, nên em luôn await hoặc gắn `.catch()`."*
+
+> [!note] 🧠 Mẹo nhớ
+> **`await` = "đợi xong mới đi tiếp" (chỉ trong hàm này).** Bắt lỗi bằng **`try/catch`** (≈ `.catch()`). Bẫy: **việc độc lập đừng await tuần tự → `Promise.all`.** Quên `await` = **nuốt lỗi.**
 
 **Q1: `async/await` là gì? Khác gì với Promise?**
 

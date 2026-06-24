@@ -15,7 +15,7 @@ Giữ nguyên: TL;DR, các section kiến thức, ★ Insight, bảng phân bi�
 ## Thứ tự cụm (commit + push từng cụm)
 
 - [x] **Cụm 1 — Advanced JS** (03-Advanced-JavaScript, 11 note): Scope, Hoisting, Closure, Coercion, ES6 let/const, Template Literals, Enhanced Object Literals, Destructuring, Arrow Function, Rest/Spread, Class ✅ (commit 2026-06-24)
-- [ ] **Cụm 2 — Async JS** (04-Async-JavaScript, 6 note): Overview, Event Loop, Callback/Hell, Promise, Async-Await, (MOC)
+- [x] **Cụm 2 — Async JS** (04-Async-JavaScript, 5 note nội dung): Overview, Event Loop, Callback/Hell, Promise, Async-Await ✅ (commit 2026-06-24) — MOC là index, không cần tầng trực giác
 - [ ] **Cụm 3 — React/Next.js** (06-React, 18 note)
 - [ ] **Cụm 4 — DOM-Event** (02-DOM-Event, 14 note)
 - [ ] **Cụm 5 — TypeScript** (05-TypeScript, 8 note)

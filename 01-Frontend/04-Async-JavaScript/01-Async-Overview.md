@@ -15,6 +15,16 @@ source: [javascript.info, MDN]
 > [!summary] TL;DR
 > JavaScript là **single-threaded** — chỉ có 1 call stack, không thể làm 2 việc cùng lúc. **Async** cho phép defer các tác vụ chậm (network, timer, I/O) để không block UI thread. Ba pattern tiến hóa: **Callback** → **Promise** → **async/await**, mỗi cái giải quyết nhược điểm của cái trước.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> JS như **một thu ngân duy nhất** trong cửa hàng (single-threaded — một luồng). Nếu khách yêu cầu món phải *chờ lâu* (gọi API, đợi timer) mà thu ngân đứng chờ cùng, thì **cả hàng dài phía sau bị kẹt** — đó là *blocking* (đồng bộ). **Async** là cách thu ngân nói "việc chờ lâu để hệ thống lo, mời khách tiếp theo" rồi quay lại xử lý khi món sẵn sàng — hàng không kẹt.
+>
+> Có **3 cách viết code async**, là một dòng *tiến hóa* giải cùng bài toán, cái sau sửa nhược điểm cái trước:
+> 1. **Callback** — "xong thì gọi lại cho tôi". Lồng nhiều tầng → *callback hell* rối.
+> 2. **Promise** — "lời hứa": một hộp kết quả sẽ có sau, nối `.then()` cho phẳng.
+> 3. **async/await** — viết code async mà **đọc như code thường** (dễ nhất, hiện đại nhất). Bản chất chỉ là *lớp áo đường* trên Promise.
+>
+> **Một câu hay bị bắt bẻ:** async **không phải** đa luồng — phần chạy song song là *Web API của trình duyệt*, code JS của bạn vẫn về một luồng. Đây là *concurrency* (xen kẽ), không phải *parallelism* (cùng lúc thật).
+
 ---
 
 ## 1. Khái niệm
@@ -230,6 +240,12 @@ loadAll(1);
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Async có phải đa luồng không?"
+> *"Không ạ. JavaScript là đơn luồng, chỉ có một call stack. Async không biến nó thành đa luồng. Phần chạy song song thực ra là Web API của trình duyệt — như timer hay network — chạy ở thread riêng bên ngoài engine JS. Khi xong, callback được xếp vào hàng đợi và Event Loop đưa về luồng JS duy nhất để chạy. Nên đây là concurrency, tức xen kẽ nhiều việc, chứ không phải parallelism là chạy đồng thời thật sự. Về cách viết, em dùng async/await là chính vì đọc như code đồng bộ, nhưng nó chỉ là lớp áo trên Promise, nên em vẫn cần hiểu Promise để debug và để chạy song song bằng Promise.all."*
+
+> [!note] 🧠 Mẹo nhớ
+> **JS = 1 thu ngân; việc chờ lâu giao cho Web API.** Async = **concurrency (xen kẽ)**, KHÔNG phải parallelism. Tiến hóa: **Callback → Promise → async/await** (async/await chỉ là sugar trên Promise).
 
 **Q1: JavaScript có phải multi-threaded không? Async có nghĩa là multi-thread không?**
 

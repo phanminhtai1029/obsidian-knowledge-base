@@ -16,6 +16,13 @@ source: [javascript.info, MDN]
 > [!summary] TL;DR
 > **Callback** là function được truyền vào function khác để gọi lại sau. Là nền tảng của async JS thời ES5. **Callback Hell** (Pyramid of Doom) xảy ra khi lồng nhiều async callbacks — code thụt lề thành hình tháp, khó đọc và khó xử lý lỗi. Giải pháp: named functions để flatten, hoặc chuyển sang **Promise/async-await**.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Callback = "xong việc thì gọi lại số này".** Bạn đưa cho một hàm *một hàm khác* và dặn: "làm xong thì chạy hàm này giúp tôi". Giống như **để lại số điện thoại ở tiệm sửa xe** — sửa xong họ gọi lại, bạn không phải đứng đợi.
+>
+> **Callback Hell** xảy ra khi việc B phải đợi A xong, C đợi B xong... → callback lồng trong callback lồng trong callback, code **thụt lề thành hình kim tự tháp** rất khó đọc, mỗi tầng lại phải tự kiểm tra lỗi. Ví von: *"sửa xong gọi tôi, rồi tôi mới đặt lốp, lốp xong gọi tôi, rồi tôi mới..."* — chồng chất rối tung.
+>
+> **Vì sao quan trọng:** đây là lý do Promise và async/await ra đời (note sau). Callback **không lỗi thời** — `addEventListener`, `map`, `forEach` vẫn là callback; chỉ là không dùng nó để *xâu chuỗi nhiều việc async* nữa.
+
 ---
 
 ## 1. Khái niệm
@@ -326,6 +333,12 @@ emitter.emit('data', { id: 2 }); // không có gì — listener đã bị xóa
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Callback Hell là gì, tránh thế nào?"
+> *"Callback là hàm mình truyền vào hàm khác để được gọi lại khi tác vụ xong. Callback Hell là khi nhiều tác vụ async phụ thuộc nhau, mình lồng callback trong callback nhiều tầng, code thụt lề thành hình kim tự tháp, rất khó đọc và mỗi tầng lại phải xử lý lỗi riêng. Để tránh, em có ba hướng: tách thành các named function cho phẳng ra; promisify để biến hàm callback thành Promise; và tốt nhất là dùng async/await để code async đọc như đồng bộ. Ngoài ra Promise còn đảm bảo chỉ settle đúng một lần, khắc phục được bug callback bị gọi nhiều lần hoặc quên gọi của callback thuần."*
+
+> [!note] 🧠 Mẹo nhớ
+> **"Để lại số, xong gọi lại."** Lồng nhiều tầng = **kim tự tháp khổ đau (Pyramid of Doom)** → gỡ bằng **named function → promisify → async/await.** Callback vẫn sống ở `addEventListener`/`map`.
 
 **Q1: Callback Hell là gì? Làm thế nào để tránh?**
 
