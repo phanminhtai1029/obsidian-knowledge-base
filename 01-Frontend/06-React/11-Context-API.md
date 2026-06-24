@@ -16,6 +16,15 @@ source: [react.dev/learn/passing-data-deeply-with-context]
 > [!summary] TL;DR
 > **Context** giải quyết **prop drilling** — truyền data qua nhiều cấp component trung gian không cần dùng data đó. 3 bước: (1) `createContext(defaultValue)` tạo context, (2) `<Context.Provider value={...}>` wrap subtree cần access, (3) `useContext(Context)` đọc giá trị trong component con. **Context không phải state management** — nó chỉ là channel phân phối giá trị. State (useState/useReducer) vẫn cần nằm ở đâu đó.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Prop drilling** = phải "chuyền tay" một món đồ qua 5 người chỉ để đưa cho người cuối, dù 4 người ở giữa chẳng dùng tới. Trong React là truyền 1 prop xuống qua nhiều tầng component trung gian không cần nó — mệt và dễ sai.
+>
+> **Context = "loa phát thanh tòa nhà".** Đặt giá trị vào `Provider` ở trên cao một lần, rồi **bất kỳ component con nào ở sâu bên dưới** cũng "nghe" được bằng `useContext` — khỏi chuyền tay qua từng tầng. 3 bước: `createContext` (lắp loa) → `<Provider value={...}>` (phát) → `useContext` (nghe).
+>
+> **2 điều hay bị hỏi:**
+> 1. **Context KHÔNG phải Redux/state management.** Nó chỉ là *đường ống phân phối*; state thật vẫn nằm ở `useState`/`useReducer` đâu đó. Đừng nói "Context là quản lý state".
+> 2. **Khi nào KHÔNG nên dùng Context:** với dữ liệu *đổi liên tục* (vd giá trị gõ từng phím, dữ liệu real-time). Vì `value` đổi là **mọi consumer re-render** → chậm. Context hợp cho thứ *ít đổi*: theme, ngôn ngữ, user đăng nhập.
+
 ---
 
 ## 1. Khái niệm
@@ -370,6 +379,12 @@ function SaveButton({ onSave }) {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Prop drilling là gì, Context giải quyết ra sao, khi nào KHÔNG nên dùng?"
+> *"Prop drilling là khi mình phải truyền một prop xuống qua nhiều tầng component trung gian dù các tầng đó không dùng tới nó, chỉ để đưa xuống component sâu nhất. Việc này khiến code rườm rà và khó bảo trì. Context giải quyết bằng cách cho phép đặt giá trị ở một Provider trên cao, rồi component con ở bất kỳ độ sâu nào cũng đọc trực tiếp qua useContext mà không cần chuyền qua từng tầng. Tuy nhiên em không nên dùng Context cho state thay đổi thường xuyên, vì mỗi khi value của Provider đổi thì tất cả component đang dùng context đó đều re-render, kể cả những cái chỉ dùng một phần nhỏ, gây chậm. Context hợp với dữ liệu ít đổi như theme, ngôn ngữ, thông tin user đăng nhập. Với state đổi liên tục và cần tối ưu re-render thì em dùng thư viện như Redux hoặc Zustand. Và nhớ Context chỉ là kênh phân phối, không phải bản thân state."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Prop drilling = chuyền tay qua nhiều tầng. Context = loa phát thanh (Provider phát → useContext nghe).** Context **không phải** state management; **đừng dùng cho data đổi liên tục** (value đổi → mọi consumer re-render).
 
 **Q1: Context API là gì? Giải quyết vấn đề gì?**
 

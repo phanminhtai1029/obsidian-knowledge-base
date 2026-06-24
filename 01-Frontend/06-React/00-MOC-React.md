@@ -25,6 +25,7 @@ tags: [moc, react, hooks, context, router, fresher, frontend]
 |------|----------|--------|
 | [[07-Side-Effect-va-Lifecycle\|React: Side Effect & Lifecycle]] | Lifecycle concept, class → hooks mapping | ⭐⭐⭐ |
 | [[08-useEffect-Hook\|React: useEffect Hook]] | 3 dependency modes, cleanup, data fetching | ⭐⭐⭐⭐ |
+| [[19-Performance-memo-useMemo-useCallback\|React: Tối ưu re-render]] | React.memo, useMemo, useCallback, tránh re-render thừa | ⭐⭐⭐⭐ |
 
 ## Styling
 

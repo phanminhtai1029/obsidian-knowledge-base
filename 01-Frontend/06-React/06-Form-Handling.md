@@ -16,6 +16,15 @@ source: [React.docx, react.dev]
 > [!summary] TL;DR
 > **Controlled component**: form value được điều khiển bởi React state — `value={state}` + `onChange={setState}`. **Uncontrolled component**: DOM tự quản lý value, dùng `useRef` để đọc khi cần. Controlled là React-idiomatic — cho phép derive UI từ form state, validate real-time. Uncontrolled phù hợp cho file input hoặc integration với non-React code. Form submit: `onSubmit={e => { e.preventDefault(); /* xử lý data */ }}` để ngăn page reload.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Câu hỏi cốt lõi: **"Ai là người giữ giá trị thật của ô input?"**
+> - **Controlled = React giữ.** Mỗi lần gõ phím, `onChange` cập nhật state, rồi state đổ ngược lại vào `value`. React luôn biết ô input đang chứa gì → **validate ngay khi gõ**, bật/tắt nút, đếm ký tự dễ dàng. (`value` và `onChange` phải đi *thành cặp*.)
+> - **Uncontrolled = DOM tự giữ.** React không theo dõi từng phím; chỉ khi cần (lúc submit) mới "thò tay" vào DOM đọc qua `useRef`. Ví von: controlled như *bạn ghi lại từng chữ khách đọc*; uncontrolled như *để khách tự viết vào giấy, lúc nộp mới đọc*.
+>
+> **Mặc định dùng Controlled** vì hợp với React và cho **validate real-time**. Uncontrolled chỉ dùng khi *bắt buộc*: `<input type="file">`, hoặc tích hợp thư viện ngoài.
+>
+> **Đừng quên `e.preventDefault()`** trong `onSubmit` — nếu không, trình duyệt **tải lại trang** theo mặc định, mất hết.
+
 ---
 
 ## 1. Khái niệm
@@ -432,6 +441,15 @@ function MultiStepForm() {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Controlled vs Uncontrolled, cái nào dễ validate real-time?"
+> *"Controlled component là ô input mà giá trị do React state nắm giữ: em gắn `value` bằng state và `onChange` cập nhật state sau mỗi lần gõ, nên React luôn biết nội dung hiện tại. Uncontrolled thì để DOM tự giữ giá trị, khi cần em đọc qua useRef, thường là lúc submit. Để validate ngay khi người dùng đang gõ thì controlled dễ hơn hẳn, vì mỗi keystroke đã chạy qua state nên em kiểm tra và hiện lỗi tức thì, bật tắt nút submit, đếm ký tự đều được. Uncontrolled không có điểm móc theo từng phím nên khó validate real-time, em chủ yếu dùng nó cho input file vì file input bắt buộc uncontrolled, hoặc khi tích hợp thư viện ngoài. Một lưu ý là controlled phải có cả value và onChange, và nên khởi tạo state bằng chuỗi rỗng để tránh cảnh báo chuyển controlled/uncontrolled."*
+
+> [!example] 🗣️ Trả lời mẫu — "Xử lý các trạng thái UI khi submit (loading/success/error), tránh double-submit?"
+> *"Em quản ba trạng thái: loading, success, error. Khi bấm submit em set `isSubmitting = true` và disable nút ngay để chặn bấm hai lần, đổi chữ nút thành Đang gửi. Gọi API trong try/catch: thành công thì hiện thông báo success và thường reset form; lỗi thì bắt trong catch và hiển thị message lỗi cho người dùng; còn trong finally em set lại `isSubmitting = false` để mở nút. Việc disable nút theo `isSubmitting` chính là cách tránh double-submit hiệu quả nhất, kèm theo có thể chặn submit khi form chưa hợp lệ."*
+
+> [!note] 🧠 Mẹo nhớ
+> **"Ai giữ giá trị?" Controlled = React (value + onChange, validate real-time) · Uncontrolled = DOM (useRef, bắt buộc cho file).** Submit luôn **`e.preventDefault()`** + **disable nút theo `isSubmitting`** để chống double-submit.
 
 **Q1: Controlled component là gì? Tại sao React recommend dùng?**
 
