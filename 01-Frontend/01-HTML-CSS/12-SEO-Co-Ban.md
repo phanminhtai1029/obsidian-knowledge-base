@@ -15,6 +15,13 @@ source: [MDN, tự bổ sung]
 > [!summary] TL;DR
 > SEO (Search Engine Optimization) cho frontend tập trung vào: **Semantic HTML** (giúp crawler hiểu cấu trúc), **Meta tags** (`title`, `description`, Open Graph), **Performance** (Core Web Vitals), và **Accessibility**. Frontend developer kiểm soát on-page SEO qua HTML structure và meta tags.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **SEO = làm cho trang dễ được Google tìm thấy và xếp hạng cao.** Phần frontend kiểm soát được (gọi là *on-page SEO*) gồm:
+> - **Semantic HTML** (thẻ đúng nghĩa) → "con bọ" của Google (*crawler*) hiểu đâu là tiêu đề, nội dung chính.
+> - **Meta tags** trong `<head>`: `<title>` và `<meta name="description">` = *dòng tiêu đề + mô tả* hiện trên kết quả tìm kiếm; *Open Graph* (`og:`) = ảnh/tiêu đề khi chia sẻ lên Facebook/Zalo.
+> - **Performance** (tốc độ — *Core Web Vitals*) và **mobile-friendly**: Google ưu tiên trang nhanh và hiển thị tốt trên điện thoại.
+> - **`alt` cho ảnh** (vừa SEO vừa a11y).
+
 ## 1. Khái niệm
 
 **SEO (Search Engine Optimization)** — tối ưu hóa website để xuất hiện cao hơn trên kết quả tìm kiếm.
@@ -165,6 +172,12 @@ source: [MDN, tự bổ sung]
 > - **Alt text nhồi keyword:** `alt="css flexbox css layout css grid css tutorial"` bị Google penalize. Mô tả tự nhiên.
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Frontend làm gì để cải thiện SEO?"
+> *"Frontend kiểm soát phần on-page SEO. Em dùng semantic HTML với phân cấp heading hợp lý và các thẻ landmark để crawler hiểu cấu trúc; đặt meta tag đúng gồm title và description, kèm Open Graph cho việc chia sẻ; thêm alt cho ảnh vừa tốt SEO vừa tốt accessibility. Em chú trọng performance vì Google xếp hạng theo Core Web Vitals, nên lazy load ảnh, tối ưu asset, giảm layout shift. Ngoài ra responsive mobile-friendly, dùng structured data dạng JSON-LD khi cần, và đặt canonical URL để tránh trùng lặp nội dung."*
+
+> [!note] 🧠 Mẹo nhớ
+> **On-page SEO frontend: semantic HTML + meta tags (title/description/OG) + tốc độ (Core Web Vitals) + mobile + alt.**
 
 1. **Q:** Frontend developer có thể làm gì để cải thiện SEO?
    **A:** Semantic HTML (heading hierarchy, landmark tags), meta tags đúng (title, description, OG), alt text cho ảnh, Performance (lazy loading, optimize assets), structured data (JSON-LD), canonical URL, mobile-friendly responsive design.

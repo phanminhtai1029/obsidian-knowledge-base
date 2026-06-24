@@ -13,6 +13,11 @@ source: [Bootstrap 5 docs]
 
 # Bootstrap 5 — Utilities (Helper Classes)
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Utility class = "class tí hon làm đúng 1 việc"**, ghép nhiều cái lại để style ngay trên HTML mà khỏi viết file CSS. Ví dụ `m-3` (margin), `p-2` (padding), `d-flex` (display flex), `text-center` (canh giữa chữ), `bg-primary` (nền xanh). Đây chính là tư tưởng *atomic CSS* (giống Tailwind).
+> - Hầu hết có **biến thể responsive** theo breakpoint: `d-none d-md-block` = ẩn ở mobile, hiện từ `md` trở lên; `text-md-center`.
+> - Lợi: dựng nhanh, nhất quán, không phình file CSS. Đổi lại: HTML có thể dài ra vì nhiều class.
+
 > [!summary] TL;DR
 > Bootstrap Utilities là các **atomic CSS classes** — mỗi class làm đúng 1 việc. Kết hợp chúng để style nhanh mà không cần viết CSS tùy chỉnh. Hầu hết đều có phiên bản responsive (`d-md-none`, `text-lg-center`).
 
@@ -356,6 +361,12 @@ source: [Bootstrap 5 docs]
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Utility class là gì, ẩn/hiện theo màn hình thế nào?"
+> *"Utility class là các class nguyên tử, mỗi class làm đúng một việc như margin, padding, display, canh chữ hay màu nền, và mình ghép nhiều class lại để style ngay trên HTML mà không cần viết CSS riêng, đúng tư tưởng atomic CSS giống Tailwind. Hầu hết có biến thể responsive theo breakpoint. Ví dụ d-none d-md-block nghĩa là ẩn ở mobile rồi hiện từ md trở lên, dùng cho phần tử chỉ cho desktop như sidebar; ngược lại d-md-none nghĩa là hiện ở mobile nhưng ẩn từ md trở lên, dùng cho nút menu hamburger chỉ xuất hiện trên điện thoại. Ưu điểm là dựng nhanh và nhất quán, đổi lại HTML có thể dài ra vì nhiều class."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Utility = class tí hon 1 việc (`m-3`, `d-flex`, `text-center`), ghép lại style nhanh.** Responsive: **`d-none d-md-block` = ẩn mobile/hiện desktop; `d-md-none` = hiện mobile/ẩn desktop.**
 
 **Q1: Sự khác nhau giữa `d-none d-md-block` và `d-md-none`?**
 

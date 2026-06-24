@@ -63,6 +63,12 @@ Trình duyệt tự áp **style mặc định** cho thẻ HTML (margin của `<b
 
 ## 4. Q&A phỏng vấn
 
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Reset vs Normalize CSS, vì sao cần?"
+> *"Mỗi trình duyệt có user-agent styles, tức style mặc định nó tự áp cho các thẻ HTML, ví dụ margin của body hay cỡ chữ heading, và các trình duyệt khác nhau nên cùng một trang lại hiển thị lệch nhau. Reset CSS, kiểu Eric Meyer, xóa sạch các style mặc định đó về 0 để mình tự xây lại từ đầu. Normalize CSS thì nhẹ nhàng hơn, không xóa hết mà chỉnh cho các trình duyệt nhất quán với nhau và giữ lại những mặc định hợp lý. Ngày nay nhiều người dùng một bản reset gọn, tối thiểu là đặt box-sizing border-box cho tất cả và bỏ margin mặc định của body, để có nền nhất quán mà không quá tay."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Trình duyệt có style mặc định (user-agent) khác nhau → trang lệch.** **Reset = xóa sạch về 0; Normalize = san phẳng cho nhất quán, giữ mặc định hợp lý.** Tối thiểu: `* { box-sizing: border-box }` + bỏ margin body.
+
 > [!question] 1. User-agent styles là gì? Vì sao cần reset/normalize?
 > Là **style mặc định** trình duyệt tự áp cho thẻ HTML. Mỗi trình duyệt khác nhau → trang hiển thị lệch. Reset/Normalize "thuần hóa" để có nền **nhất quán** giữa các trình duyệt.
 

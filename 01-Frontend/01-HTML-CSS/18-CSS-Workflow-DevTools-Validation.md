@@ -79,6 +79,12 @@ CSS hợp lệ vẫn có thể "hỗn loạn". Giữ sạch bằng:
 
 ## 5. Q&A phỏng vấn
 
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "DevTools giúp gì khi làm CSS?"
+> *"DevTools là bộ công cụ trong trình duyệt, mở bằng F12 hoặc chuột phải chọn Inspect. Khi làm CSS em dùng nó để xem chính xác HTML và các rule CSS đang áp lên một phần tử, kể cả rule nào bị ghi đè và do specificity nào thắng. Em sửa CSS trực tiếp ngay trong trình duyệt để thử nghiệm nhanh, bật tắt từng property, chỉnh giá trị và thấy kết quả tức thì mà không phải sửa file rồi load lại; tất nhiên thay đổi này không lưu vào file nên sau khi ưng em chép lại vào code. Em cũng xem được box model tính toán, kiểm tra responsive bằng device toolbar, và bắt lỗi layout. Đây là vòng lặp thử và sai rất nhanh khi học và debug CSS."*
+
+> [!note] 🧠 Mẹo nhớ
+> **DevTools (F12) = xem + sửa CSS LIVE để thử nghiệm (không lưu file), xem rule nào thắng, box model, responsive.** Ưng thì chép lại vào code.
+
 > [!question] 1. DevTools dùng để làm gì khi học/làm CSS?
 > Xem HTML+CSS đang áp, **sửa CSS live** để thử nghiệm (không lưu file), bật/tắt property, xem computed box, định vị phần tử. Mở bằng F12 / chuột phải → Inspect; có sẵn mọi trình duyệt.
 

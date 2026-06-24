@@ -15,6 +15,11 @@ source: [Bootstrap 5 docs]
 > [!summary] TL;DR
 > Bootstrap 5 là CSS framework phổ biến nhất, cung cấp hệ thống Grid 12 cột, 30+ UI components (Button, Modal, Navbar...), và hàng trăm utility classes. Dùng Bootstrap để prototype nhanh và đảm bảo responsive cross-browser mà không cần viết CSS từ đầu.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Bootstrap = "bộ đồ may sẵn" cho giao diện.** Thay vì tự viết CSS từ đầu, bạn chỉ *gắn các class có sẵn* vào HTML là có ngay nút, form, navbar, modal... đẹp và **responsive sẵn** trên mọi trình duyệt.
+> - 3 thứ Bootstrap cho bạn: **Grid 12 cột** (chia bố cục), **Components** (Button/Card/Modal/Navbar...), **Utility classes** (class nhỏ làm 1 việc như `m-3` = margin, `text-center`).
+> - Lợi: dựng nhanh, đồng đều, khỏi lo cross-browser. Đánh đổi: trang dễ "trông giống nhau", và tải cả thư viện. Bootstrap 5 đã **bỏ jQuery** (dùng Vanilla JS).
+
 ## 1. Khái niệm
 
 **Bootstrap** là CSS framework mã nguồn mở — tập hợp CSS/JS pre-built cho typography, layout, components, và utilities.
@@ -182,6 +187,12 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 > - **Dùng Bootstrap 4 class trong BS5:** `ml-*`/`mr-*` → `ms-*`/`me-*` (logical properties), `float-left` → `float-start`, `text-left` → `text-start`.
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Bootstrap là gì, vì sao dùng?"
+> *"Bootstrap là CSS framework phổ biến, cung cấp sẵn hệ thống Grid 12 cột, nhiều component UI như Button, Modal, Navbar, và hàng trăm utility class. Em dùng nó để dựng giao diện nhanh, responsive và nhất quán cross-browser mà không phải viết CSS từ đầu, rất hợp khi prototype hoặc dự án cần ra nhanh. Đánh đổi là giao diện dễ trông giống mẫu mặc định và phải tải thêm thư viện. Một điểm đáng nhớ là Bootstrap 5 đã bỏ phụ thuộc jQuery, chuyển sang Vanilla JS, thêm CSS custom properties và breakpoint xxl."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Bootstrap = đồ may sẵn: gắn class là có UI responsive.** 3 phần: **Grid 12 cột + Components + Utilities.** BS5 **bỏ jQuery**.
 
 1. **Q:** Bootstrap 5 khác Bootstrap 4 điều gì quan trọng nhất?
    **A:** BS5 loại bỏ **jQuery dependency** (dùng Vanilla JS). Thêm CSS custom properties (`--bs-*`). Đổi từ left/right sang start/end (logical properties cho RTL support). Cải thiện Grid với `xxl` breakpoint và row cols. Thêm nhiều utility class hơn.

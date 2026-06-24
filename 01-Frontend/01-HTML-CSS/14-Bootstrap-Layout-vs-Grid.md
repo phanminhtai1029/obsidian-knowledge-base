@@ -15,6 +15,11 @@ source: [Bootstrap 5 docs]
 > [!summary] TL;DR
 > Bootstrap Grid dùng hệ thống **12 cột** với cú pháp `col-{breakpoint}-{size}`. Cần wrap trong `.row` (trong `.container`). **Breakpoints:** xs(<576), sm(≥576), md(≥768), lg(≥992), xl(≥1200), xxl(≥1400). `col-md-6` = chiếm 6/12 cột từ breakpoint md trở lên, nhỏ hơn thì full width.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Bootstrap chia mỗi hàng thành **12 cột tưởng tượng**; bạn nói mỗi khối chiếm *mấy cột*. Cấu trúc: `.container` bọc `.row`, trong `.row` đặt các `.col-...`.
+> - `col-6` = chiếm 6/12 = nửa hàng; `col-4` = 1/3; ba `col-4` lấp đầy 1 hàng.
+> - **Responsive theo breakpoint** (mobile-first): `col-md-6` nghĩa là *từ màn `md` (≥768px) trở lên* chiếm nửa hàng, *nhỏ hơn thì full width*. Ghép nhiều mốc: `col-12 col-md-6 col-lg-4` = điện thoại full → tablet nửa → desktop 1/3. Đây là cách Bootstrap làm responsive mà gần như khỏi viết media query tay.
+
 ## 1. Khái niệm
 
 ### Container
@@ -196,6 +201,12 @@ Wrapper ngoài cùng để center content và set max-width:
 > - **`container-fluid` trong `container`:** Không lồng `.container` trong `.container` — chỉ dùng 1 loại container ngoài cùng.
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "`col-md-6` nghĩa là gì? Bootstrap responsive thế nào?"
+> *"Bootstrap chia mỗi row thành 12 cột. col-md-6 nghĩa là từ breakpoint md tức màn rộng từ 768px trở lên, phần tử chiếm 6 trên 12 cột, tức nửa hàng; còn nhỏ hơn md thì nó full width 12 cột. Bootstrap theo mobile-first nên class không có breakpoint áp cho mọi cỡ, thêm tiền tố breakpoint để áp từ cỡ đó trở lên. Vì vậy em hay viết kiểu col-12 col-md-6 col-lg-4 để trên điện thoại full, tablet nửa, desktop một phần ba, và gần như không phải tự viết media query. Nhớ là cột phải nằm trong row, và row nằm trong container."*
+
+> [!note] 🧠 Mẹo nhớ
+> **12 cột/hàng. `col-md-6` = từ md trở lên chiếm nửa, nhỏ hơn full.** Mobile-first: `col-12 col-md-6 col-lg-4`. Cấu trúc: **container > row > col**.
 
 1. **Q:** `col-md-6` có nghĩa là gì?
    **A:** Từ breakpoint `md` (≥768px) trở lên, element chiếm **6/12 cột** (50%). Nhỏ hơn md, element chiếm full width (12/12). Có thể combine: `col-12 col-md-6 col-lg-4` = mobile full, tablet half, desktop third.

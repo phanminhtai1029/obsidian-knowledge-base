@@ -16,6 +16,11 @@ source: [Bootstrap 5 docs]
 > [!summary] TL;DR
 > Bootstrap Components là các UI widget sẵn dùng (Button, Card, Navbar, Modal, Accordion, Tabs). Phần lớn chỉ cần HTML + class; một số cần `bootstrap.bundle.min.js` để hoạt động (Modal, Accordion, Tabs collapse).
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Component = các "khối UI lắp sẵn"** của Bootstrap: Button, Card, Navbar, Modal (hộp thoại), Accordion (xếp gập), Tabs... Bạn chỉ copy cấu trúc HTML + gắn đúng class là có ngay.
+> - Phần lớn chỉ cần **HTML + class** (Button, Card). Nhưng các thành phần *có tương tác/động* (Modal, Accordion, Tabs, Dropdown) cần nạp **`bootstrap.bundle.min.js`** thì mới chạy.
+> - Điều khiển bằng thuộc tính `data-bs-*` (cách *khai báo*, vd `data-bs-toggle="modal"`) hoặc gọi **JS API** khi cần *chủ động* (vd đóng modal sau khi gọi API thành công).
+
 ---
 
 ## 1. Khái niệm
@@ -360,6 +365,12 @@ Bootstrap Components là tập hợp các **UI widget sẵn dùng** — mỗi co
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Component nào cần JS, điều khiển bằng data-bs vs JS API?"
+> *"Phần lớn component của Bootstrap chỉ cần HTML và class như Button hay Card. Nhưng các component có tương tác động như Modal, Accordion, Tabs, Dropdown thì cần nạp file bootstrap bundle js mới hoạt động. Có hai cách điều khiển: cách khai báo bằng thuộc tính data-bs, ví dụ data-bs-toggle bằng modal và data-bs-dismiss bằng modal, Bootstrap tự xử lý khi người dùng click, rất nhanh gọn; và cách dùng JS API khi cần chủ động trong code, ví dụ lấy instance modal rồi gọi hide sau khi một request API thành công trong callback. Em dùng data-bs cho thao tác đơn giản, JS API khi cần điều khiển theo logic."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Component lắp sẵn; loại tương tác (Modal/Accordion/Tabs) cần `bootstrap.bundle.js`.** Điều khiển: **`data-bs-*` (khai báo) vs JS API (chủ động).**
 
 **Q1: Sự khác nhau giữa `data-bs-dismiss="modal"` và đóng Modal bằng JavaScript?**
 
