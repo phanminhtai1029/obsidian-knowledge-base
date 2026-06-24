@@ -27,6 +27,7 @@ Sẽ cập nhật trong khi làm; mỗi gap ghi rõ note đích + commit.
 
 **Đã bổ sung:**
 - [x] `React.memo`/`useMemo`/`useCallback` (tối ưu re-render) → note MỚI `06-React/19-Performance-memo-useMemo-useCallback.md` + thêm vào MOC. (đề NamPV26 Q2, TinNA2 Q2, TriLHD2 Q2)
+- [x] **Debouncing & Throttling** (khái niệm) → bổ sung mục mới vào `02-DOM-Event/13-DOM-Performance.md` (đề NhaNTT60 Q2). Trước đó chỉ có ví dụ rải rác, chưa giải thích khái niệm.
 
 **Ứng viên ban đầu (chưa xử lý hết):**
 - FE: State Batching, Virtual DOM (chi tiết reconciliation), `key={index}` bad practice, SPA refresh 404, render Markdown an toàn + XSS, Debouncing/Throttling, Shallow vs Deep copy, `Promise.allSettled`, Optional chaining/Nullish, Lazy loading/code splitting.
