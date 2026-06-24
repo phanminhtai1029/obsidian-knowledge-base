@@ -16,6 +16,13 @@ source: [React.docx, react.dev]
 > [!summary] TL;DR
 > **State** là dữ liệu thay đổi theo thời gian — khi state thay đổi, React **re-render** component đó và tất cả children. `useState` trả về tuple `[value, setter]` qua **array destructuring**. `setter(newValue)` thay thế state hoàn toàn — không merge như `setState` của class. **Lift state up**: đưa state lên ancestor chung khi nhiều components cần dùng cùng state. **`useReducer`** thay thế `useState` khi state phức tạp, nhiều transitions liên quan nhau.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **State = "trí nhớ" của component.** `props` là thứ *cha đưa cho* (không sửa được), còn `state` là thứ *component tự giữ và tự đổi*. Mỗi khi state đổi, React **vẽ lại (re-render)** component đó để màn hình khớp dữ liệu mới. `useState(0)` đưa cho bạn 2 thứ: **giá trị hiện tại** + **cái nút để đổi nó** → `const [count, setCount] = useState(0)`.
+>
+> **2 điều khiến người mới "trật" (và hay ra thi):**
+> 1. **State giống ảnh chụp mỗi lần render, không phải biến sống.** Trong một lần xử lý click, `count` bị "đóng băng". Nên gọi `setCount(count + 1)` ba lần chỉ tăng **1** (cả ba đều đọc cùng một `count` cũ rồi React **gộp lại — batching**). Muốn tăng đúng **3** phải dùng *hàm cập nhật*: `setCount(prev => prev + 1)` — React đưa giá trị mới nhất vào từng lần.
+> 2. **Phải tạo dữ liệu MỚI, đừng sửa tại chỗ.** React phát hiện thay đổi bằng so sánh *địa chỉ*. `arr.push(x)` rồi `setArr(arr)` → cùng địa chỉ → **không re-render**. Phải `setArr([...arr, x])` (tạo mảng mới). Đây là lý do kỹ thuật spread cực quan trọng trong React.
+
 ---
 
 ## 1. Khái niệm
@@ -378,6 +385,15 @@ function Cart() {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Gọi `setCount(count+1)` 3 lần thì count tăng 1 hay 3?"
+> *"Chỉ tăng 1 ạ. Lý do là hai chuyện kết hợp: thứ nhất, trong một lần xử lý sự kiện, biến `count` là giá trị đóng băng của lần render hiện tại, nên cả ba lệnh đều đọc cùng một `count` cũ và tính ra cùng một kết quả. Thứ hai là State Batching — React gộp nhiều lệnh setState trong cùng một event lại và chỉ re-render một lần với giá trị cuối cùng, nên ba lệnh `setCount(count+1)` đều thành 'đặt count = giá trị cũ + 1'. Muốn nó tăng đúng 3 thì em dùng dạng hàm cập nhật: `setCount(prev => prev + 1)`, vì khi đó React truyền vào giá trị mới nhất sau mỗi lần, ba lần liên tiếp sẽ ra cộng dồn. Batching là tính năng tốt vì giảm số lần render thừa."*
+
+> [!example] 🗣️ Trả lời mẫu — "useRef khác useState ở đâu, khi nào bắt buộc dùng useRef?"
+> *"Điểm khác cốt lõi: đổi `useState` thì component re-render, còn đổi `useRef` thì KHÔNG re-render — ref là một hộp giữ giá trị tồn tại xuyên các lần render mà không ảnh hưởng giao diện. Vì vậy em dùng useState cho dữ liệu cần hiển thị lên UI, còn useRef cho những giá trị 'hậu trường' không cần vẽ lại: ví dụ giữ tham chiếu tới một DOM node để focus input, lưu id của setInterval/setTimeout để clear, hay đếm số lần render để debug. Trường hợp bắt buộc dùng useRef điển hình là truy cập trực tiếp DOM element qua `ref` rồi gọi `.focus()`, dùng useState ở đây vừa thừa vừa gây render lặp."*
+
+> [!note] 🧠 Mẹo nhớ
+> **State = trí nhớ, đổi → re-render.** `setCount(count+1)` ×3 = **+1** (batching + ảnh chụp) → muốn +3 dùng **`prev => prev+1`**. **Đừng mutate, hãy tạo mới (spread).** **useRef = giữ giá trị nhưng KHÔNG re-render** (DOM, timer id).
 
 **Q1: useState là gì? Giải thích cú pháp `const [count, setCount] = useState(0)`.**
 

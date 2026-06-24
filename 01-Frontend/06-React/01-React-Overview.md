@@ -15,6 +15,13 @@ source: [React.docx, react.dev]
 > [!summary] TL;DR
 > **React** là JavaScript **library** (không phải framework) do Facebook tạo ra, open source năm 2013, dùng để build **UI theo kiến trúc component**. Cơ chế hoạt động: JSX → React Elements → **Virtual DOM** → diff với real DOM → chỉ update những gì thay đổi. Khởi tạo project: `npm create vite@latest my-app -- --template react`. **React 19** giới thiệu React Compiler tự động optimize, không cần `useMemo`/`useCallback` thủ công.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> React là **thư viện** giúp bạn xây giao diện bằng các **"khối lego" tái dùng được** gọi là *component*. Thay vì tự tay ra lệnh sửa từng chỗ trên trang (Vanilla JS: *"tìm thẻ này, đổi chữ kia"* — gọi là *imperative*), với React bạn chỉ **mô tả "giao diện nên trông thế nào ứng với dữ liệu hiện tại"**, còn việc cập nhật màn hình để React lo (gọi là *declarative*).
+>
+> **Virtual DOM** — cơ chế giúp React nhanh: sửa DOM thật (màn hình) rất tốn kém. React giữ **một bản sao giao diện bằng JavaScript** (nhẹ). Khi dữ liệu đổi, nó dựng bản sao mới, **so sánh (diff) với bản cũ**, rồi **chỉ sửa đúng phần khác biệt** lên màn hình thật — thay vì vẽ lại cả trang. Ví von: thay vì *xây lại cả căn nhà*, nó *so bản thiết kế cũ–mới và chỉ sơn lại bức tường đã đổi*.
+>
+> **Một câu chốt hay bị hỏi:** React là **library** (chỉ lo phần View), không phải framework — routing, state toàn cục, SSR phải tự lắp thêm (React Router, Redux/Zustand, Next.js).
+
 ---
 
 ## 1. Khái niệm
@@ -211,6 +218,12 @@ Nguyên tắc: **data flows down** (props), **events flow up** (callback props).
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Virtual DOM giúp tăng hiệu năng thế nào so với thao tác Real DOM?"
+> *"Thao tác trực tiếp lên Real DOM rất tốn kém vì mỗi lần đổi thường gây trình duyệt tính lại layout và vẽ lại. Virtual DOM là một bản sao giao diện bằng JavaScript object, rất nhẹ. Khi state hay props đổi, React không sửa thẳng màn hình mà dựng một cây Virtual DOM mới, đem so sánh với cây cũ bằng thuật toán diffing để tìm ra đúng những chỗ khác biệt, bước này gọi là reconciliation, rồi chỉ patch đúng phần đó lên Real DOM. Nhờ vậy nó gom nhiều thay đổi lại và giảm tối đa số lần đụng vào DOM thật, thay vì với Vanilla JS mình hay vô tình cập nhật cả cụm hoặc cập nhật lặp gây chậm. Ngoài ra React còn cho code declarative, mình mô tả UI theo dữ liệu chứ không ra lệnh từng bước."*
+
+> [!note] 🧠 Mẹo nhớ
+> **React = lego component + declarative (mô tả, không ra lệnh).** Virtual DOM = **bản sao JS → diff → chỉ patch phần đổi** (sơn lại tường đã đổi, không xây lại nhà). React là **library**, không phải framework.
 
 **Q1: React là gì? Tại sao dùng React thay vì Vanilla JS?**
 

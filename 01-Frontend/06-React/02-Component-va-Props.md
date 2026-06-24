@@ -15,6 +15,15 @@ source: [React.docx, react.dev]
 > [!summary] TL;DR
 > **Component** là function trả về JSX — building block của React app. **Props** là dữ liệu truyền từ parent xuống child qua attributes (giống HTML attributes nhưng là JS). Props là **read-only**: child không được thay đổi props nhận vào. **Destructuring** props trong parameter: `function Card({ title, count })`. **`children`** là prop đặc biệt chứa JSX lồng bên trong. Đặt tên component **PascalCase** (không thể viết thường — React sẽ coi là HTML tag).
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Component = một hàm nhận "nguyên liệu" và trả về "giao diện".** Giống công thức nấu ăn: đưa nguyên liệu khác nhau (props) ra món khác nhau. `<UserCard name="Alice" />` chính là *gọi hàm* `UserCard` với `name = "Alice"`.
+>
+> **Props = "nguyên liệu cha đưa cho con".** Quy tắc vàng: **props chỉ đọc, con không được sửa** — vì dữ liệu trong React **chảy một chiều từ trên xuống** (one-way data flow). Con muốn báo cho cha "tôi vừa được click" thì cha phải đưa kèm *một hàm callback* (vd `onAddToCart`), con gọi hàm đó — **dữ liệu xuống bằng props, sự kiện lên bằng callback.**
+>
+> **2 điều dễ quên mà hay bị bắt lỗi:**
+> - Tên component **phải viết Hoa** (`<Card>`); viết thường (`<card>`) React tưởng là thẻ HTML → không hiện gì.
+> - **`children`** là prop đặc biệt = phần JSX bạn đặt *giữa* cặp thẻ `<Card>...</Card>` → dùng để làm khung bọc (Card, Modal, Layout).
+
 ---
 
 ## 1. Khái niệm
@@ -329,6 +338,12 @@ function App() {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Props là gì, vì sao read-only?"
+> *"Props là dữ liệu cha truyền xuống con, giống như tham số của một hàm. Props read-only vì React theo mô hình dữ liệu một chiều: dữ liệu chỉ chảy từ cha xuống con. Nếu con tự sửa props thì luồng dữ liệu thành hai chiều, rất khó lần ra ai đổi dữ liệu khi nào, mất tính dự đoán. Khi con cần thay đổi dữ liệu, nó không sửa props mà gọi một hàm callback do cha truyền xuống — cha mới là nơi giữ state và cập nhật, gọi là lifting state up. Nhờ vậy nhìn vào props là biết vì sao UI hiển thị như thế, debug dễ hơn nhiều."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Component = hàm: nguyên liệu (props) → giao diện (JSX).** **Dữ liệu xuống bằng props, sự kiện lên bằng callback.** **Props chỉ đọc.** Tên component **viết Hoa**; `children` = phần lồng giữa cặp thẻ.
 
 **Q1: Component trong React là gì? Phân biệt function component và class component.**
 

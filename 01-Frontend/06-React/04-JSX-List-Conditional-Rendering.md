@@ -16,6 +16,15 @@ source: [React.docx, react.dev]
 > [!summary] TL;DR
 > **JSX** là JavaScript XML — cú pháp sugar cho `React.createElement`. Quy tắc: một root element (hoặc Fragment `<>...</>`), dùng `className` thay `class`, `htmlFor` thay `for`, camelCase cho attributes. **List**: dùng `.map()` để render array, mỗi item **bắt buộc** có `key` prop duy nhất và ổn định (không dùng index nếu list có thể thay đổi thứ tự). **Conditional**: ternary `? :` cho if/else, `&&` cho if-only, early return cho phức tạp hơn.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **JSX = viết "HTML" ngay trong JavaScript.** Thực chất mỗi thẻ JSX bị dịch thành một lời gọi hàm trả về object, nên trong dấu `{}` bạn chỉ nhét được **biểu thức có giá trị** (biến, phép tính, ternary) — không nhét được `if`/`for`. Và vì `class` là từ khóa JS nên phải viết `className`.
+>
+> **List:** muốn render một mảng ra giao diện thì dùng `.map()`, và mỗi phần tử **phải có `key`** — một "mã định danh" để React biết item nào là item nào khi danh sách thay đổi.
+>
+> **⚠️ 2 bẫy CỰC hay ra thi:**
+> 1. **`key={index}` là bad practice:** index không gắn chặt với *dữ liệu* mà gắn với *vị trí*. Khi bạn xóa/chèn/đảo phần tử ở giữa, index của các item bị xô lệch → React khớp nhầm item cũ với item mới → state cục bộ (vd nội dung ô input) **dính nhầm sang dòng khác**, UI lỗi. → Dùng `key={item.id}` (mã ổn định từ data).
+> 2. **`{count && <X/>}` khi `count = 0`** sẽ in số **`0`** ra màn hình (vì `0` falsy nhưng React vẫn render số). → Viết `{count > 0 && <X/>}`.
+
 ---
 
 ## 1. Khái niệm
@@ -387,6 +396,12 @@ function NotificationCenter({ notifications, onDismiss }) {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Vì sao `key={index}` là bad practice?"
+> *"Vì key là danh tính để React khớp item cũ với item mới khi cập nhật danh sách. Nếu lấy index của mảng làm key thì key gắn với vị trí chứ không gắn với dữ liệu, mà vị trí lại thay đổi khi mình thêm, xóa hoặc đảo phần tử ở giữa. Ví dụ xóa phần tử đầu, mọi index của các phần tử sau bị dịch lên một, React tưởng đó vẫn là các item cũ ở đúng vị trí nên giữ nguyên DOM và state cũ, dẫn tới sai — kinh điển là state cục bộ như nội dung ô input bị gán nhầm sang dòng khác, hoặc checkbox tick nhầm. Cách đúng là dùng một id ổn định và duy nhất từ chính dữ liệu. Chỉ khi danh sách tĩnh, không bao giờ đổi thứ tự thì dùng index mới tạm chấp nhận được."*
+
+> [!note] 🧠 Mẹo nhớ
+> **JSX = HTML trong JS, `{}` chỉ chứa biểu thức, `class`→`className`.** **`key` theo DATA (id), đừng theo index.** **`count && <X/>` → dùng `count > 0 && <X/>`** kẻo in số 0.
 
 **Q1: JSX là gì? Tại sao dùng `className` thay `class`?**
 

@@ -15,6 +15,18 @@ source: [React.docx, react.dev]
 > [!summary] TL;DR
 > `useEffect(effect, deps?)` chạy side effect sau khi React update DOM. **3 modes**: không có deps (mỗi render), `[]` (chỉ mount), `[deps]` (khi deps thay đổi). **Cleanup**: function return từ effect — chạy trước lần effect tiếp theo và khi unmount. **Data fetching**: luôn dùng `AbortController` để cancel inflight request khi deps thay đổi. **Deps array**: phải bao gồm tất cả reactive values dùng trong effect (ESLint `exhaustive-deps` rule giúp enforce).
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **`useEffect` = "sau khi vẽ xong màn hình, làm thêm việc này" — dành cho việc đụng tới thế giới bên ngoài React** (gọi API, đặt timer, lắng nghe scroll, đổi `document.title`). Component bình thường chỉ nên "tính ra giao diện"; mấy việc *phụ* (side effect) thì nhét vào `useEffect`.
+>
+> **Cái `[...]` cuối (dependency array) = "chạy lại khi nào":**
+> - `useEffect(fn)` *(không có mảng)* → chạy **sau MỖI lần render** (hiếm dùng, dễ loạn).
+> - `useEffect(fn, [])` → chạy **đúng 1 lần** lúc component sinh ra (mount).
+> - `useEffect(fn, [a, b])` → chạy lại **mỗi khi a hoặc b đổi**.
+>
+> **Cleanup (hàm `return` trong effect) = "dọn dẹp trước khi chạy lại / trước khi component biến mất"** — dùng để `clearInterval`, gỡ event listener, hủy request. Quên dọn → **rò rỉ bộ nhớ** (timer/listener cứ chồng chất).
+>
+> **⚠️ Bẫy KINH ĐIỂN ra thi — Infinite Loop:** nếu trong effect bạn `setState`, mà state đó lại nằm trong deps (hoặc bạn để deps là một object/hàm tạo mới mỗi render, hoặc quên hẳn mảng deps) → effect chạy → setState → re-render → effect lại chạy → ... **lặp vô hạn, treo trình duyệt.** (Xem trả lời mẫu ở mục Phỏng vấn.)
+
 ---
 
 ## 1. Khái niệm
@@ -366,6 +378,24 @@ function StickyHeader() {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Một kịch bản useEffect/useState gây Infinite Loop?"
+> *"Kịch bản kinh điển là gọi setState ngay trong useEffect mà không kiểm soát dependency. Ví dụ em viết `useEffect(() => { setCount(count + 1); })` mà quên mảng dependency: effect chạy sau mỗi render, mà nó lại setState nên gây re-render, render xong effect lại chạy tiếp, thành vòng lặp vô hạn treo trình duyệt. Một biến thể tinh vi hơn là để dependency là một object hoặc function tạo mới mỗi lần render, ví dụ `useEffect(() => {...}, [config])` với `config = {}` viết thẳng trong component — mỗi render `config` là object mới khác địa chỉ nên React tưởng dependency đổi, chạy lại liên tục. Cách phòng: khai báo đúng và đủ dependency, nếu cập nhật state dựa trên state cũ thì dùng updater `setCount(prev => prev + 1)` để không phải thêm count vào deps, và với object/function thì bọc useMemo/useCallback hoặc tách giá trị nguyên thủy ra. Em cũng không tắt rule exhaustive-deps của ESLint vì nó cảnh báo đúng mấy lỗi này."*
+>
+> ```jsx
+> // ❌ Infinite loop: setState chạy mỗi render, không có deps
+> useEffect(() => { setCount(count + 1); });
+> // ❌ Infinite loop: object literal tạo mới mỗi render → deps "luôn đổi"
+> useEffect(() => { fetchData(config); }, [config]); // const config = {}
+> // ✅ chỉ chạy 1 lần, hoặc khi userId đổi
+> useEffect(() => { fetchData(userId); }, [userId]);
+> ```
+
+> [!example] 🗣️ Trả lời mẫu — "Cleanup chạy khi nào? Quên cleanup gây memory leak ra sao?"
+> *"Hàm cleanup là hàm mình return bên trong useEffect. Nó chạy hai thời điểm: trước khi effect chạy lại lần kế tiếp, và khi component unmount. Công dụng là dọn những thứ effect đã tạo. Ví dụ em `setInterval` hoặc `addEventListener('scroll')` trong effect mà quên clearInterval / removeEventListener trong cleanup, thì mỗi lần component mount lại sẽ tạo thêm một interval/listener mới mà cái cũ không bị gỡ, chúng tích tụ dần gây rò rỉ bộ nhớ và có thể chạy callback trên component đã biến mất. Nên hễ effect 'mở' cái gì thì cleanup phải 'đóng' cái đó."*
+
+> [!note] 🧠 Mẹo nhớ
+> **useEffect = "vẽ xong rồi làm việc ngoài lề".** Deps: **không mảng = mọi render · `[]` = 1 lần · `[x]` = khi x đổi.** **setState trong effect + deps sai = Infinite Loop.** **Effect mở gì → cleanup đóng nấy** (không thì leak).
 
 **Q1: Giải thích 3 modes của dependency array trong useEffect.**
 
