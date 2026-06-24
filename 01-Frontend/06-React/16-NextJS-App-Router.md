@@ -16,6 +16,13 @@ source: [React raw transcript, Next.js docs]
 > [!summary] TL;DR
 > **Next.js** là framework React phổ biến nhất, **được team React khuyến nghị** — nó "nướng sẵn" nhiều best practice (server rendering, routing, tối ưu) mà không phải tự cấu hình. Tạo dự án: `npx create-next-app@latest`. **App Router** dùng **routing theo file/thư mục**: mỗi **thư mục** trong `app/` là một route, file **`page.js`** bên trong là nội dung hiển thị. **`layout.js`** bọc quanh các page (đặt header/nav dùng chung mọi trang). Điều hướng giữa các route bằng component **`<Link>`** (`next/link`) thay cho thẻ `<a>` thường. Mỗi page **bắt buộc `export default`**.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Nếu **React** là động cơ thì **Next.js** là **chiếc xe lắp sẵn** quanh động cơ đó: thêm sẵn định tuyến (routing), render phía server (SSR — dựng HTML sẵn ở server cho nhanh và tốt SEO), tối ưu ảnh... để bạn khỏi tự lắp.
+>
+> **App Router = định tuyến bằng *thư mục*, không bằng code:** trong thư mục `app/`, **cứ tạo một folder là tạo một đường dẫn**, file `page.js` bên trong là nội dung trang. Ví dụ `app/hotels/page.js` → tự động có trang `/hotels`. Khác hẳn React Router (phải khai báo `<Route>` bằng tay).
+> - `layout.js` = **khung bọc dùng chung** (header/nav) cho mọi trang; phần `children` chính là trang hiện tại được "nhét" vào.
+> - Chuyển trang dùng `<Link>` (mượt, không tải lại), không dùng `<a>`.
+
 ---
 
 ## 1. Next.js là gì, vì sao dùng
@@ -128,6 +135,12 @@ import Link from "next/link";
 ---
 
 ## 5. Q&A phỏng vấn
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Next.js là gì, App Router định tuyến thế nào?"
+> *"Next.js là framework dựng trên React, được chính team React khuyến nghị, lo sẵn nhiều thứ mà React trần không có như routing, server-side rendering, server components và tối ưu, nên hợp cho app production cần SEO. App Router là cơ chế định tuyến theo cấu trúc thư mục: trong thư mục app, mỗi folder là một route, file page.js bên trong là nội dung hiển thị, ví dụ app/hotels/page.js tự thành đường dẫn /hotels, không cần khai báo route bằng code như React Router. Ngoài ra layout.js là khung bọc dùng chung cho các trang, phần children là trang hiện tại, và chuyển trang thì dùng component Link để điều hướng client-side cho mượt thay vì thẻ a."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Next.js = React lắp sẵn routing + SSR.** App Router: **tạo folder = tạo route, `page.js` = nội dung, `layout.js` = khung chung.** Điều hướng bằng `<Link>`.
 
 > [!question] 1. Next.js là gì? Khác React thuần và Vite ra sao?
 > Next.js là **framework React** (team React khuyến nghị) nướng sẵn routing, SSR, server components, tối ưu. React thuần chỉ là thư viện UI; **Vite** dựng SPA nhẹ. Next.js hợp app production cần SSR/SEO.

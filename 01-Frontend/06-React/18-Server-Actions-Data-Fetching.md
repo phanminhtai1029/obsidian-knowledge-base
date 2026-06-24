@@ -16,6 +16,13 @@ source: [React raw transcript, Next.js docs]
 > [!summary] TL;DR
 > Trong Next.js, **cách tốt nhất để lấy dữ liệu là fetch ngay trong Server Component** (co-location: fetch và render cùng chỗ) — vì fetch ở server nhanh hơn và an toàn hơn fetch ở client. Component để `async`, `await fetch(...)`, rồi render. Để **xử lý form / thay đổi dữ liệu (mutation)**, dùng **Server Action**: một hàm `async` đánh dấu **`"use server"`**, gắn vào form qua thuộc tính **`action={...}`**; khi submit, browser xử lý `formData` và gọi hàm này **trên server** (log/ghi DB hiện ở terminal server, không phải console trình duyệt).
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Lấy dữ liệu (đọc):** trong Next.js mới, cách gọn nhất là **fetch ngay trong Server Component** — để component `async` rồi `await fetch(...)` và render luôn. Khỏi cần `useState`+`useEffect` như React cổ điển, không bị "chớp loading", và **giấu được API key** (vì chạy ở server). (Gọi là *co-location* = fetch và hiển thị nằm cùng một chỗ.)
+>
+> **Thay đổi dữ liệu / xử lý form (ghi):** dùng **Server Action** — một hàm `async` có dòng **`"use server"`** bên trong, gắn vào form bằng `<form action={hàm}>`. Khi bấm submit, trình duyệt tự gom dữ liệu form (`formData`) và Next gọi hàm đó **chạy trên server** → bạn đọc field bằng `formData.get("email")`, rồi ghi DB. Không cần tự tạo API route, không cần `useState` cho từng ô.
+>
+> **Đừng lẫn:** `"use client"` (đầu *file* → biến *component* thành client) ≠ `"use server"` (trong *hàm* → biến *hàm* thành server action).
+
 ---
 
 ## 1. Fetch data trong Server Component
@@ -131,6 +138,12 @@ export default function ContactPage() {
 ---
 
 ## 4. Q&A phỏng vấn
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Fetch data trong Next.js nên đặt ở đâu? Server Action là gì?"
+> *"Cách tốt nhất để lấy dữ liệu là fetch ngay trong Server Component: cho component async rồi await fetch và render luôn, đặt fetch và render cùng chỗ. Cách này nhanh và an toàn hơn vì chạy ở server, gần dữ liệu và giấu được API key, lại không bị chớp loading như khi fetch trong useEffect ở client. Còn để xử lý form hay thay đổi dữ liệu thì em dùng Server Action, là một hàm async có directive use server, gắn vào form qua thuộc tính action. Khi submit, trình duyệt tự gom formData và Next gọi hàm đó chạy trên server, em đọc field bằng formData.get rồi ghi database, không cần tự tạo API route cũng không cần useState cho từng input. Lưu ý use server đặt trong hàm để đánh dấu server action, khác use client đặt đầu file để đánh dấu client component."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Đọc data → fetch thẳng trong Server Component (async/await, giấu key, không flicker).** **Ghi/form → Server Action (`"use server"` + `<form action={fn}>` + `formData.get`).** `"use server"` (trong hàm) ≠ `"use client"` (đầu file).
 
 > [!question] 1. Nơi tốt nhất để fetch data trong Next.js là đâu? Vì sao?
 > Trong **Server Component** (co-location: fetch & render cùng chỗ). Vì fetch ở server **nhanh hơn** (gần data), **an toàn hơn** (giấu key/secret), và không cần `useEffect` → không loading flicker.

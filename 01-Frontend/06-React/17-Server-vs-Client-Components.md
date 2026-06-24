@@ -16,6 +16,15 @@ source: [React raw transcript, Next.js docs]
 > [!summary] TL;DR
 > Trong Next.js App Router, **mặc định mọi component là Server Component** — render (và có thể cache) **trên server**, gửi HTML về trước, JavaScript nạp nền sau → nhanh, an toàn, SEO tốt, fetch data ngay tại chỗ. Nhưng Server Component **không** dùng được tương tác (sự kiện click, state) hay **browser API** (localStorage, geolocation), cũng không dùng hook như `useState`/`useEffect`. Khi cần những thứ đó, đánh dấu file bằng directive **`"use client"`** ở đầu → thành **Client Component** (render/hydrate ở trình duyệt). Mỗi page/component cần **`export default`**.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Trong Next.js mới, component được chia 2 loại theo *nơi nó chạy*:
+> - **Server Component (mặc định)** = chạy **trên máy chủ**, dựng sẵn HTML gửi về → trang hiện nhanh, tốt SEO, lấy dữ liệu ngay tại chỗ, và **giấu được code/khóa bí mật** vì không gửi xuống trình duyệt. Đổi lại: **không** có tương tác (không `onClick`), **không** dùng `useState`/`useEffect`, **không** đụng được thứ của trình duyệt (`localStorage`, `window`).
+> - **Client Component** = chạy **ở trình duyệt**, có đủ tương tác/state/hook. Báo cho Next biết bằng cách viết dòng **`"use client"`** ở *đầu file*.
+>
+> **Hydration** (làm "sống dậy"): server gửi HTML *tĩnh* để hiện ngay, sau đó React *gắn JavaScript vào* để nút bấm, state... bắt đầu hoạt động.
+>
+> **Quy tắc vàng:** để mặc định là server, **chỉ dán `"use client"` ở những mảnh nhỏ thật sự cần tương tác** — đừng dán ở gốc app (sẽ biến cả cây thành client, mất hết lợi ích).
+
 ---
 
 ## 1. Mặc định: Server Component
@@ -113,6 +122,12 @@ export default function HotelBlock({ name }) { ... }
 ---
 
 ## 5. Q&A phỏng vấn
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Server vs Client Component khác gì, khi nào dùng `use client`?"
+> *"Trong Next.js App Router, mặc định mọi component là Server Component, tức render trên server và gửi HTML về trước, nên nhanh, tốt SEO, bảo mật vì code và thao tác lấy dữ liệu nằm ở server không lộ ra client, và fetch data được ngay tại component. Nhược điểm là server component không có tương tác, không dùng được useState, useEffect hay browser API như localStorage. Khi cần những thứ đó em thêm directive use client ở dòng đầu file để biến nó thành Client Component, chạy ở trình duyệt. Nguyên tắc của em là giữ mặc định server và chỉ đánh dấu use client ở những component lá thật sự cần tương tác, không đặt ở gốc, vì đặt ở gốc sẽ biến cả cây thành client và mất hết lợi ích của server."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Mặc định = Server (nhanh/SEO/bảo mật/fetch tại chỗ, nhưng KHÔNG state/event/browser API).** Cần tương tác → **`"use client"`** ở đầu file. **Đẩy `"use client"` xuống lá**, đừng đặt ở gốc.
 
 > [!question] 1. Trong Next.js App Router, component mặc định là gì?
 > **Server Component** — render (và có thể cache) trên server, gửi HTML trước, JS nạp nền. Nhanh, bảo mật, SEO tốt, fetch data ngay tại chỗ.
