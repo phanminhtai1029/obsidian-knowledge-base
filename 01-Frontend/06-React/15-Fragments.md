@@ -15,6 +15,15 @@ source: [React raw transcript]
 > [!summary] TL;DR
 > JSX yêu cầu **mỗi component chỉ trả về MỘT phần tử gốc** — trả về 2 thẻ cạnh nhau sẽ lỗi *"Adjacent JSX elements must be wrapped in an enclosing tag"*. Cách cũ là bọc trong một `<div>` thừa → làm **rác DOM** (thừa node lồng nhau). **Fragment** là "thẻ bọc ảo" gom nhiều phần tử mà **không tạo node thật trong DOM**. Viết `<React.Fragment>...</React.Fragment>` hoặc gọn hơn là cú pháp rỗng **`<>...</>`**.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> React bắt mỗi component **trả về đúng 1 thẻ gốc**. Khi cần trả về nhiều thẻ cạnh nhau, ngày xưa người ta bọc thêm một `<div>` — nhưng cái `<div>` đó **vô nghĩa, chỉ để gom**, và nó tạo ra một node thừa trong DOM (gọi vui là "div soup").
+>
+> **Fragment = "cái túi trong suốt"**: gom nhiều thứ lại để trả về một cục, nhưng khi ra DOM thật thì **biến mất, không để lại thẻ nào**. Viết gọn là `<>...</>`.
+>
+> **Vì sao tốt hơn `<div>` thừa (đúng ý câu hỏi):** (1) **DOM gọn, nhẹ** hơn, ít cấp lồng; (2) **không phá CSS** — `<div>` thừa hay làm hỏng layout `flex`/`grid` (nó thành một con trực tiếp ngoài ý muốn) hoặc làm sai cấu trúc HTML bắt buộc như `<tr>` chỉ được chứa `<td>`.
+>
+> **Lưu ý nhỏ:** muốn gắn `key` (khi render list bằng Fragment) thì phải dùng dạng dài `<React.Fragment key={id}>`; dạng `<>` không nhận `key`.
+
 ---
 
 ## 1. Vấn đề: chỉ được trả về một gốc
@@ -96,6 +105,12 @@ function App() {
 ---
 
 ## 4. Q&A phỏng vấn
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Fragment dùng để làm gì, vì sao tốt cho hiệu năng và CSS hơn `<div>`?"
+> *"Fragment dùng để gom nhiều phần tử trả về từ một component mà không tạo thêm thẻ bọc trong DOM, vì React yêu cầu mỗi component chỉ trả về một gốc. Trước đây mình hay bọc một div thừa, nhưng div đó vô nghĩa và tạo node dư. Fragment, viết gọn là `<>...</>`, giúp DOM gọn nhẹ hơn, bớt cấp lồng nên duyệt và render nhẹ hơn. Về CSS, một div bọc thừa dễ phá layout flex hoặc grid vì nó trở thành một con trực tiếp ngoài dự tính, hoặc làm sai cấu trúc HTML bắt buộc, ví dụ trong table thì tr chỉ được chứa td nên không thể chèn div vào giữa — lúc đó Fragment là bắt buộc. Khi render list bằng Fragment cần key thì em dùng dạng dài React.Fragment vì cú pháp ngắn không nhận key."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Fragment = túi trong suốt: gom lại nhưng KHÔNG để lại thẻ trong DOM.** Hơn `<div>` thừa ở: **DOM nhẹ + không phá flex/grid + đúng cấu trúc `<tr>`/`<td>`.** Cần `key` → dùng `<React.Fragment>`.
 
 > [!question] 1. Vì sao JSX báo lỗi "Adjacent JSX elements must be wrapped"?
 > Vì component chỉ được **trả về một phần tử gốc**. Hai thẻ cạnh nhau không có gốc chung → lỗi. Phải bọc trong một thẻ hoặc dùng **Fragment**.

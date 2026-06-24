@@ -16,6 +16,15 @@ source: [reactrouter.com/en/main]
 > [!summary] TL;DR
 > **React Router v6**: `<BrowserRouter>` wrap app, `<Routes>` chứa tất cả route, `<Route path="..." element={<Component />}>`. **Nested routes** với `<Outlet>` — parent layout render, children render vào vị trí `<Outlet>`. **Hooks**: `useParams()` (URL params), `useNavigate()` (programmatic navigation), `useLocation()` (current path). **Protected routes**: component wrapper check auth, render `<Navigate to="/login">` nếu không authorized. **`lazy()`** + `<Suspense>`: code splitting tự động.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Trang web thường: bấm link → tải lại **cả trang** từ server (chậm, chớp trắng). React Router làm **SPA**: bấm link → JS **chỉ đổi URL và thay component**, không tải lại trang → mượt và **giữ nguyên state**. Nó "giả lập" điều hướng bằng History API của trình duyệt.
+>
+> **Vài câu hỏi đề hay xoáy vào:**
+> - **`<Link to>` vs `<a href>`:** `<a href>` **tải lại cả trang** → mất hết React state; `<Link>` chặn việc đó, chỉ đổi component. → Trong app **luôn dùng `<Link>`**; chỉ dùng `<a>` cho link *ra ngoài* app.
+> - **Dynamic routing** (`/employee/1`, `/employee/2`): khai báo route `path="/employee/:id"`, rồi trong component lấy id bằng hook **`const { id } = useParams()`**.
+> - **Trang 404 bắt-tất-cả:** đặt `<Route path="*" element={<NotFound/>} />` ở cuối — `*` khớp mọi URL không trùng route nào ở trên.
+> - **`<Outlet>`** = "ô trống" trong layout cha để route con render vào (dùng chung navbar/sidebar). **`lazy()` + `<Suspense>`** = chia nhỏ code theo trang, tải tới đâu nạp tới đó → trang đầu nhẹ.
+
 ---
 
 ## 1. Khái niệm
@@ -493,6 +502,15 @@ function App() {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "`<Link>` khác `<a href>` thế nào?"
+> *"Khác nhau ở chỗ tải lại trang. Thẻ `<a href>` là điều hướng truyền thống: trình duyệt gửi request mới và tải lại toàn bộ trang, nên app React khởi động lại từ đầu và mất hết state hiện tại. Còn `<Link>` của React Router chặn hành vi mặc định đó, chỉ cập nhật URL bằng History API rồi render component tương ứng mà không reload, nên nhanh hơn và giữ nguyên state, đúng tinh thần SPA. Vì vậy trong nội bộ app em luôn dùng `<Link>`, chỉ dùng `<a>` khi trỏ ra một website bên ngoài."*
+
+> [!example] 🗣️ Trả lời mẫu — "Tạo dynamic route `/employee/1` và lấy id ra sao? Trang 404 bắt mọi URL?"
+> *"Em khai báo route với tham số động bằng dấu hai chấm: `path='/employee/:id'`. Khi người dùng vào `/employee/1`, bên trong component em lấy giá trị bằng hook useParams: `const { id } = useParams()`, id là chuỗi '1', rồi thường dùng nó trong useEffect để fetch dữ liệu, nhớ đưa id vào dependency để khi id đổi thì fetch lại. Còn trang 404 bắt tất cả thì em đặt một route với path dấu sao `path='*'` ở cuối danh sách Routes, nó khớp mọi URL không trùng route nào phía trên, em render component NotFound hoặc điều hướng về trang chủ."*
+
+> [!note] 🧠 Mẹo nhớ
+> **`<Link>` = không reload, giữ state; `<a>` = reload, mất state (chỉ dùng link ra ngoài).** Dynamic: **`:id` + `useParams()`.** 404: **`path="*"` ở cuối.** `<Outlet>` = ô cho route con; `lazy`+`Suspense` = code splitting.
 
 **Q1: React Router v6 thay đổi gì so với v5?**
 
