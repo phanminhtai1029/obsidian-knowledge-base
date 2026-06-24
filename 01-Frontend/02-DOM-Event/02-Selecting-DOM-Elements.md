@@ -15,6 +15,10 @@ source: [Javascript.docx]
 > [!summary] TL;DR
 > 5 method chính: `getElementById` (1 kết quả, theo ID), `getElementsByClassName`/`getElementsByTagName` (HTMLCollection live), `querySelector` (first match, CSS selector), `querySelectorAll` (static NodeList). Ưu tiên `querySelector`/`querySelectorAll` vì linh hoạt và nhất quán.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Muốn JS sửa một phần tử thì trước hết phải **"tóm" được nó** từ cây DOM. Cách dễ nhớ nhất: **`querySelector('...')`** — dùng *đúng cú pháp CSS selector* bạn đã quen (`#id`, `.class`, `div p`), trả về **phần tử đầu tiên** khớp; còn **`querySelectorAll`** trả về **mọi** phần tử khớp. Các hàm cũ như `getElementById` vẫn chạy nhưng mỗi hàm một kiểu cú pháp; `querySelector` gộp tất cả vào một cách viết → cứ ưu tiên nó.
+> *(Lưu ý nhỏ ra thi: `getElementsByClassName` trả về danh sách "sống" — live, tự cập nhật khi DOM đổi; `querySelectorAll` trả về danh sách "tĩnh" — chụp tại thời điểm gọi.)*
+
 ---
 
 ## 1. Khái niệm
@@ -256,6 +260,12 @@ console.log(getFormData('registerForm'));
 ---
 
 ## 6. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "`querySelector` khác `getElementById` thế nào?"
+> *"`getElementById` chỉ tìm theo id, truyền tên id không cần dấu thăng, và nhanh hơn chút. `querySelector` thì dùng cú pháp CSS selector nên linh hoạt hơn nhiều, tìm được theo class, theo thuộc tính, theo quan hệ cha con, và trả về phần tử đầu tiên khớp; muốn lấy hết thì dùng querySelectorAll. Em ưu tiên querySelector để codebase nhất quán một kiểu cú pháp, kể cả khi tìm theo id thì viết querySelector thăng id. Lưu ý querySelectorAll trả về NodeList tĩnh có forEach, còn getElementsByClassName trả về HTMLCollection sống tự cập nhật nhưng không có forEach."*
+
+> [!note] 🧠 Mẹo nhớ
+> **`querySelector` = tìm bằng CSS selector (linh hoạt, ưu tiên dùng); `querySelectorAll` = lấy tất cả (NodeList tĩnh).** `getElementsByClassName` = danh sách *sống*.
 
 **Q1: Sự khác nhau giữa `querySelector` và `getElementById`?**
 

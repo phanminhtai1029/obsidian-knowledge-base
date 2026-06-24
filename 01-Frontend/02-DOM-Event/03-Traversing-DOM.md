@@ -15,6 +15,11 @@ source: [Javascript.docx]
 > [!summary] TL;DR
 > Traversal = điều hướng từ element này sang element liên quan (parent/child/sibling) mà không select lại từ đầu. Ưu tiên `parentElement`, `children`, `firstElementChild`, `nextElementSibling` (chỉ trả về Element nodes). `closest()` và `contains()` đặc biệt hữu ích trong event handling.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Traversal (duyệt cây) = "đi từ một phần tử sang phần tử họ hàng của nó"** — lên cha (`parentElement`), xuống con (`children`, `firstElementChild`), sang anh em (`nextElementSibling`) — mà *không phải tìm lại từ đầu*. Ví von: đã đứng ở một phòng rồi thì bước sang phòng kế hoặc lên tầng trên, khỏi quay ra cổng đi lại.
+> - Mẹo: dùng các phiên bản có chữ **`Element`** (`firstElementChild`, `parentElement`) để **bỏ qua node chữ/khoảng trắng**, chỉ lấy thẻ thật.
+> - **`closest('.x')`** (leo *lên* tìm tổ tiên gần nhất khớp selector) cực hữu ích trong event delegation — bắt được cả khi click vào phần tử con bên trong.
+
 ---
 
 ## 1. Khái niệm
@@ -234,6 +239,12 @@ otherItems.forEach(item => item.classList.remove('active'));
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Khi nào dùng `closest()` thay vì `parentElement`?"
+> *"`parentElement` chỉ đi lên đúng một bậc cha. `closest('selector')` thì leo lên dần cho tới khi gặp tổ tiên đầu tiên khớp selector, hoặc trả null nếu không có. Em dùng closest khi không biết phần tử cần tìm cách bao nhiêu bậc, điển hình trong event delegation: gắn listener ở danh sách cha, khi click em gọi `e.target.closest('li')` để luôn lấy đúng cái li dù người dùng bấm trúng một icon hay span nằm sâu bên trong li. Còn các bước duyệt khác em ưu tiên bản có chữ Element như parentElement, firstElementChild để bỏ qua node text và khoảng trắng."*
+
+> [!note] 🧠 Mẹo nhớ
+> **`parentElement` = lên 1 bậc; `closest()` = leo lên tới khi khớp selector** (cứu tinh của event delegation). Ưu tiên bản `...Element` để bỏ qua text node.
 
 **Q1: `parentNode` vs `parentElement` — khác nhau thế nào?**
 

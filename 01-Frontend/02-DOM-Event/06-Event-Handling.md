@@ -15,6 +15,12 @@ source: [Javascript.docx]
 > [!summary] TL;DR
 > Events = tín hiệu JS nhận khi user tương tác (click, input, submit...). Ba cách gắn handler: HTML `onclick=`, JS property `.onclick =`, `addEventListener` (khuyên dùng — cho phép nhiều handler + dễ remove). Luôn wrap code trong `DOMContentLoaded`. Event object chứa thông tin sự kiện (`target`, `key`, `preventDefault`...).
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Event (sự kiện) = tín hiệu trình duyệt báo cho JS biết "người dùng vừa làm gì đó"** (bấm chuột, gõ phím, gửi form). Bạn "đăng ký lắng nghe" rồi bảo nó *làm gì khi xảy ra* — gọi là **event handler**.
+> - Cách nên dùng: **`el.addEventListener('click', handler)`** — cho phép gắn *nhiều* handler và *gỡ* được (`removeEventListener`), gọn hơn 2 cách cũ (`onclick=` trong HTML hay `.onclick =` ghi đè lẫn nhau).
+> - Hàm handler nhận một **event object** (`e`) chứa thông tin: `e.target` (phần tử bị tác động), `e.key` (phím nào), `e.preventDefault()` (chặn hành vi mặc định)...
+> - Nên bọc code trong **`DOMContentLoaded`** để chắc chắn HTML đã dựng xong DOM rồi mới gắn listener (gắn quá sớm sẽ không tìm thấy phần tử).
+
 ---
 
 ## 1. Khái niệm
@@ -296,6 +302,12 @@ document.addEventListener('DOMContentLoaded', () => {
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "`onclick` khác `addEventListener` thế nào? `e.target` vs `e.currentTarget`?"
+> *"onclick gán qua thuộc tính chỉ cho phép một handler, gán cái mới sẽ ghi đè cái cũ. addEventListener cho phép gắn nhiều handler cho cùng một sự kiện và gỡ được bằng removeEventListener, nên em luôn dùng addEventListener. Về event object, e.target là phần tử thực sự bị tác động, có thể là phần tử con; còn e.currentTarget là phần tử mà mình gắn listener vào. Trong event delegation thì rõ nhất: gắn listener ở ul, click vào một li bên trong thì target là li đó còn currentTarget là ul."*
+
+> [!note] 🧠 Mẹo nhớ
+> **`addEventListener` (nhiều handler, gỡ được) > `onclick` (1 handler, đè nhau).** **`e.target` = nơi bị click; `e.currentTarget` = nơi gắn listener.** Bọc code trong `DOMContentLoaded`.
 
 **Q1: Sự khác nhau giữa `onclick` và `addEventListener('click', ...)`?**
 

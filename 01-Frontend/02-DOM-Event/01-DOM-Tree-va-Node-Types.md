@@ -15,6 +15,9 @@ source: [Javascript.docx]
 > [!summary] TL;DR
 > DOM (Document Object Model) là biểu diễn dạng cây của trang HTML — browser tạo ra khi load trang. JavaScript tương tác với DOM để làm trang dynamic. Có 4 loại node chính: Element (1), Text (3), Attribute (2), Comment (8).
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Khi trình duyệt đọc file HTML, nó dựng thành **một cây gia phả các phần tử** trong bộ nhớ — đó là **DOM** (Document Object Model). Mỗi thẻ `<div>`, `<p>`, mỗi đoạn chữ... là một "nút" (node) trên cây, có cha/con/anh-em. JavaScript **không sửa thẳng file HTML** mà sửa cái cây này → trang thay đổi *động* (thêm/xóa/đổi nội dung mà không tải lại). Ví von: HTML là *bản vẽ thiết kế*, DOM là *ngôi nhà đã dựng* mà JS có thể vào sửa từng phòng. (Mỗi node có `nodeType`: Element=1, Text=3 — đoạn chữ cũng là một node riêng.)
+
 ---
 
 ## 1. Khái niệm
@@ -192,6 +195,12 @@ console.table(counts);
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "DOM là gì, khác HTML thế nào?"
+> *"HTML là file văn bản tĩnh, là bản viết tay của trang. Khi trình duyệt tải trang, nó đọc HTML và dựng thành DOM, một cây các đối tượng sống trong bộ nhớ, mỗi thẻ là một node có quan hệ cha con anh em. JavaScript không sửa trực tiếp file HTML mà thao tác trên cây DOM này, nên khi mình thêm, xóa hay đổi node thì giao diện cập nhật ngay mà file gốc không đổi. Nói ngắn gọn HTML là bản thiết kế, DOM là ngôi nhà đã dựng mà JS vào sửa được từng phòng."*
+
+> [!note] 🧠 Mẹo nhớ
+> **HTML = bản vẽ tĩnh; DOM = cây sống trong bộ nhớ mà JS sửa được.** Node hay gặp: Element=1, Text=3.
 
 **Q1: DOM là gì? Khác gì với HTML?**
 

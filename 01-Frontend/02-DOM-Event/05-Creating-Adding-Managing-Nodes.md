@@ -15,6 +15,14 @@ source: [Javascript.docx]
 > [!summary] TL;DR
 > Tạo element bằng `createElement` → set nội dung bằng `textContent` → chèn vào DOM bằng `appendChild`/`insertBefore`/`prepend`/`append`. Quản lý: `cloneNode(true)`, `replaceChild`, `removeChild`/`.remove()`. Constructors tắt: `new Option()` cho select, `new Image()` cho img.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Quy trình **thêm phần tử mới vào trang** gồm 3 bước, như *làm một món đồ rồi đặt vào nhà*:
+> 1. **Tạo** thẻ: `const li = document.createElement('li')`.
+> 2. **Đổ nội dung** vào: `li.textContent = 'Xin chào'` (dùng `textContent` cho an toàn).
+> 3. **Gắn vào** cây DOM: `ul.appendChild(li)` (thêm vào cuối), hoặc `prepend` (đầu), `insertBefore` (trước một node).
+>
+> Bước 3 mới là lúc phần tử *hiện lên màn hình* — tạo xong mà chưa gắn thì chưa thấy gì. Xóa thì `el.remove()`. Mẹo hiệu năng: thêm nhiều node thì gom vào `DocumentFragment` rồi gắn *một lần* (xem [[13-DOM-Performance]]).
+
 ---
 
 ## 1. Khái niệm
@@ -259,6 +267,12 @@ populateSelect('deptSelect', [
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Vì sao dùng `DocumentFragment` khi thêm nhiều element?"
+> *"Vì mỗi lần chèn node trực tiếp vào DOM đang hiển thị có thể khiến trình duyệt phải reflow và repaint, làm chậm khi số lượng lớn. DocumentFragment là một vùng chứa tạm nằm ngoài cây hiển thị, em tạo và append hết các node vào fragment đó trước, rồi chỉ append fragment vào DOM một lần. Như vậy chỉ tốn một lần cập nhật layout thay vì hàng trăm lần, render danh sách lớn mượt hơn hẳn. Ngoài ra em cũng lưu lại tham chiếu phần tử cha thay vì tìm lại trong vòng lặp để đỡ tốn."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Tạo (`createElement`) → đổ nội dung (`textContent`) → gắn (`appendChild`).** Thêm nhiều → **gom vào `DocumentFragment` rồi gắn 1 lần** (giảm reflow). `cloneNode(true)` = deep nhưng **không** copy listener.
 
 **Q1: Khác nhau giữa `appendChild` và `append`?**
 

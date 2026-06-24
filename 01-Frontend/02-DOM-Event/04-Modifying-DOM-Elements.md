@@ -15,6 +15,13 @@ source: [Javascript.docx]
 > [!summary] TL;DR
 > Sửa đổi DOM element qua: `textContent` (text an toàn), `innerHTML` (HTML tĩnh — không dùng với user input), `.value`/`.checked` (form inputs), `getAttribute`/`setAttribute` (attributes), `classList.add/remove/toggle` (classes), `element.style.propName` (inline CSS camelCase).
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Sau khi "tóm" được phần tử, đây là các "núm vặn" để **đổi nó**:
+> - Đổi **chữ** → `el.textContent = '...'` (an toàn, nên dùng). Đổi **HTML bên trong** → `el.innerHTML` (chỉ với dữ liệu *tin cậy*, vì input người dùng có thể chứa mã độc → XSS).
+> - Đổi **giá trị ô input** → `el.value`; checkbox → `el.checked`.
+> - Đổi **class** (bật/tắt giao diện) → `el.classList.add/remove/toggle('active')` — cách sạch nhất để thay đổi style qua CSS.
+> - Đổi **thuộc tính** → `el.setAttribute('href', ...)`; đổi **style trực tiếp** → `el.style.backgroundColor = 'red'` (tên thuộc tính camelCase, không phải `background-color`).
+
 ---
 
 ## 1. Khái niệm
@@ -266,6 +273,12 @@ if (localStorage.getItem('darkMode') === 'true') {
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "`textContent` vs `innerHTML`, vì sao nên dùng `classList` thay set `style`?"
+> *"textContent dùng để đọc ghi text thuần, an toàn và nhanh, em dùng mặc định, nhất là khi hiển thị dữ liệu người dùng vì nó không thực thi mã. innerHTML đọc ghi cả thẻ HTML, mạnh nhưng chỉ nên dùng với nội dung tĩnh tin cậy, vì nhét input người dùng vào dễ dính XSS. Về style, em ưu tiên classList toggle một class thay vì gán element.style trực tiếp, vì như vậy giữ phần trang trí trong file CSS, dễ bảo trì, hỗ trợ media query, và sau này đổi giao diện chỉ sửa CSS chứ không phải đi tìm trong code JS."*
+
+> [!note] 🧠 Mẹo nhớ
+> **`textContent` = text an toàn (mặc định); `innerHTML` = có thẻ nhưng coi chừng XSS.** Đổi giao diện bằng **`classList.toggle('active')`** (logic style ở CSS) thay vì gán `style` lẻ tẻ.
 
 **Q1: `textContent` vs `innerText` vs `innerHTML` — dùng khi nào?**
 
