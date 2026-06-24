@@ -13,6 +13,11 @@ source: [CSS-fundamentals.docx]
 # CSS Layout: Grid
 
 > [!summary] TL;DR
+> [!tip] 🎯 Hiểu trong 30 giây
+> **CSS Grid = công cụ chia trang thành LƯỚI ô (hàng × cột) như bàn cờ, rồi đặt phần tử vào ô tùy ý.** Khác Flexbox ở chỗ: Flexbox xếp **1 chiều** (một hàng *hoặc* một cột), Grid kiểm soát **2 chiều** (hàng *và* cột cùng lúc).
+> - Đặt `display: grid` lên khung cha, khai báo cột bằng `grid-template-columns`. Đơn vị **`fr`** = "phần" không gian còn lại: `grid-template-columns: 1fr 2fr` = chia 2 cột theo tỉ lệ 1:2. `repeat(3, 1fr)` = 3 cột bằng nhau.
+> - **Khi nào Grid vs Flexbox (ra thi):** Grid cho **bố cục tổng thể của trang** (header/sidebar/content/footer — macro, 2 chiều); Flexbox cho **xếp các thành phần bên trong** (hàng nút, nav — micro, 1 chiều). Hai cái *bổ trợ*, thường dùng chung.
+>
 > CSS Grid là layout system **2 chiều** (rows + columns), cho phép đặt element chính xác vào bất kỳ ô nào. Container dùng `display: grid` + `grid-template-columns/rows`. Item dùng `grid-column` / `grid-row` để span qua nhiều ô. Dùng `fr` unit để chia không gian linh hoạt.
 
 ## 1. Khái niệm
@@ -179,6 +184,12 @@ source: [CSS-fundamentals.docx]
 > - **`gap` ảnh hưởng kích thước:** Grid gap tính THÊM vào layout — không cần tính toán thủ công như `margin`.
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Khi nào dùng Grid, khi nào dùng Flexbox? (gợi ý 1D vs 2D)"
+> *"Khác biệt cốt lõi là số chiều. Flexbox là layout một chiều, sắp các item theo một hàng hoặc một cột tại một thời điểm, hợp cho việc căn chỉnh trong một thành phần như thanh nav, hàng nút, hay sidebar cố định cạnh main co giãn. Grid là layout hai chiều, kiểm soát cả hàng lẫn cột cùng lúc, hợp cho bố cục tổng thể của trang như header, sidebar, content, footer, hoặc một gallery dạng lưới. Em hay nói Grid dùng cho cấp macro tức bố cục lớn, còn Flexbox cho cấp micro tức bên trong từng khối. Thực tế hai cái bổ trợ nhau, em dùng Grid dựng khung trang rồi dùng Flexbox căn chỉnh nội dung trong từng ô."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Flexbox = 1 chiều (hàng/cột) → micro, bên trong component. Grid = 2 chiều (hàng×cột) → macro, bố cục trang.** Đơn vị **`fr` = phần không gian còn lại**. Hai cái bổ trợ, dùng chung.
 
 1. **Q:** Sự khác nhau giữa CSS Grid và Flexbox?
    **A:** **Flexbox** là layout **1 chiều** — sắp xếp items theo row hoặc column. **Grid** là layout **2 chiều** — kiểm soát cả rows và columns đồng thời. Dùng Grid cho page layout tổng thể (macro), Flexbox cho components bên trong (micro).

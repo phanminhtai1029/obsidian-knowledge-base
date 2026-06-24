@@ -13,6 +13,11 @@ source: [CSS-fundamentals.docx]
 # CSS Responsive & Media Query
 
 > [!summary] TL;DR
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Responsive = web tự co giãn/sắp xếp lại cho vừa MỌI màn hình** (điện thoại, tablet, desktop) thay vì làm nhiều trang riêng. Công cụ chính là **Media Query** — "CSS có điều kiện": *nếu màn rộng ≥ 768px thì áp dụng style này*.
+> - **Mobile-First** (cách được khuyến nghị): viết CSS *cho điện thoại trước* (đơn giản nhất), rồi dùng `@media (min-width: ...)` **thêm dần** style cho màn lớn hơn. Ngược lại là Desktop-First (viết cho desktop trước rồi `max-width` thu nhỏ dần).
+> - **Vì sao Mobile-First tốt hơn (ra thi):** đa số người dùng vào bằng điện thoại; CSS nền nhẹ rồi *bồi thêm* cho màn lớn thì sạch hơn là viết phức tạp rồi *gỡ bớt* cho mobile; tránh tải style thừa trên thiết bị yếu.
+>
 > Responsive Web Design là thiết kế web thích nghi với mọi kích thước màn hình. Ba kỹ thuật chính: **Media Queries** (áp dụng CSS theo điều kiện viewport), **Flexible layouts** (Flexbox/Grid), **Fluid images** (`max-width: 100%`). Cách tiếp cận **mobile-first** (viết CSS cho mobile trước, thêm breakpoint cho màn hình lớn) được khuyến nghị.
 
 ## 1. Khái niệm
@@ -182,6 +187,12 @@ header     { display: flex; align-items: center; justify-content: space-between;
 ```
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Mobile-First nghĩa là gì, vì sao tối ưu hơn code desktop trước?"
+> *"Mobile-First nghĩa là em viết CSS cho màn hình điện thoại trước, lấy đó làm nền, rồi dùng media query với min-width để bổ sung dần style cho màn hình lớn hơn như tablet và desktop. Cách này tối ưu hơn desktop-first vì vài lý do. Thứ nhất, lưu lượng truy cập từ mobile hiện chiếm phần lớn nên ưu tiên mobile là hợp lý. Thứ hai, CSS nền cho mobile thường đơn giản, ít tính năng, rồi mình thêm vào cho màn lớn, sạch và dễ bảo trì hơn là viết bố cục phức tạp cho desktop rồi phải override ngược lại để thu nhỏ cho mobile. Thứ ba, thiết bị yếu không phải tải và ghi đè nhiều style thừa. Cùng tinh thần đó, các framework như Bootstrap hay Tailwind cũng mặc định mobile-first, class không breakpoint áp cho mọi cỡ, thêm tiền tố md hay lg cho màn lớn hơn."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Mobile-First = viết cho điện thoại trước, `@media (min-width)` THÊM DẦN cho màn lớn.** Tốt hơn vì: traffic mobile lớn + CSS nền nhẹ rồi bồi thêm (thay vì override ngược). Bootstrap/Tailwind cũng mobile-first.
 
 1. **Q:** Mobile-first vs Desktop-first — cái nào tốt hơn?
    **A:** **Mobile-first** (`min-width`) được khuyến nghị vì: mobile chiếm >60% traffic, CSS base đơn giản hơn (ít tính năng), thêm dần cho màn lớn thay vì override ngược. Desktop-first yêu cầu nhiều override hơn trên mobile.

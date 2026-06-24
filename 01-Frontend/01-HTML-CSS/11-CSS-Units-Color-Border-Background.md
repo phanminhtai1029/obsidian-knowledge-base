@@ -13,6 +13,13 @@ source: [CSS-fundamentals.docx]
 # CSS Units, Color, Border & Background
 
 > [!summary] TL;DR
+> [!tip] 🎯 Hiểu trong 30 giây
+> Đơn vị kích thước trong CSS chia 2 nhóm:
+> - **`px`** = *tuyệt đối*, cố định cứng (16px luôn là 16px).
+> - **`rem`/`em`** = *tương đối* theo cỡ chữ: **`rem`** tính theo cỡ chữ gốc của trang (`<html>`, mặc định 16px); **`em`** tính theo cỡ chữ của *chính phần tử cha*.
+>
+> **Vì sao senior ưu tiên `rem`/`em` cho font-size & spacing (đúng câu hỏi):** khi người dùng *chỉnh cỡ chữ mặc định của trình duyệt* (vì mắt kém chẳng hạn), mọi thứ tính bằng `rem` sẽ **phóng to theo** → web *truy cập được* (accessible) và co giãn nhất quán. Còn `px` thì *trơ*, không phản hồi cài đặt đó. Mẹo dùng: **`rem` cho cỡ chữ** (nhất quán toàn trang), **`em` cho padding/margin trong 1 component** (tự scale theo cỡ chữ của component đó), **`px` cho border/shadow** (cần độ mảnh cố định).
+>
 > **Units:** Dùng `rem` cho typography, `%`/`fr` cho layout, `px` cho border/shadow. **Color:** Ưu tiên `hsl()` (trực quan nhất), `rgba()` khi cần transparency. **Border:** Shorthand `border: width style color`. **Background:** `background-size: cover` + `background-position: center` để fill ảnh đẹp.
 
 ## 1. Khái niệm
@@ -219,6 +226,12 @@ p    { font-size: 1rem; line-height: 1.6; }
 > - **`background-size: cover` bị crop:** Ảnh sẽ bị cắt để fill container. Dùng `object-position` (với `<img>`) hoặc `background-position` để kiểm soát phần nào được giữ lại.
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Vì sao ưu tiên `rem`/`em` thay vì `px` cho font-size và spacing?"
+> *"Vì rem và em là đơn vị tương đối nên co giãn theo cỡ chữ, còn px là tuyệt đối, trơ cứng. rem tính theo cỡ chữ gốc của trang ở thẻ html, mặc định 16px; em tính theo cỡ chữ của phần tử cha. Lý do senior ưu tiên rem em cho chữ và khoảng cách là khả năng truy cập: khi người dùng tăng cỡ chữ mặc định trong trình duyệt, chẳng hạn người lớn tuổi hoặc mắt kém, thì mọi thứ đặt bằng rem sẽ phóng to theo một cách nhất quán, còn px thì đứng yên khiến chữ vẫn nhỏ. Cách em dùng là rem cho font-size để nhất quán toàn trang, em cho padding margin trong một component để nó tự scale theo cỡ chữ của component đó, còn px thì để cho border hay shadow vì cần độ mảnh cố định. Lưu ý em có thể bị snowball khi lồng nhiều cấp nên dùng có chừng mực."*
+
+> [!note] 🧠 Mẹo nhớ
+> **`px` = cứng (trơ); `rem` = theo cỡ chữ gốc `<html>`; `em` = theo cỡ chữ cha.** Ưu tiên `rem`/`em` cho chữ & spacing vì **co giãn theo cài đặt người dùng (accessible)**. `rem` cho font, `em` cho spacing component, `px` cho border.
 
 1. **Q:** Sự khác nhau giữa `em` và `rem`?
    **A:** `em` — relative đến font-size của **element cha** (cascades, có thể gây snowball effect). `rem` — relative đến font-size của `<html>` (mặc định 16px, nhất quán). Khuyến nghị: dùng `rem` cho font-size, `em` cho padding/margin trong component (tự scale theo font component đó).

@@ -15,6 +15,14 @@ source: [CSS-fundamentals.docx]
 > [!summary] TL;DR
 > Flexbox là layout module **1 chiều** (row hoặc column), giúp phân bổ không gian và căn chỉnh các item trong container. Container dùng `display: flex` + `justify-content` (main axis) + `align-items` (cross axis). Item dùng `flex: grow shrink basis` để kiểm soát tỷ lệ chiếm không gian.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Flexbox = công cụ xếp các phần tử thành MỘT hàng hoặc MỘT cột và căn chỉnh chúng dễ dàng** (việc mà `float` ngày xưa làm rất khổ). Bạn đặt `display: flex` lên *cái khung cha*, rồi các con tự xếp thành hàng.
+> - **1 chiều** = hoặc theo *hàng ngang* (`row` — mặc định), hoặc *cột dọc* (`column`), tại một thời điểm.
+> - 2 núm căn chỉnh hay dùng: **`justify-content`** (căn theo *trục chính* — ngang nếu là row: dồn trái/phải/giữa/cách đều) và **`align-items`** (căn theo *trục vuông góc* — dọc nếu là row: trên/giữa/dưới). Muốn căn *giữa hoàn hảo* cả 2 chiều: `justify-content: center; align-items: center`.
+> - `flex: 1` trên item = "co giãn lấp đầy phần trống còn lại" (chia đều).
+>
+> **Khi nào dùng (ra thi):** Flexbox cho bố cục **1 chiều** — thanh nav, hàng nút, *sidebar cố định + main co giãn*. Bố cục **2 chiều** (cả hàng lẫn cột) → dùng **Grid** ([[09-CSS-Layout-Grid]]).
+
 ## 1. Khái niệm
 
 **Flexbox** (Flexible Box Layout) giải quyết bài toán phân bổ không gian và căn chỉnh — điều mà `float` và `inline-block` làm rất kém.
@@ -170,6 +178,18 @@ source: [CSS-fundamentals.docx]
 > - **Quên `min-width: 0` trên flex item:** Flex item mặc định `min-width: auto` (không co xuống nhỏ hơn nội dung). Text dài hoặc `overflow: hidden` không hoạt động nếu thiếu `min-width: 0`.
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Sidebar trái cố định + main phải co giãn: dùng Flexbox hay Grid?"
+> *"Với bố cục một hàng gồm sidebar cố định bên trái và main co giãn bên phải, em dùng Flexbox vì đây là layout một chiều. Em đặt display flex cho khung cha, cho sidebar một chiều rộng cố định ví dụ width 250px kèm flex-shrink 0 để nó không bị co lại, rồi cho main flex 1 để nó tự lấp hết phần không gian còn lại. Như vậy sidebar luôn giữ đúng bề rộng còn main co giãn theo màn hình. Em chọn Flexbox thay vì Grid vì bài toán chỉ trải theo một trục ngang; nếu cần kiểm soát cả hàng lẫn cột, ví dụ layout tổng thể header sidebar content footer, thì em mới dùng Grid."*
+>
+> ```css
+> .layout { display: flex; }
+> .sidebar { width: 250px; flex-shrink: 0; }  /* cố định, không co */
+> .main    { flex: 1; }                        /* co giãn lấp phần còn lại */
+> ```
+
+> [!note] 🧠 Mẹo nhớ
+> **Flexbox = 1 chiều (hàng HOẶC cột).** `justify-content` = trục chính, `align-items` = trục vuông góc; căn giữa = cả hai `center`. **Sidebar+main = Flexbox (`width` cố định + `flex:1`); layout 2 chiều = Grid.**
 
 1. **Q:** `justify-content` và `align-items` khác nhau thế nào?
    **A:** `justify-content` căn chỉnh items theo **main axis** (ngang nếu `flex-direction: row`). `align-items` căn chỉnh theo **cross axis** (dọc nếu `flex-direction: row`). Khi `flex-direction: column`, chúng đảo vai trò.

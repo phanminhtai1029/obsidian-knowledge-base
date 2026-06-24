@@ -15,6 +15,15 @@ source: [CSS-fundamentals.docx]
 > [!summary] TL;DR
 > Mọi phần tử HTML đều là một **hình chữ nhật** gồm 4 lớp từ trong ra ngoài: **content → padding → border → margin**. Mặc định `box-sizing: content-box` — width chỉ tính content. Đổi thành `box-sizing: border-box` để width bao gồm cả padding và border — dễ tính toán hơn nhiều.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Mỗi phần tử là một **cái hộp 4 lớp** từ trong ra ngoài, như **món quà gói nhiều lớp**:
+> - **content** (ruột — chữ/ảnh) → **padding** (lớp đệm *bên trong*, giữa ruột và viền) → **border** (viền) → **margin** (khoảng cách *bên ngoài*, đẩy các hộp khác ra xa).
+> - Mẹo phân biệt: **padding = đệm bên trong (có màu nền), margin = khoảng trống bên ngoài (trong suốt).**
+>
+> **Điểm CỰC hay ra thi — `box-sizing`:**
+> - **`content-box`** (mặc định): `width` bạn đặt **chỉ tính phần ruột**; padding và border *cộng thêm* vào → hộp *to hơn* số bạn ghi (đặt `width:200px` + `padding:20px` → thực tế rộng 240px). Dễ tính sai.
+> - **`border-box`**: `width` **bao gồm luôn padding + border** → đặt 200px là *đúng 200px*. Dễ tính hơn nhiều → hầu hết dự án đặt `* { box-sizing: border-box }` cho toàn trang.
+
 ## 1. Khái niệm
 
 **CSS Box Model** là quy tắc mô tả cách browser tính toán kích thước và khoảng cách của mọi phần tử HTML.
@@ -149,6 +158,12 @@ source: [CSS-fundamentals.docx]
 > - **Padding có màu background:** Padding lấy màu nền của element, không transparent như margin.
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Box Model gồm gì? `content-box` vs `border-box`?"
+> *"Box Model mô tả mỗi phần tử là một hình chữ nhật gồm bốn lớp từ trong ra ngoài: content là ruột, padding là lớp đệm bên trong giữa content và viền, border là viền, margin là khoảng cách bên ngoài đẩy các phần tử khác ra. Về box-sizing, mặc định là content-box, khi đó width mình đặt chỉ tính phần content, còn padding và border bị cộng thêm vào nên kích thước thật lớn hơn con số đã đặt, rất dễ tính nhầm khi dựng layout. Đổi sang border-box thì width đã bao gồm cả padding và border, đặt 200px là đúng 200px, tính toán trực quan hơn nhiều. Vì vậy em thường đặt box-sizing border-box cho toàn bộ trang bằng selector dấu sao."*
+
+> [!note] 🧠 Mẹo nhớ
+> **4 lớp: content → padding (đệm trong, có màu) → border → margin (khoảng ngoài, trong suốt).** **`content-box` = width chỉ tính ruột (cộng thêm padding/border); `border-box` = width gồm luôn padding+border** (đặt `* { box-sizing: border-box }`).
 
 1. **Q:** Sự khác nhau giữa `padding` và `margin`?
    **A:** `padding` là khoảng cách **bên trong** border (giữa content và border) — có màu nền, tính vào kích thước element. `margin` là khoảng cách **ngoài** border (giữa element và element khác) — transparent, không tính vào width của element.
