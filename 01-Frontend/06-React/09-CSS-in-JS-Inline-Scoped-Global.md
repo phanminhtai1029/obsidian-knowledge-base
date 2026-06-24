@@ -13,7 +13,15 @@ source: [tự bổ sung — react.dev, MDN]
 # React: CSS-in-JS (Inline/Scoped/Global)
 
 > [!summary] TL;DR
-> React có 3 cách style chính: **Inline styles** (JS object, camelCase, không cần file .css nhưng không hỗ trợ hover/pseudo-classes), **CSS Modules** (`.module.css`, auto-scope class names, best for component scoping), **Global CSS** (import trực tiếp, dùng cho reset/base styles). Dùng `clsx` hoặc template literals để **dynamic className**. Inline style: `style={{ color: 'red' }}` (2 cặp `{{}}`  — outer = JSX expression, inner = JS object).
+> React có 3 cách tô style chính: **Inline styles** (viết style bằng *object JS*, tên thuộc tính camelCase; tiện cho giá trị động nhưng *không* viết được `:hover`/pseudo-class/`@media`), **CSS Modules** (file đặt tên `.module.css` — bundler **tự đổi tên class thành duy nhất** nên không đụng nhau giữa các component; tốt nhất để style component), **Global CSS** (import file `.css` dùng chung — hợp cho reset/typography/biến CSS). Ghép nhiều class động bằng thư viện `clsx` hoặc template literal. Inline style viết 2 cặp ngoặc `style={{ color: 'red' }}` — ngoặc ngoài là "đây là biểu thức JS", ngoặc trong là object.
+
+> [!tip] 🎯 Hiểu trong 30 giây
+> Có 3 nơi để "tô màu" cho component, chọn theo **phạm vi** và **sức mạnh**:
+> - **Inline style** = dán style thẳng lên 1 thẻ bằng object JS (`style={{ color:'red' }}`). Cực cục bộ, hợp giá trị *động* (màu lấy từ API). Nhược: **không** dùng được `:hover`, `@media`, animation.
+> - **CSS Modules** (file `.module.css`) = viết CSS bình thường nhưng tên class được **tự "dán nhãn" thành duy nhất** → hai component đặt tên `.button` giống nhau cũng *không đụng nhau*. Đây là lựa chọn mặc định cho component, giữ đủ sức mạnh CSS.
+> - **Global CSS** = file dùng chung toàn app, hợp cho reset, font, biến màu — nhưng dễ trùng tên gây đè nhau.
+>
+> **Bẫy nhỏ:** `style={{...}}` tạo *object mới mỗi lần render* → nếu truyền xuống con đã `React.memo` thì phá memo. Khắc phục: khai báo object style *ngoài* component.
 
 ---
 
@@ -372,6 +380,12 @@ function StatusBadge({ status, label }) {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "CSS Modules là gì, hơn global CSS ở đâu?"
+> *"CSS Modules là cách viết CSS mà tên class được bundler như Vite tự đổi thành tên duy nhất khi build, ví dụ class button trở thành Button_button_abc123. Mình import file module css vào component rồi dùng `styles.button`. Lợi ích lớn nhất là tránh xung đột tên class: với global CSS, hai component cùng đặt tên button sẽ đè style của nhau tùy thứ tự import, rất khó lần; còn CSS Modules tự cô lập theo component nên không bao giờ đụng, mà vẫn giữ trọn sức mạnh CSS như hover, media query, animation. Nên em mặc định dùng CSS Modules cho component, để global CSS cho reset, font và biến màu, còn inline style chỉ cho giá trị thực sự động."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Inline = động nhưng yếu (không hover/media). CSS Modules = tự cô lập tên class, mặc định cho component. Global = dùng chung, dễ đụng tên.** `style={{}}` tạo object mới mỗi render → khai báo ngoài component nếu cần.
 
 **Q1: CSS Modules là gì? Tại sao nên dùng thay vì global CSS?**
 

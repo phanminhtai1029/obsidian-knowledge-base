@@ -13,7 +13,12 @@ source: [styled-components.com/docs]
 # React: Styled-Components
 
 > [!summary] TL;DR
-> `styled-components` là CSS-in-JS library dùng **tagged template literals** để viết CSS trực tiếp trong JS. Syntax: `` const Button = styled.button`css here` ``. Hỗ trợ **props-based styling** `` ${props => props.primary ? '...' : '...'} ``, **nesting** và **pseudo-classes** như CSS bình thường. **ThemeProvider** inject theme object vào toàn bộ styled components. **`createGlobalStyle`** cho global/reset CSS.
+> `styled-components` là một thư viện **CSS-in-JS** (viết CSS ngay trong file JS) dùng kỹ thuật **tagged template literal** (đặt một hàm ngay trước chuỗi backtick để xử lý chuỗi đó). Cú pháp: `` const Button = styled.button`...css ở đây...` `` → tạo ra một component đã mang sẵn style. Hỗ trợ **đổi style theo props** `` ${props => props.primary ? '...' : '...'} ``, viết lồng (nesting) và pseudo-class (`:hover`) y như CSS thường. **ThemeProvider** "bơm" một object theme (bảng màu/kích thước dùng chung) xuống mọi styled component. **`createGlobalStyle`** dùng cho CSS toàn cục/reset.
+
+> [!tip] 🎯 Hiểu trong 30 giây
+> **styled-components = "tạo ra component đã dán sẵn style".** Thay vì viết class CSS rồi gắn `className`, bạn viết thẳng CSS vào một component mới: `` const Button = styled.button`color: white; background: blue;` `` rồi dùng `<Button>` như thẻ thường. Style **tự cô lập** (không đụng component khác) và **đổi được theo props** — ví dụ `<Button primary>` thì đổi màu, nhờ nhúng hàm vào trong chuỗi CSS.
+>
+> "Phép thuật" backtick đó chính là **tagged template** (đã gặp ở [[../03-Advanced-JavaScript/06-ES6-Template-Literals]]): hàm `styled.button` nhận chuỗi CSS + các giá trị động rồi sinh ra class duy nhất. **ThemeProvider** = đặt sẵn bảng màu/spacing ở trên cao để mọi styled component lấy ra dùng (đổi theme một chỗ, cả app đổi theo).
 
 ---
 
@@ -409,6 +414,12 @@ function FormField({ label, error, ...inputProps }) {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "styled-components là gì, hoạt động ra sao?"
+> *"styled-components là thư viện CSS-in-JS, cho phép em viết CSS ngay trong JS bằng tagged template literal. Em viết `styled.button` rồi nối một chuỗi backtick chứa CSS, kết quả là một React component đã mang sẵn style đó. Khi component render, thư viện sinh ra một class name duy nhất theo hash và chèn CSS tương ứng vào thẻ style, nên style tự cô lập, không lo trùng tên. Ưu điểm là style gắn liền component, đổi được theo props bằng cách nhúng hàm vào chuỗi CSS, hỗ trợ đầy đủ hover, media query và có ThemeProvider để quản lý theme tập trung. Nó là một lựa chọn, còn dự án nhẹ thì em có thể dùng CSS Modules."*
+
+> [!note] 🧠 Mẹo nhớ
+> **styled-components = component đã dán sẵn CSS (qua tagged template).** Style tự cô lập (hash class), đổi theo props, có **ThemeProvider** cho theme dùng chung.
 
 **Q1: styled-components là gì? Hoạt động như thế nào?**
 

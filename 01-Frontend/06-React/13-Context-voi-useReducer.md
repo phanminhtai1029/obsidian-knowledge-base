@@ -14,7 +14,12 @@ source: [react.dev/learn/scaling-up-with-reducer-and-context]
 # React: Context với useReducer
 
 > [!summary] TL;DR
-> Pattern **Context + useReducer**: thay `useState` bằng `useReducer` trong Provider — state phức tạp với nhiều action types. **Performance optimization**: tách thành 2 contexts riêng — `StateContext` (value thay đổi khi state đổi) và `DispatchContext` (dispatch function, **luôn stable** — không gây re-render). Components chỉ dispatch không cần subscribe state → không re-render. Đây là pattern được React docs chính thức recommend.
+> Pattern **Context + useReducer**: dùng `useReducer` (thay `useState`) trong Provider khi state phức tạp, có nhiều kiểu thay đổi (action types). **Tối ưu hiệu năng**: tách làm 2 context riêng — `StateContext` (giá trị state, *đổi khi state đổi*) và `DispatchContext` (chứa hàm `dispatch` để gửi lệnh — **luôn ổn định**, không đổi reference → không gây re-render). Component nào chỉ cần *gửi lệnh* (không cần đọc state) thì lấy từ `DispatchContext` → **không bị re-render** khi state đổi. Đây là pattern được tài liệu React chính thức khuyến nghị.
+
+> [!tip] 🎯 Hiểu trong 30 giây
+> Khi state toàn cục **phức tạp** (giỏ hàng, form nhiều bước), thay `useState` bằng **`useReducer`**: bạn không tự sửa state lung tung mà **"gửi lệnh"** (`dispatch({ type: 'ADD', ... })`), một hàm `reducer` nhận lệnh và *tính ra state mới* — giống như **gửi yêu cầu cho quầy lễ tân thay vì tự vào kho lấy đồ**. Mọi cách thay đổi state gom về một chỗ (reducer) nên dễ kiểm soát và test.
+>
+> **Mẹo tối ưu hay được hỏi:** tách **2 context** — một cho *state* (đọc), một cho *dispatch* (gửi lệnh). Vì `dispatch` không bao giờ đổi, component nào chỉ bấm nút gửi lệnh (vd nút "Thêm") thì **không bị vẽ lại** mỗi khi state đổi → đỡ re-render thừa.
 
 ---
 
@@ -388,6 +393,12 @@ export const cartActions = {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Vì sao tách StateContext và DispatchContext?"
+> *"Vì để tránh re-render thừa. Hàm dispatch của useReducer là một tham chiếu ổn định, không bao giờ đổi qua các render. Nếu em gộp chung value là object chứa cả state lẫn dispatch thì mỗi render object đó là mới, làm mọi component đọc context đều re-render. Khi tách làm hai context, component nào chỉ cần gửi lệnh, ví dụ nút Thêm hay Xóa, thì lấy từ DispatchContext và sẽ không re-render khi state đổi vì dispatch không đổi; chỉ những component thực sự đọc state mới re-render khi state thay đổi. Đây là pattern được tài liệu React chính thức khuyến nghị cho state toàn cục phức tạp."*
+
+> [!note] 🧠 Mẹo nhớ
+> **useReducer = gửi lệnh (`dispatch`) cho reducer tính state mới**, gom mọi thay đổi một chỗ. **Tách StateContext (đọc) và DispatchContext (gửi)** → component chỉ gửi lệnh thì không re-render thừa.
 
 **Q1: Tại sao tách StateContext và DispatchContext riêng?**
 

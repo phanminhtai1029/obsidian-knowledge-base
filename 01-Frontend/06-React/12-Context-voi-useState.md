@@ -14,7 +14,14 @@ source: [react.dev/learn/scaling-up-with-reducer-and-context]
 # React: Context với useState
 
 > [!summary] TL;DR
-> Pattern **Context + useState**: đặt `useState` trong Provider component, truyền `[state, setState]` qua Context value. Components con dùng `useContext` để đọc state và trigger updates — không cần prop drilling. Export **custom hook** (`useMyContext`) thay vì raw context để encapsulate logic và add validation. Best for: global UI state đơn giản (theme, user preferences, auth status) với ít transitions.
+> Pattern **Context + useState**: đặt `useState` *bên trong* Provider component (nơi "phát" giá trị), rồi truyền cặp `[state, setState]` qua Context value. Component con dùng `useContext` để đọc state và gọi setState — khỏi **prop drilling** (chuyền prop qua nhiều tầng). Nên export một **custom hook** (vd `useTheme`) thay vì context thô để gói gọn logic và báo lỗi nếu dùng sai chỗ. Hợp cho: state toàn cục *đơn giản, ít thay đổi* (theme, tùy chọn người dùng, trạng thái đăng nhập).
+
+> [!tip] 🎯 Hiểu trong 30 giây
+> Đây chỉ là **công thức ghép 2 thứ đã học**: `useState` (giữ state) + Context (phát state đi xa) = **một "kho state toàn cục mini"** mà mọi component đọc/sửa được, khỏi chuyền tay qua từng tầng.
+> - Đặt `const [theme, setTheme] = useState('light')` trong **Provider**, rồi `value={{ theme, setTheme }}`.
+> - Component con bất kỳ: `const { theme, setTheme } = useTheme()` → đọc và đổi.
+>
+> **Quy ước hay:** bọc lại trong **custom hook** `useTheme()` cho gọn và an toàn. Chỉ dùng cho state *ít đổi* (theme/auth); state đổi liên tục thì Context gây re-render nhiều → cân nhắc Zustand/Redux.
 
 ---
 
@@ -377,6 +384,12 @@ function ProductCard({ product }) {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Pattern Context + useState dùng khi nào?"
+> *"Em dùng khi cần một state toàn cục đơn giản mà nhiều component cần đọc và cập nhật, để tránh prop drilling. Cách làm là đặt useState trong một Provider component rồi truyền cả state lẫn hàm set qua context value, các component con đọc bằng useContext, thường em bọc thành custom hook như useTheme cho gọn và để báo lỗi nếu dùng ngoài Provider. Nó hợp cho theme, ngôn ngữ, user đăng nhập, trạng thái mở đóng sidebar. Nhưng nếu state đổi rất thường xuyên hoặc cần devtools, middleware thì em chuyển sang Zustand hoặc Redux Toolkit, vì context đổi value sẽ làm mọi consumer re-render."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Context + useState = kho state toàn cục mini.** `useState` trong Provider → con đọc/sửa qua `useContext` (bọc custom hook). Chỉ cho state **ít đổi**.
 
 **Q1: Pattern Context + useState dùng khi nào?**
 
