@@ -14,7 +14,15 @@ source: [React.docx, react.dev]
 # React: Event Handling
 
 > [!summary] TL;DR
-> React dùng **SyntheticEvent** — wrapper chuẩn hóa browser events, cross-browser consistent. Event handlers viết theo **camelCase**: `onClick`, `onChange`, `onSubmit`, `onKeyDown`. Truyền **function reference**, không call ngay: `onClick={handleClick}` ✅ vs `onClick={handleClick()}` ❌ (gọi ngay khi render). Để truyền argument: dùng **arrow function wrapper** `onClick={() => handleClick(id)}`. `e.preventDefault()` để ngăn default behavior (form submit, link navigation).
+> React dùng **SyntheticEvent** (sự kiện "bọc lại") — một lớp vỏ chuẩn hóa sự kiện của trình duyệt để chạy *giống nhau trên mọi browser*. Tên handler viết **camelCase**: `onClick`, `onChange`, `onSubmit`, `onKeyDown`. Phải truyền **tham chiếu hàm** (đưa *tên* hàm), đừng gọi ngay: `onClick={handleClick}` ✅ còn `onClick={handleClick()}` ❌ (cái sai này *gọi hàm ngay lúc render*). Cần truyền tham số thì bọc trong arrow: `onClick={() => handleClick(id)}`. `e.preventDefault()` = chặn hành vi mặc định của trình duyệt (vd form tải lại trang, link nhảy URL); `e.stopPropagation()` = chặn sự kiện "nổi" (bubble) lên thẻ cha.
+
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Event handler = "khi X xảy ra thì làm Y".** Trong React bạn gắn việc cần làm vào thuộc tính như `onClick={...}`. Điểm khiến người mới sai nhiều nhất: **đưa *tên hàm* chứ đừng *gọi hàm***.
+> - `onClick={handleClick}` ✅ — đưa cái hàm cho React, *click mới chạy*.
+> - `onClick={handleClick()}` ❌ — có cặp `()` là **gọi luôn lúc render**, rồi gán *kết quả* (thường rỗng) vào onClick → bấm chẳng có gì.
+> - Cần kèm tham số → bọc lại: `onClick={() => handleClick(id)}`.
+>
+> Hai "công tắc" hay hỏi: **`e.preventDefault()`** ngăn *hành vi mặc định của trình duyệt* (form khỏi reload, link khỏi nhảy trang); **`e.stopPropagation()`** ngăn sự kiện *lan lên thẻ cha* (bấm nút bên trong div thì chỉ nút chạy, div không chạy theo).
 
 ---
 
@@ -375,6 +383,15 @@ function SearchBox({ onSearch }) {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Vì sao `onClick={doSomething()}` là sai?"
+> *"Vì có cặp ngoặc tròn nghĩa là mình gọi hàm ngay tại thời điểm component render, chứ không phải khi click. Kết quả trả về của hàm, thường là undefined, mới được gán cho onClick, nên khi bấm thật thì không có gì chạy; tệ hơn nếu hàm có setState thì nó chạy lúc render gây lỗi hoặc lặp. Cách đúng là truyền tham chiếu hàm: `onClick={doSomething}`, để React giữ hàm đó và chỉ gọi khi click. Khi cần truyền tham số thì em bọc trong một arrow function: `onClick={() => doSomething(id)}`, lúc này React giữ cái arrow, click mới gọi doSomething với tham số."*
+
+> [!example] 🗣️ Trả lời mẫu — "preventDefault vs stopPropagation khác gì?"
+> *"Hai cái giải quyết hai chuyện khác nhau. `preventDefault` ngăn hành vi mặc định của trình duyệt cho sự kiện đó, ví dụ chặn form submit khỏi tải lại trang, chặn thẻ a khỏi điều hướng. Còn `stopPropagation` ngăn sự kiện nổi bọt lên các thẻ cha, ví dụ bấm vào nút nằm trong một div cũng có onClick, nếu em gọi stopPropagation trong handler của nút thì chỉ handler của nút chạy, handler của div không bị kích hoạt theo. Hai cái độc lập, cần thì gọi cả hai."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Đưa TÊN hàm, đừng GỌI hàm** (`{fn}` ✅, `{fn()}` ❌; cần tham số → `{() => fn(id)}`). **preventDefault = chặn mặc định trình duyệt; stopPropagation = chặn nổi lên thẻ cha.** React gắn 1 listener ở gốc (event delegation) nên nhẹ.
 
 **Q1: SyntheticEvent trong React là gì?**
 

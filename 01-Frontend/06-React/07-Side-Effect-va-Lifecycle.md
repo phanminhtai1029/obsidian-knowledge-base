@@ -13,7 +13,17 @@ source: [React.docx, react.dev]
 # React: Side Effect & Lifecycle
 
 > [!summary] TL;DR
-> **Side effect** là mọi thứ component làm ngoài việc return JSX: data fetch, subscriptions, DOM manipulation, timers. **Lifecycle** là các giai đoạn component trải qua: Mount → Update → Unmount. Class components dùng lifecycle methods (`componentDidMount`, `componentDidUpdate`, `componentWillUnmount`). Function components dùng **`useEffect`** — một hook thống nhất xử lý cả 3 giai đoạn.
+> **Side effect** (tác dụng phụ) = mọi việc component làm *ngoài* việc trả về JSX: gọi API lấy dữ liệu, đăng ký lắng nghe sự kiện (subscriptions), sửa DOM trực tiếp, đặt timer. **Lifecycle** (vòng đời) = các giai đoạn một component đi qua: **Mount** (sinh ra, xuất hiện trên màn hình) → **Update** (cập nhật khi props/state đổi) → **Unmount** (biến mất khỏi màn hình). Class component (kiểu cũ) dùng các "lifecycle method" riêng (`componentDidMount`, `componentDidUpdate`, `componentWillUnmount`); function component (kiểu mới) dùng **một hook duy nhất `useEffect`** lo cả 3 giai đoạn.
+
+> [!tip] 🎯 Hiểu trong 30 giây
+> Một component lý tưởng chỉ làm đúng một việc: **nhận dữ liệu → trả ra giao diện** (gọi là *pure* — thuần khiết, cùng đầu vào luôn ra cùng kết quả, không gây ảnh hưởng bên ngoài). Nhưng app thật cần làm thêm những việc "ngoài lề" như gọi API, đặt hẹn giờ, nghe sự kiện cuộn chuột — đó là **side effect**, và chúng phải để trong `useEffect`, **không** viết thẳng giữa thân component.
+>
+> **Lifecycle (vòng đời)** = đời một component: *sinh ra* (mount) → *cập nhật* (update) → *biến mất* (unmount). Ngày xưa (class) mỗi giai đoạn có một hàm riêng; nay chỉ cần **`useEffect`**:
+> - `useEffect(fn, [])` ↔ lúc *mount*.
+> - `useEffect(fn, [x])` ↔ chạy lại khi *x đổi* (update).
+> - `return () => {...}` trong effect ↔ dọn dẹp lúc *unmount*.
+>
+> **Mẹo tư duy hiện đại:** đừng nghĩ "mount/update/unmount" nữa, hãy nghĩ *"đồng bộ việc này với các giá trị này, và dọn dẹp khi chúng đổi hoặc component mất đi"*.
 
 ---
 
@@ -316,6 +326,15 @@ function SearchPage() {
 ---
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Side effect là gì, vì sao phải xử lý riêng?"
+> *"Side effect là những việc component tương tác với thế giới bên ngoài chu trình render, ví dụ gọi API, đăng ký lắng nghe sự kiện, sửa DOM trực tiếp, đặt timer hay đổi document.title. React yêu cầu phần render phải thuần khiết, tức cùng props và state thì luôn ra cùng JSX và không gây tác dụng phụ, vì React có thể gọi render nhiều lần, ở chế độ Strict Mode còn gọi hai lần để bắt lỗi. Nếu đặt side effect ngay trong render thì sẽ bị chạy lặp, ví dụ fetch hai lần hoặc gắn trùng listener gây rò rỉ. Vì vậy mọi side effect phải đặt trong useEffect, nó chạy sau khi DOM đã cập nhật và mình kiểm soát được chạy lại khi nào qua mảng dependency, cùng với cleanup để dọn dẹp."*
+
+> [!example] 🗣️ Trả lời mẫu — "Map các lifecycle của class sang hooks?"
+> *"componentDidMount tương đương useEffect với mảng rỗng, chạy một lần sau khi mount. componentDidUpdate tương đương useEffect với mảng dependency, chạy lại khi giá trị trong đó đổi. componentWillUnmount tương đương hàm cleanup mình return bên trong useEffect. Còn shouldComponentUpdate để chặn re-render thì nay dùng React.memo. Điểm hay là thay vì ba method riêng, hooks gộp lại trong một useEffect, tư duy chuyển từ giai đoạn vòng đời sang đồng bộ effect với dữ liệu."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Render phải THUẦN → mọi việc "ngoài lề" (fetch/timer/listener) cho vào `useEffect`.** Lifecycle map: **mount = `[]` · update = `[deps]` · unmount = `return cleanup`.** Setup gì → cleanup nấy (không thì leak).
 
 **Q1: Side effect trong React là gì? Tại sao phải xử lý đặc biệt?**
 
