@@ -13,7 +13,14 @@ source: [Javascript.docx]
 # Event Propagation & Delegation
 
 > [!summary] TL;DR
-> Event propagation có 2 pha: **Bubbling** (mặc định — event nổi lên từ target đến gốc) và **Capturing** (từ gốc xuống target). `stopPropagation()` dừng lan truyền. **Event Delegation** — gắn 1 listener trên parent, dùng `e.target` + `closest()` để xác định element được click — hiệu quả hơn nhiều so với gắn listener riêng từng item.
+> Event propagation (sự lan truyền sự kiện) có 2 pha: **Bubbling** (nổi bọt — mặc định: sự kiện "nổi" từ phần tử bị click *lên dần* các phần tử cha tới gốc) và **Capturing** (bắt giữ — ngược lại: từ gốc *đi xuống* phần tử bị click). `stopPropagation()` = chặn sự lan truyền đó. **Event Delegation** (ủy quyền sự kiện) = gắn **1 listener duy nhất** ở phần tử cha, rồi dùng `e.target` (phần tử thực bị click) + `closest()` để biết click vào item nào — nhẹ và tiện hơn nhiều so với gắn listener riêng cho từng item.
+
+> [!tip] 🎯 Hiểu trong 30 giây
+> Khi bạn bấm vào một nút nằm trong nhiều lớp thẻ lồng nhau, sự kiện click không chỉ "ở lại" cái nút — nó **nổi bọt (bubbling) lan lên** từng thẻ cha: nút → div → section → ... lên tới gốc. Ví von: thả viên sỏi xuống đáy ly, **bọt khí nổi dần lên mặt nước**. Vì thế thẻ cha (cũng có `onClick`) cũng bị kích hoạt theo.
+> - Muốn **chặn việc lan lên** đó → `e.stopPropagation()` (dừng nổi bọt tại chỗ).
+> - Muốn **chặn hành vi mặc định** của trình duyệt (link nhảy trang, form reload) → `e.preventDefault()`. *(Hai cái khác nhau, đừng lẫn.)*
+>
+> **Event Delegation = "tận dụng" bubbling:** thay vì gắn 1000 listener cho 1000 `<li>`, ta gắn **đúng 1 listener** ở thẻ cha `<ul>`; click ở `<li>` nào sẽ nổi lên `<ul>`, ta hỏi `e.target` để biết là cái nào. Lợi: **nhẹ bộ nhớ** + **tự áp dụng cho item thêm vào sau** (listener gắn trực tiếp lên item cũ thì "mù" với item mới).
 
 ---
 
@@ -281,6 +288,15 @@ agendaList.addEventListener('click', (e) => {
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Event Bubbling là gì? Button trong div, cả hai có onClick, làm sao click button KHÔNG kích hoạt div?"
+> *"Event bubbling là hiện tượng khi một sự kiện xảy ra ở phần tử con, nó nổi bọt lan dần lên các phần tử cha cho tới gốc. Nên nếu button nằm trong div và cả hai cùng có onClick, khi em bấm button thì handler của button chạy trước, rồi sự kiện nổi lên làm handler của div cũng chạy theo. Để click button mà không kích hoạt div, em gọi `e.stopPropagation()` ngay trong handler của button — nó chặn sự kiện nổi lên cha. Trong React thì cũng tương tự, gọi `e.stopPropagation()` trong onClick của button. Lưu ý phân biệt với `preventDefault` là chặn hành vi mặc định của trình duyệt chứ không phải chặn lan truyền."*
+
+> [!example] 🗣️ Trả lời mẫu — "Render 1000 item: vì sao dùng Event Delegation thay vì gắn 1000 onClick?"
+> *"Vì gắn 1000 listener tốn bộ nhớ và chậm, lại không tự áp dụng cho item thêm vào sau. Event delegation tận dụng bubbling: em chỉ gắn một listener ở phần tử cha như cái ul, click ở li bất kỳ sẽ nổi lên ul, em đọc `e.target` để biết item nào được click, thường kèm `e.target.closest('li')` để bắt cả khi click vào phần tử con bên trong item. Như vậy chỉ một listener phục vụ cả nghìn item, nhẹ hơn nhiều, và những item được thêm động sau khi tải trang cũng tự hoạt động vì listener nằm ở cha."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Bubbling = sự kiện nổi bọt từ con LÊN cha.** Chặn nổi → **`stopPropagation()`**; chặn hành vi mặc định trình duyệt → **`preventDefault()`**. **Delegation = 1 listener ở cha + `e.target`** → nhẹ + áp được item thêm sau.
 
 **Q1: Event Bubbling là gì? Làm thế nào dừng nó?**
 

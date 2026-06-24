@@ -13,7 +13,12 @@ source: [Javascript.docx, MDN]
 # Fetch API
 
 > [!summary] TL;DR
-> `fetch(url)` trả về **Promise 2 tầng**: tầng 1 resolve thành `Response` (chỉ báo network OK), tầng 2 `.json()` mới trả dữ liệu thật. Lỗi HTTP 4xx/5xx **không** vào `.catch()` — phải tự kiểm tra `response.ok`. Dùng `async/await` để code dễ đọc hơn chuỗi `.then()`.
+> `fetch(url)` trả về **Promise 2 tầng** (2 lần phải đợi): tầng 1 trả về `Response` (chỉ cho biết *gửi request thành công về mặt mạng*, kèm mã trạng thái), tầng 2 gọi `.json()` mới đọc & chuyển body thành dữ liệu JS thật. **Quan trọng:** lỗi HTTP 4xx/5xx (404, 500...) **KHÔNG** rơi vào `.catch()` — `fetch` vẫn coi là "thành công" vì server *có* trả lời; phải **tự kiểm tra `response.ok`**. Dùng `async/await` cho dễ đọc hơn chuỗi `.then()`.
+
+> [!tip] 🎯 Hiểu trong 30 giây
+> `fetch` là cách hiện đại để **gọi API lấy dữ liệu**. Hai điều người mới hay vấp:
+> 1. **Phải đợi 2 lần:** `const res = await fetch(url)` mới chỉ lấy được "phong bì" (trạng thái + headers); muốn lấy "lá thư" (dữ liệu thật) phải `await res.json()` lần nữa.
+> 2. **`fetch` KHÔNG tự coi 404/500 là lỗi.** Với nó, "thành công" = *server có trả lời* — dù trả lời là "404 Không tìm thấy". Nó chỉ nhảy vào `catch` khi **không gửi nổi request** (mất mạng, DNS hỏng, bị CORS chặn). → Bạn **phải tự** kiểm tra `if (!res.ok) throw ...` trước khi đọc dữ liệu, nếu không sẽ âm thầm parse nhầm body lỗi. (Đây là khác biệt lớn so với thư viện `axios` — axios tự ném lỗi ở 4xx/5xx.)
 
 ---
 
@@ -356,6 +361,12 @@ async function loadAndRenderTable(url, tableId) {
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Backend trả 404/500, khối `catch` trong try/catch có bắt được không? Vì sao?"
+> *"Mặc định là không bắt được. `fetch` chỉ reject, tức rơi vào catch, khi không gửi được request — ví dụ mất mạng, lỗi DNS, hoặc bị CORS chặn. Còn khi server có trả lời, kể cả với mã 404 hay 500, thì `fetch` vẫn coi là thành công và resolve bình thường, nên catch không chạy. Lý do là với fetch, thành công nghĩa là có nhận được phản hồi từ server, chứ không quan tâm nội dung phản hồi là tốt hay lỗi. Vì vậy em phải tự kiểm tra `response.ok` hoặc `response.status`, nếu không ok thì throw một error để nó rơi vào catch; nếu quên bước này thì em sẽ vô tình gọi `.json()` trên body lỗi và bug rất khó tìm. Thư viện axios thì khác, nó tự ném lỗi cho 4xx và 5xx."*
+
+> [!note] 🧠 Mẹo nhớ
+> **`fetch` đợi 2 lần: `await fetch` (phong bì) → `await res.json()` (lá thư).** **404/500 KHÔNG vào catch** (server có trả lời = "thành công") → phải tự `if (!res.ok) throw`. Chỉ lỗi mạng/DNS/CORS mới vào catch.
 
 **Q1: Giải thích tại sao `fetch` có 2 `await`?**
 
