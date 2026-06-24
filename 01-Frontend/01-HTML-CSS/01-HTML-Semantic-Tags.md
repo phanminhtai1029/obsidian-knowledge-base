@@ -15,6 +15,11 @@ source: [MDN]
 > [!summary] TL;DR
 > Semantic HTML dùng các thẻ có **ý nghĩa rõ ràng** (như `<header>`, `<nav>`, `<article>`) thay cho `<div>` chung chung, giúp trình duyệt, search engine, và screen reader hiểu cấu trúc trang. Semantic tags cải thiện SEO và accessibility đồng thời.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Semantic HTML = dùng thẻ "gọi đúng tên" thay vì `<div>` vô danh.** Thay vì bọc mọi thứ trong `<div>`, dùng `<header>` cho đầu trang, `<nav>` cho thanh điều hướng, `<main>` cho nội dung chính, `<article>` cho một bài, `<footer>` cho chân trang.
+> - Về hiển thị thì `<div>` và `<header>` *trông y hệt*, nhưng `<header>` **mang ý nghĩa** để máy hiểu: **Google** (SEO) hiểu đâu là nội dung chính, **screen reader** (đọc cho người khiếm thị) biết "đây là vùng điều hướng" để nhảy tới. Ví von: thay vì đánh số phòng bằng "phòng 1, 2, 3" vô nghĩa, ta gắn biển "Bếp", "Phòng ngủ" → ai cũng định hướng được.
+> - Lợi ích kép: **SEO tốt hơn + dễ truy cập hơn (a11y)** mà không tốn thêm công.
+
 ## 1. Khái niệm
 
 **Semantic HTML (HTML ngữ nghĩa)** là cách dùng các thẻ HTML mô tả **ý nghĩa của nội dung**, không chỉ cách nó trông.
@@ -179,6 +184,12 @@ source: [MDN]
 > - **Bỏ qua `lang` attribute:** `<html lang="vi">` bắt buộc cho accessibility và SEO.
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Semantic HTML là gì, vì sao nên dùng thay `<div>`?"
+> *"Semantic HTML là dùng các thẻ có ý nghĩa rõ ràng như header, nav, main, article, footer thay vì div chung chung. Về mặt hiển thị chúng giống div, nhưng chúng mang ngữ nghĩa để máy hiểu cấu trúc trang. Google đọc semantic tag để biết đâu là nội dung chính nên tốt cho SEO; screen reader dựa vào đó để người khiếm thị nhảy nhanh tới vùng điều hướng hay nội dung chính, tốt cho accessibility. Ngoài ra code cũng dễ đọc và bảo trì hơn. Em vẫn dùng div khi chỉ cần một container thuần để layout hay styling, còn khi khối nội dung có ý nghĩa thì ưu tiên thẻ semantic."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Semantic = thẻ "gọi đúng tên" (`<header>`/`<nav>`/`<main>`/`<article>`) thay `<div>` vô danh** → máy hiểu → **SEO + a11y tốt hơn.** `<div>` chỉ để gom layout thuần.
 
 1. **Q:** Sự khác nhau giữa `<section>` và `<div>` là gì?
    **A:** `<section>` là semantic — có ý nghĩa "nhóm nội dung liên quan có heading". `<div>` là container thuần túy không có semantic. Dùng `<section>` khi có heading kèm theo, `<div>` khi chỉ cần nhóm cho layout/styling.

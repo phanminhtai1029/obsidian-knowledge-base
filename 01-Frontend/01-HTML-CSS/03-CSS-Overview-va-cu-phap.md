@@ -15,6 +15,13 @@ source: [CSS-fundamentals.docx]
 > [!summary] TL;DR
 > CSS (Cascading Style Sheets) là ngôn ngữ style dùng để kiểm soát **hình thức trình bày** của HTML. Một rule CSS gồm **selector** (chọn phần tử) + **declaration block** (tập hợp property: value). Có 3 cách nhúng CSS: external file, embedded `<style>`, inline `style=""`.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Nếu HTML là *bộ khung và nội dung* của trang thì **CSS là "lớp trang điểm"** — quyết định màu sắc, font, khoảng cách, bố cục. Một quy tắc (rule) CSS gồm 2 phần: **selector** (chọn *phần tử nào*) + **declaration block** (cặp `thuộc tính: giá trị` mô tả *style gì*).
+> ```css
+> p { color: red; font-size: 16px; }   /* selector { property: value; } */
+> ```
+> 3 nơi đặt CSS: **file riêng `.css`** (nên dùng — tách bạch, tái dùng), thẻ `<style>` trong HTML, hay `style="..."` ngay trên thẻ (inline — hạn chế). "Cascading" (xếp tầng) nghĩa là nhiều rule có thể cùng áp lên một phần tử và có quy tắc *ai thắng* (xem [[07-CSS-Cascade-Specificity-Inheritance]]).
+
 ## 1. Khái niệm
 
 **CSS** — Cascading Style Sheets — tách biệt **cấu trúc** (HTML) khỏi **trình bày** (CSS). Nhờ đó:
@@ -147,6 +154,12 @@ p {
 > - **Khoảng trắng trong selector có nghĩa:** `div p` (descendant) khác `divp` (lỗi cú pháp).
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "CSS là gì, khác HTML thế nào?"
+> *"HTML định nghĩa cấu trúc và nội dung của trang, tức là có cái gì, còn CSS định nghĩa hình thức trình bày, tức là trông như thế nào: màu sắc, font chữ, khoảng cách, bố cục. Hai ngôn ngữ có cú pháp hoàn toàn khác nhau, HTML là markup còn CSS là style sheet. Một quy tắc CSS gồm selector để chọn phần tử và declaration block chứa các cặp thuộc tính và giá trị. Em thường viết CSS ở file riêng để tách bạch và tái sử dụng, hạn chế inline style. Cascading nghĩa là nhiều quy tắc có thể cùng áp lên một phần tử và có cơ chế xác định quy tắc nào thắng."*
+
+> [!note] 🧠 Mẹo nhớ
+> **HTML = nội dung/cấu trúc (cái gì); CSS = trình bày (trông ra sao).** Rule = **selector { property: value }**. Ưu tiên **file CSS riêng** hơn inline.
 
 1. **Q:** CSS là gì và nó khác gì với HTML?
    **A:** HTML định nghĩa **cấu trúc và nội dung** (what), CSS định nghĩa **hình thức trình bày** (how it looks). HTML là markup language, CSS là style sheet language — cú pháp hoàn toàn khác nhau.

@@ -15,6 +15,12 @@ source: [CSS-fundamentals.docx]
 > [!summary] TL;DR
 > Khi nhiều CSS rule áp dụng cho cùng một element, thuật toán **cascade** quyết định rule nào thắng theo thứ tự: **Origin & Importance → Specificity → Source Order**. **Specificity** tính theo (ID, Class, Element) — ví dụ `#id .class p` = (1,1,1). **Inheritance** là cơ chế con thừa kế một số property của cha (font, color) nhưng không phải tất cả (margin, padding).
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Khi *nhiều* quy tắc CSS cùng nhắm vào một phần tử và "cãi nhau", trình duyệt phân xử *ai thắng* qua 3 bước theo thứ tự: (1) **độ quan trọng** (`!important` thắng), (2) **specificity** (độ "mạnh" của selector), (3) **thứ tự viết** (viết sau thắng nếu hai bên ngang nhau).
+> - **Specificity** đếm như "điểm theo hạng": **id** (mạnh nhất) > **class/pseudo-class** > **thẻ**. Vd `#nav .item a` = 1 id + 1 class + 1 thẻ. id luôn thắng dù có bao nhiêu class.
+> - **Inheritance** (thừa kế): vài thuộc tính *tự truyền* từ cha xuống con (chủ yếu về *chữ*: `color`, `font-family`, `font-size`), còn các thuộc tính *bố cục* (`margin`, `padding`, `border`) **không** tự thừa kế.
+> - Mẹo thực hành: giữ specificity **thấp & đều** (ưu tiên class, tránh id và `!important`) để CSS dễ override và bảo trì.
+
 ## 1. Khái niệm
 
 ### Cascade (Thác nước)
@@ -150,6 +156,12 @@ h1 {
 | `revert` | Về giá trị của **tầng trước** (thường là UA/browser default) — khác `initial` ở chỗ tôn trọng browser stylesheet |
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Cascade quyết định rule nào thắng thế nào? Specificity tính ra sao?"
+> *"Khi nhiều rule cùng áp lên một phần tử, cascade phân xử theo thứ tự: trước hết là origin và importance, trong đó important thắng; nếu hòa thì xét specificity, selector mạnh hơn thắng; nếu vẫn hòa thì rule viết sau trong source thắng. Specificity tính theo ba nhóm là id, rồi class và pseudo-class, rồi element và pseudo-element; id mạnh hơn class, class mạnh hơn element, và id nhiều luôn thắng dù bên kia nhiều class. Em luôn cố giữ specificity thấp và đều, ưu tiên class, tránh lạm dụng id và important để CSS dễ ghi đè và bảo trì. Ngoài ra inheritance là việc con tự thừa kế một số thuộc tính của cha như color và font, nhưng margin padding border thì không thừa kế."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Cascade: `!important` → specificity → viết sau thắng.** Specificity: **id > class/pseudo-class > thẻ.** Thừa kế: **chữ (color/font) CÓ, bố cục (margin/padding) KHÔNG.** Giữ specificity thấp, tránh `!important`.
 
 1. **Q:** Tính specificity của: `div#app .nav > a:hover`
    **A:** ID: 1, Class+PseudoClass: 2 (`.nav` + `:hover`), Element: 2 (`div` + `a`) → **(1, 2, 2)** = 122 điểm.

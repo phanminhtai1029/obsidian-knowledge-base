@@ -15,6 +15,14 @@ source: [CSS-fundamentals.docx]
 > [!summary] TL;DR
 > CSS Selector xác định **phần tử nào** trong HTML sẽ được style. Các loại chính: type (`p`), class (`.btn`), ID (`#app`), attribute (`[type="email"]`), pseudo-class (`:hover`), pseudo-element (`::before`), và combinator (` `, `>`, `+`, `~`). Specificity của selector quyết định rule nào thắng khi xung đột.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Selector = "cách chỉ tay vào đúng phần tử" cần tô style.** Vài loại chính:
+> - **type** `p` (mọi thẻ p), **class** `.btn` (phần tử có class btn — *dùng nhiều nhất*), **id** `#app` (đúng 1 phần tử), **attribute** `[type="email"]`.
+> - **pseudo-class** `:hover` (trạng thái — khi rê chuột), **pseudo-element** `::before` (tạo phần tử ảo).
+> - **combinator** (quan hệ): `A B` (B nằm *bất kỳ đâu* trong A), `A > B` (B là *con trực tiếp* của A), `A + B` (B *ngay sau* A).
+>
+> Khi nhiều rule chọi nhau, cái nào **specificity** (độ "mạnh") cao hơn thì thắng — id mạnh hơn class, class mạnh hơn type (xem [[07-CSS-Cascade-Specificity-Inheritance]]).
+
 ## 1. Khái niệm
 
 Selector là phần đầu của CSS rule, trả lời câu hỏi **"áp dụng style này cho phần tử nào?"**
@@ -175,6 +183,12 @@ td:first-child {
 ```
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Class selector vs ID selector?"
+> *"Class selector viết với dấu chấm, ví dụ chấm btn, có thể dùng lại trên nhiều phần tử trong cùng một trang, specificity là mười. ID selector viết với dấu thăng, ví dụ thăng app, chỉ nên dùng đúng một lần mỗi trang vì id phải duy nhất, specificity là một trăm nên rất mạnh. Trong styling em ưu tiên class vì tái sử dụng được và dễ override, còn id specificity quá cao dễ gây khó ghi đè về sau, nên em hạn chế dùng id để style, id chủ yếu để JS truy cập hoặc làm anchor. Khi nhiều rule chọi nhau thì cái có specificity cao hơn thắng, nên giữ specificity thấp và nhất quán giúp CSS dễ bảo trì."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Class `.btn` = dùng nhiều lần (specificity 10, ưu tiên style); ID `#app` = 1 lần/trang (specificity 100, mạnh → khó override, hạn chế dùng style).** Combinator: `A B` (hậu duệ) vs `A > B` (con trực tiếp).
 
 1. **Q:** Sự khác biệt giữa class selector và ID selector?
    **A:** Class (`.btn`) có thể dùng nhiều lần trên một trang, specificity = 10. ID (`#app`) chỉ dùng **một lần** mỗi trang, specificity = 100. Trong CSS, ID hiếm khi dùng vì specificity quá cao gây khó override.

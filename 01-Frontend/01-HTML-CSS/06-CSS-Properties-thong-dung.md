@@ -15,6 +15,12 @@ source: [CSS-fundamentals.docx]
 > [!summary] TL;DR
 > Các CSS property hay dùng nhất: **Typography** (font-family, font-size, font-weight, line-height, color), **Background** (background-color, background-image), **Display** (block, inline, inline-block, none), **Position** (static, relative, absolute, fixed, sticky), **Visibility** (opacity, visibility). Hiểu rõ `display` và `position` là nền tảng cho mọi layout.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Đây là "bộ thuộc tính CSS dùng hằng ngày". Hai cái *nền tảng nhất phải nắm chắc*:
+> - **`display`** = phần tử "chiếm chỗ" kiểu gì: **`block`** (chiếm cả hàng, vd `<div>`), **`inline`** (nằm trong dòng, không đặt được width/height, vd `<span>`), **`inline-block`** (nằm trong dòng *nhưng* đặt được kích thước), **`none`** (ẩn hẳn, *không* chiếm chỗ).
+> - **`position`** = cách định vị: **`static`** (mặc định, theo luồng), **`relative`** (dịch khỏi vị trí gốc *nhưng vẫn giữ chỗ*), **`absolute`** (thoát luồng, định vị theo cha *đã positioned*), **`fixed`** (dính theo màn hình, không cuộn theo), **`sticky`** (bình thường cho tới khi cuộn tới ngưỡng thì *dính* lại).
+> - Phân biệt nhỏ hay hỏi: **`display:none`** (biến mất, không chiếm chỗ) vs **`visibility:hidden`** (ẩn nhưng *vẫn chiếm chỗ*) vs **`opacity:0`** (trong suốt, vẫn chiếm chỗ *và vẫn bấm được*).
+
 ## 1. Khái niệm
 
 CSS có hàng trăm property. Nhóm **thông dụng nhất** mà fresher cần nắm vững:
@@ -208,6 +214,12 @@ p {
 > - **`z-index` không hoạt động:** `z-index` chỉ có hiệu lực khi `position` khác `static`.
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Phân biệt các giá trị `position`?"
+> *"static là mặc định, phần tử nằm theo luồng bình thường, không nhận top left. relative là dịch chuyển khỏi vị trí gốc bằng top left nhưng vẫn giữ chỗ cũ, và quan trọng là nó tạo mốc cho con absolute. absolute thì thoát khỏi luồng, không giữ chỗ, và được định vị theo tổ tiên gần nhất có position khác static, nếu không có thì theo viewport. fixed cũng thoát luồng nhưng neo theo viewport nên không cuộn theo trang, hay dùng cho header dính hoặc nút nổi. sticky là lai giữa relative và fixed: phần tử nằm bình thường cho tới khi cuộn đến ngưỡng mình đặt thì nó dính lại như fixed, hay dùng cho tiêu đề cột dính khi cuộn."*
+
+> [!note] 🧠 Mẹo nhớ
+> **display: block (cả hàng) · inline (trong dòng, không kích thước) · inline-block (trong dòng + kích thước) · none (ẩn, mất chỗ).** position: **relative (giữ chỗ, làm mốc) · absolute (thoát luồng theo cha positioned) · fixed (neo viewport) · sticky (dính khi cuộn tới).** `display:none` mất chỗ ≠ `visibility:hidden`/`opacity:0` giữ chỗ.
 
 1. **Q:** Sự khác nhau giữa `position: absolute`, `relative`, `fixed`, `sticky`?
    **A:** `relative` — offset từ vị trí gốc, vẫn chiếm không gian. `absolute` — xóa khỏi flow, relative đến positioned ancestor. `fixed` — relative đến viewport, không scroll cùng trang. `sticky` — relative cho đến khi scroll đến threshold, rồi dính như fixed.

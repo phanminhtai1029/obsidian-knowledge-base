@@ -15,6 +15,12 @@ source: [MDN]
 > [!summary] TL;DR
 > HTML Form là cơ chế thu thập dữ liệu từ người dùng qua các `<input>`, `<select>`, `<textarea>`. Mỗi control cần `<label>` liên kết đúng cách để đảm bảo accessibility. Thuộc tính `type` của `<input>` quyết định loại dữ liệu và validation tích hợp sẵn.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Form = "tờ đơn" để người dùng điền và gửi dữ liệu lên server.** Các ô là `<input>` (ô nhập), `<select>` (chọn từ danh sách), `<textarea>` (ô nhập nhiều dòng), bọc trong `<form>`.
+> - Mỗi ô nên có **`<label>` gắn đúng** (qua `for`/`id`): bấm vào nhãn là con trỏ nhảy vào ô, và screen reader đọc đúng tên ô → tốt cho accessibility.
+> - Thuộc tính **`type`** của `<input>` quyết định *loại dữ liệu + bàn phím + kiểm tra sẵn*: `type="email"` (tự kiểm định dạng email), `type="number"`, `type="password"` (ẩn ký tự), `type="date"`...
+> - Khi gửi, `method="GET"` (dữ liệu gắn vào URL — cho tìm kiếm) hay `method="POST"` (dữ liệu trong thân request — cho đăng nhập/đăng ký).
+
 ## 1. Khái niệm
 
 **HTML Form** là tập hợp các phần tử tương tác cho phép người dùng nhập và gửi dữ liệu đến server (hoặc xử lý bằng JavaScript).
@@ -205,6 +211,12 @@ source: [MDN]
 > - **Dùng `method="GET"` cho dữ liệu nhạy cảm:** GET data hiển thị trên URL và được lưu trong browser history — luôn dùng POST cho password, thông tin cá nhân.
 
 ## 5. Câu hỏi phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "GET vs POST trong form? Vì sao cần `<label>`?"
+> *"GET đính dữ liệu vào URL dưới dạng query string nên hiển thị công khai, bookmark và cache được, hợp cho tìm kiếm và lọc. POST gửi dữ liệu trong thân request, không nằm trên URL, không lưu vào history, hợp cho đăng nhập, đăng ký, hay thao tác thay đổi dữ liệu. Về label, mỗi control nên có một label liên kết qua thuộc tính for trỏ tới id của input, vì bấm vào label sẽ focus vào ô tương ứng và quan trọng hơn là screen reader đọc đúng tên ô cho người khiếm thị, đảm bảo accessibility. Ngoài ra em dùng đúng type của input để tận dụng bàn phím phù hợp và validation tích hợp sẵn của trình duyệt."*
+
+> [!note] 🧠 Mẹo nhớ
+> **GET = dữ liệu trên URL (tìm kiếm, bookmark được); POST = dữ liệu trong body (login/đăng ký, kín).** Mỗi ô cần **`<label for>`** (bấm nhãn focus ô + screen reader đọc đúng). `type` quyết định kiểu nhập + validation.
 
 1. **Q:** Sự khác nhau giữa `method="GET"` và `method="POST"` trong form?
    **A:** GET đính data vào URL query string (hiển thị, bookmark được, cached — dùng cho tìm kiếm). POST gửi data trong HTTP body (ẩn, không lưu history — dùng cho login, đăng ký, thay đổi dữ liệu).
