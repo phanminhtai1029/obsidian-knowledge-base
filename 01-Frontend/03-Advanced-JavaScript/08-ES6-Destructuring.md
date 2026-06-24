@@ -15,6 +15,17 @@ source: [MDN]
 > [!summary] TL;DR
 > Destructuring cho phép **unpack** giá trị từ array/object vào biến riêng lẻ. **Array destructuring** theo vị trí (index). **Object destructuring** theo tên key — có thể đổi tên (`{name: alias}`), đặt default (`{age = 18}`), và lồng sâu. Dùng rất nhiều trong React (props, useState, useEffect deps).
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Destructuring = "mở hộp lấy đồ ra cho gọn".** Thay vì viết `const name = user.name; const age = user.age;` lặp đi lặp lại, bạn viết một dòng `const { name, age } = user` — JS tự lấy đúng món bỏ vào biến cùng tên.
+>
+> Hai kiểu:
+> - **Object** lấy theo **TÊN** (key): `const { name } = user`.
+> - **Array** lấy theo **VỊ TRÍ**: `const [first, second] = arr`.
+>
+> Mẹo: dấu `{}`/`[]` nằm **bên trái dấu `=`** thì là "tháo ra"; nằm **bên phải** thì là "gói vào". Hiểu vậy là thấy ngay vì sao `[a, b] = [b, a]` đổi chỗ được mà không cần biến tạm.
+>
+> **Vì sao quan trọng:** React dùng destructuring khắp nơi — `const [count, setCount] = useState(0)`, `function Card({ title, onClose })`. Không quen cú pháp này thì đọc code React rất khó.
+
 ---
 
 ## 1. Khái niệm
@@ -238,6 +249,19 @@ console.log(name());  // 'Alice'
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Destructuring + Spread để merge 2 object?"
+> *"Em dùng destructuring để tách giá trị ra biến cho gọn, còn để gộp hai object thì em dùng spread. Ví dụ gộp `user` và `address`: `const merged = { ...user, ...address }` — toán tử spread trải hết các key của `user` rồi tới `address` vào một object mới. Nếu hai bên trùng key thì cái viết sau (`address`) sẽ ghi đè. Cách này tạo ra object mới chứ không sửa object cũ nên an toàn, hay dùng khi cập nhật state trong React. Lưu ý nó là shallow copy — object lồng bên trong vẫn dùng chung tham chiếu."*
+>
+> ```javascript
+> const user    = { name: 'Alice', age: 25 };
+> const address = { city: 'Hà Nội', age: 30 };
+> const merged  = { ...user, ...address };
+> // { name: 'Alice', city: 'Hà Nội', age: 30 } — age của address ghi đè
+> ```
+
+> [!note] 🧠 Mẹo nhớ
+> **Bên TRÁI `=` là tháo ra (destructure), spread `...` bên trong `{}`/`[]` là trải ra để gộp.** Object lấy theo **tên**, array lấy theo **vị trí**. Key trùng khi merge: **viết sau thắng.**
 
 **Q1: Destructuring là gì? Phân biệt array và object destructuring?**
 

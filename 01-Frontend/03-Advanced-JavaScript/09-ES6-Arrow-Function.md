@@ -15,6 +15,15 @@ source: [MDN]
 > [!summary] TL;DR
 > Arrow function (`=>`) là cú pháp ngắn gọn cho function. Điểm khác biệt quan trọng nhất: **không có `this` riêng** — `this` được kế thừa từ outer lexical scope (lexical `this`). Không có `arguments` object, không dùng làm constructor. Thích hợp cho callbacks, array methods; không thích hợp cho object methods cần `this`.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> `this` là "ai đang gọi tôi". Với **function thường**, `this` thay đổi tùy *cách gọi* — gọi kiểu `obj.method()` thì `this` là `obj`, nhưng tách method ra làm callback thì `this` "mất chủ", thành `undefined`/`window`. Đây là nguồn bug `this` kinh điển.
+>
+> **Arrow function thì khác: nó KHÔNG có `this` riêng** — nó "mượn `this` của nơi nó được viết ra" và giữ luôn, ai gọi kiểu gì cũng không đổi (kể cả `call`/`apply`/`bind` cũng bó tay). Ví von: function thường giống nhân viên thời vụ *"sếp của tôi là người nào đang sai tôi lúc này"*; arrow giống nhân viên *"sếp của tôi là người tuyển tôi vào, mãi mãi"*.
+>
+> **Khi nào dùng cái nào (đây là phần ra thi):**
+> - **Callback** (`map`, `setInterval`, event handler trong class) → dùng **arrow** để khỏi mất `this`.
+> - **Method của object** cần `this` trỏ vào chính object đó → dùng **function thường / method shorthand**.
+
 ---
 
 ## 1. Khái niệm
@@ -255,6 +264,12 @@ handleSearch('alice'); // chỉ cái này thực sự search sau 300ms
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Arrow vs function thường, `this` khác nhau ra sao?"
+> *"Khác biệt lớn nhất là `this`. Function thường có `this` riêng và `this` đó phụ thuộc vào cách gọi hàm — gọi `obj.method()` thì `this` là `obj`, nhưng nếu tách method ra truyền làm callback thì `this` mất context, thành `undefined` hoặc `window`. Còn arrow function không có `this` riêng, nó lấy `this` của scope nơi nó được định nghĩa và cố định luôn, `call`/`apply`/`bind` cũng không đổi được. Vì vậy callback như `setInterval`, `map`, hay event handler trong class em dùng arrow để giữ đúng `this`; còn method của object cần `this` trỏ vào object thì em dùng function thường. Ngoài ra arrow không có `arguments` và không làm constructor được."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Function thường: `this` = "ai GỌI tôi". Arrow: `this` = "ai VIẾT ra tôi" (cố định).** → Callback dùng arrow, method của object dùng function thường.
 
 **Q1: Arrow function khác function thường điểm gì?**
 

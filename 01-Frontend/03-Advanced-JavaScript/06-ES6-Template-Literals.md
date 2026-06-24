@@ -15,6 +15,13 @@ source: [MDN]
 > [!summary] TL;DR
 > Template literals dùng backtick (`` ` ``) thay dấu nháy. Hỗ trợ **string interpolation** (`${expression}`), **multiline strings** (không cần `\n`), và **tagged templates** (hàm xử lý string — nền tảng của styled-components, gql). Biểu thức trong `${}` có thể là bất kỳ JS expression nào.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Template literal = chuỗi "thông minh" viết bằng backtick `` ` `` thay vì nháy `'`/`"`.** Thay vì cộng chuỗi lỉnh kỉnh `'Chào ' + name + ', ' + age + ' tuổi'`, bạn viết thẳng `` `Chào ${name}, ${age} tuổi` `` — phần `${...}` là "ô điền" mà JS tự thay bằng giá trị. Ví von như **mẫu thư có chỗ trống điền tên khách hàng**.
+>
+> 2 tiện ích chính: (1) **chèn biến/biểu thức** bằng `${}`; (2) **viết nhiều dòng** thoải mái không cần `\n`. Loại cao cấp là **tagged template** (hàm đứng trước backtick) — chính là thứ đứng sau `styled.div\`...\`` và `gql\`...\``.
+>
+> **Lưu ý an toàn:** nó chỉ tạo ra chuỗi, **không tự chống XSS** — ghép input người dùng rồi nhét vào `innerHTML` vẫn dính lỗi như nối chuỗi thường.
+
 ---
 
 ## 1. Khái niệm
@@ -218,6 +225,12 @@ log.error('Connection failed', new Error('Timeout'));
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Template literal là gì, hơn nối chuỗi ở đâu?"
+> *"Template literal là chuỗi viết bằng dấu backtick, cho phép em chèn biến trực tiếp bằng cú pháp `${}` và viết chuỗi nhiều dòng mà không cần `\n`. So với nối chuỗi bằng dấu cộng thì nó ngắn gọn, dễ đọc và ít lỗi hơn — không sợ quên khoảng trắng hay lẫn dấu ngoặc. Trong `${}` em đặt được bất kỳ biểu thức nào: phép tính, gọi hàm, ternary. Ngoài ra có tagged template — đặt một hàm ngay trước backtick để xử lý chuỗi trước khi trả về, đó chính là cơ chế của styled-components và GraphQL `gql`."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Backtick + `${}` = "mẫu thư có ô điền".** Đa dòng khỏi `\n`. Nhưng **không tự chống XSS.**
 
 **Q1: Template literal là gì? Ưu điểm so với string concatenation?**
 

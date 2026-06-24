@@ -16,6 +16,11 @@ source: [MDN, YDKJS]
 > [!summary] TL;DR
 > **Scope** xác định nơi một biến có thể được truy cập. JS có 3 loại: **Global** (toàn chương trình), **Function** (`var` khai báo trong function), **Block** (`let`/`const` bên trong `{}`). **Scope chain** — khi không tìm thấy biến, JS leo lên scope cha cho đến Global; nếu không có thì `ReferenceError`.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Scope = "phạm vi nhìn thấy" của một biến** — biến này ở đâu thì gọi được, ra khỏi đó là "không quen biết". Hình dung như **các phòng lồng nhau trong một tòa nhà**: đứng trong phòng nhỏ (block/function) bạn nhìn ra hành lang và sảnh lớn (scope cha, global) được; nhưng đứng ngoài sảnh thì **không nhìn vào trong phòng đóng cửa** được. Khi cần một biến, JS tìm trong phòng hiện tại trước, không thấy thì mở cửa đi ra ngoài tìm tiếp (scope chain) — đến tận sảnh lớn (global) vẫn không thấy thì báo lỗi `ReferenceError`.
+>
+> **Vấn đề nó giải quyết:** tránh việc mọi biến đụng nhau toàn cục, và cho phép tạo "vùng kín" để giấu dữ liệu (private). 1 điểm cực hay ra thi: `var` chỉ bị giam ở cấp *function*, còn `let`/`const` bị giam ở cấp *block* (`{}`) — đây là gốc rễ của bug `var` trong vòng lặp.
+
 ---
 
 ## 1. Khái niệm
@@ -233,6 +238,12 @@ getUsers({ page: 1 });
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Khác biệt scope của var, let, const?"
+> *"Cả ba khác nhau ở phạm vi sống. `var` có function scope — nó chỉ bị giam trong hàm, còn nếu khai báo trong khối if hay for thì nó vẫn rò ra ngoài khối. `let` và `const` thì có block scope — chỉ sống trong cặp ngoặc nhọn `{}` gần nhất. Vì vậy `var` trong vòng lặp hay gây bug: cả vòng lặp dùng chung một biến, nên callback bất đồng bộ in ra toàn giá trị cuối cùng. Đổi sang `let` là mỗi vòng lặp có một biến riêng, chạy đúng ngay. Thực tế em luôn dùng `const` mặc định, cần gán lại mới dùng `let`, và gần như không dùng `var`."*
+
+> [!note] 🧠 Mẹo nhớ
+> **"Trong nhìn ra được, ngoài nhìn vào không được."** Và: **`var` = giam ở Function, `let`/`const` = giam ở Block (`{}`).** Nhớ 2 câu này là trả lời được hầu hết câu hỏi scope.
 
 **Q1: Phân biệt Function Scope và Block Scope?**
 

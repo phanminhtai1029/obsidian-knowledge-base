@@ -15,6 +15,13 @@ source: [MDN, YDKJS]
 > [!summary] TL;DR
 > **Closure** = function + lexical environment nơi nó được định nghĩa. Inner function "đóng gói" (close over) các biến của outer scope, giữ chúng sống ngay cả khi outer function đã return xong. Ứng dụng thực tế: counter, module pattern, partial application, data encapsulation, mô phỏng useState.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Tưởng tượng một hàm khi "sinh ra" được phát cho **một chiếc ba lô**. Trong ba lô đựng tất cả biến ở nơi nó được viết ra (outer scope). Dù sau này hàm đi đâu, chạy lúc nào, **nó vẫn đeo ba lô đó và lấy đồ trong đó ra dùng** — kể cả khi hàm cha (nơi sinh ra nó) đã chạy xong từ lâu.
+>
+> **Vấn đề nó giải quyết:** làm sao để một hàm "nhớ" được dữ liệu riêng giữa các lần gọi, và làm sao tạo **biến riêng tư** (private) mà bên ngoài không sờ vào được. Đó chính là lý do mỗi `makeCounter()` có biến `count` riêng, và là cơ chế đứng sau "mỗi component React giữ state riêng".
+>
+> **3 chữ cốt lõi:** hàm con + ba lô (biến outer) + sống dai (không bị xóa khi cha return).
+
 ---
 
 ## 1. Khái niệm
@@ -290,6 +297,12 @@ console.log(memoCalc(1000)); // Cache hit: [1000] → 500500
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Closure là gì?"
+> *"Closure là khi một hàm con vẫn dùng được các biến của hàm cha, ngay cả sau khi hàm cha đã chạy xong và return. Em hình dung hàm con được phát một chiếc ba lô đựng sẵn các biến nơi nó sinh ra, nên đi đâu nó cũng lấy ra dùng được. Ví dụ kinh điển là hàm `makeCounter`: bên trong có biến `count`, return ra hàm `increment`. Mỗi lần gọi `makeCounter()` tạo một `count` riêng và bên ngoài không truy cập trực tiếp được — đó là cách JS tạo biến private. Ứng dụng thực tế là counter, module pattern, memoize cache, và chính cơ chế state của React cũng dựa trên ý tưởng này."*
+
+> [!note] 🧠 Mẹo nhớ
+> **"Hàm con đeo ba lô của cha, đi đâu cũng xài được."** Và nhớ câu thần chú gỡ mọi câu đố: **closure giữ BIẾN, không giữ GIÁ TRỊ** — biến đổi thì closure thấy giá trị mới (đó là gốc của bug `var` trong loop).
 
 **Q1: Closure là gì? Cho ví dụ đơn giản.**
 

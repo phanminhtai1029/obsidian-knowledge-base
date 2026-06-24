@@ -15,6 +15,14 @@ source: [MDN]
 > [!summary] TL;DR
 > ES6 cải tiến cú pháp object literal: **Shorthand property** (`{name}` thay `{name: name}`), **Shorthand method** (`greet() {}` thay `greet: function() {}`), **Computed property name** (`{[key]: value}`). Giảm code thừa, tăng tính đọc được, dùng rất nhiều trong React/Node.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Đây chỉ là **3 cách viết tắt cho gọn khi tạo object** — không có khái niệm mới khó nhằn nào:
+> - **Property shorthand:** nếu tên key trùng tên biến, viết `{ name, age }` thay vì `{ name: name, age: age }`. Đây là cú pháp bạn gặp *nhiều nhất* khi `return { user, token }` hay `setState({ name, email })`.
+> - **Method shorthand:** viết `greet() {}` thay cho `greet: function() {}`.
+> - **Computed property:** đặt tên key *động* (chỉ biết lúc chạy) bằng `{ [bienKey]: value }`.
+>
+> **1 bẫy tinh vi:** method shorthand `greet() {}` có `this` trỏ vào object (đúng); còn nếu lỡ viết method bằng arrow `greet: () => {}` thì `this` KHÔNG phải object → `this.name` ra `undefined`. (Xem [[09-ES6-Arrow-Function]].)
+
 ---
 
 ## 1. Khái niệm
@@ -244,6 +252,12 @@ console.log(config.validators.username('ab')); // "Quá ngắn"
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Enhanced object literal gồm những gì?"
+> *"Là mấy cú pháp viết tắt khi tạo object trong ES6. Thứ nhất là property shorthand: khi tên key trùng tên biến thì viết `{ name, age }` thay vì `{ name: name, age: age }` — cái này em dùng liên tục khi return object hay setState. Thứ hai là method shorthand: viết `greet() {}` gọn hơn `greet: function() {}`. Thứ ba là computed property name: đặt key động bằng `{ [bienKey]: value }`, hữu ích khi tên field chỉ biết lúc runtime, ví dụ trong reducer của Redux. Một lưu ý là method shorthand có `this` trỏ vào object, nên đừng định nghĩa method bằng arrow function vì arrow không có `this` riêng."*
+
+> [!note] 🧠 Mẹo nhớ
+> **3 cái viết tắt: `{name}` (key trùng biến) · `greet(){}` (method) · `{[key]:v}` (key động).** Method object → **shorthand, đừng arrow.**
 
 **Q1: Property shorthand là gì?**
 

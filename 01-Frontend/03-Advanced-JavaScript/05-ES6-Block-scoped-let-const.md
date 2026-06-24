@@ -15,6 +15,13 @@ source: [MDN]
 > [!summary] TL;DR
 > `let` và `const` (ES2015) giải quyết 2 vấn đề của `var`: **không có block scope** và **hoisting bất ngờ**. `const` — không thể reassign (nhưng object/array bên trong vẫn mutable). `let` — cho phép reassign. Quy tắc thực hành: luôn dùng `const` mặc định, `let` khi cần, không dùng `var`.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Ví von **`const` như dán nhãn tên cố định lên một chiếc hộp**: bạn không được lấy nhãn dán sang hộp khác (không reassign), nhưng **đồ bên trong hộp vẫn thêm/bớt được** (`obj.key = ...`, `arr.push(...)` vẫn chạy). `let` thì nhãn gỡ ra dán hộp khác được (reassign). `var` là kiểu cũ, vừa thiếu kỷ luật vừa hay gây bug.
+>
+> **Điểm CỰC hay ra thi — bẫy "const là immutable":** Câu trả lời đúng là *KHÔNG*. `const` chỉ khóa **liên kết biến → địa chỉ**, không khóa **nội dung**. `const u = {}` thì `u.name = 'Bob'` vẫn được, chỉ `u = {}` mới lỗi. Muốn khóa luôn nội dung phải `Object.freeze()` (mà cũng chỉ khóa nông 1 tầng).
+>
+> **Quy tắc vàng:** mặc định `const` → cần gán lại mới đổi `let` → gần như không bao giờ `var`.
+
 ---
 
 ## 1. Khái niệm
@@ -210,6 +217,12 @@ console.log(nested.inner.value); // 99
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "`const` có phải immutable không?"
+> *"Không hẳn ạ. `const` chỉ ngăn việc gán lại biến — nghĩa là không thể trỏ biến sang một giá trị/đối tượng khác. Nhưng nếu giá trị là object hay array thì nội dung bên trong vẫn sửa được bình thường: `const u = {}` thì `u.name = 'Bob'` hợp lệ, `const arr = []` thì `arr.push(1)` hợp lệ, chỉ có `u = {}` hay `arr = [2]` mới báo lỗi. Em hình dung `const` như dán nhãn cố định lên cái hộp: không đổi nhãn được nhưng đồ trong hộp vẫn thêm bớt. Muốn khóa luôn nội dung thì dùng `Object.freeze`, nhưng nó chỉ khóa nông một tầng. Trong dự án em mặc định dùng `const`, chỉ đổi `let` khi cần gán lại."*
+
+> [!note] 🧠 Mẹo nhớ
+> **"`const` khóa cái NHÃN, không khóa cái RUỘT."** Thứ tự ưu tiên: **const → let → (đừng) var.**
 
 **Q1: Phân biệt `let`, `const`, `var`?**
 

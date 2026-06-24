@@ -15,6 +15,14 @@ source: [MDN]
 > [!summary] TL;DR
 > Cả hai đều dùng `...` nhưng ngược nhau: **Rest** (`...params` trong function/destructuring) — **gom** nhiều giá trị vào 1 mảng. **Spread** (`...arr` khi gọi function/tạo array/object) — **trải** iterable ra thành các giá trị riêng lẻ. Spread tạo **shallow copy** — không deep clone.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Cùng dấu `...` nhưng làm hai việc ngược nhau, phân biệt theo **vị trí**:
+> - **Spread = "đổ hết ra".** Hình dung dốc ngược một hộp đồ ra bàn: `[...a, ...b]` đổ cả hai mảng vào một mảng mới; `{...user, age: 26}` đổ user ra rồi sửa `age`. Dùng khi *gọi hàm* hoặc *dựng array/object*.
+> - **Rest = "gom hết lại".** Ngược lại, hốt mọi thứ còn dư vào một mảng: `function sum(...nums)` gom mọi đối số thành mảng `nums`. Dùng ở *tham số hàm* hoặc *vế trái destructuring*.
+> - Câu nhớ: **"Dùng thì trải (spread), nhận thì gom (rest)."**
+>
+> **Bẫy CỰC hay ra thi — Shallow vs Deep copy:** `const b = {...a}` chỉ **copy nông 1 tầng**. Object/array *lồng bên trong* vẫn dùng chung địa chỉ → sửa `b.address.city` là `a.address.city` đổi theo! Đây là gốc bug "sao state gốc bị thay đổi?". Muốn copy sâu hoàn toàn dùng **`structuredClone(a)`** (cách hiện đại) hoặc `JSON.parse(JSON.stringify(a))` (cũ, mất Date/function). Đó cũng là lý do update state trong React phải spread từng tầng đụng tới.
+
 ---
 
 ## 1. Khái niệm
@@ -249,6 +257,12 @@ console.log(mergeDeep(base, overlay));
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Shallow vs Deep copy, `{...obj}` là loại nào?"
+> *"`const newObj = { ...oldObj }` là shallow copy — sao chép nông. Nó tạo object mới và copy các giá trị ở tầng ngoài cùng, nhưng nếu bên trong có object hoặc array lồng nhau thì nó chỉ copy tham chiếu, tức là hai bên vẫn trỏ chung vào cùng một object con. Hậu quả là sửa dữ liệu lồng ở bản copy thì bản gốc cũng bị đổi theo. Muốn deep copy — sao chép sâu, độc lập hoàn toàn — em dùng `structuredClone(oldObj)` là cách hiện đại và đúng nhất, hoặc `JSON.parse(JSON.stringify(oldObj))` cho dữ liệu đơn giản nhưng cách này mất Date, function và undefined. Đây cũng là lý do trong React em phải spread từng tầng khi update state lồng nhau."*
+
+> [!note] 🧠 Mẹo nhớ
+> **"Dùng thì TRẢI (spread), nhận thì GOM (rest)."** Và: **`{...obj}` = copy NÔNG; deep copy = `structuredClone()`.**
 
 **Q1: Rest và Spread operator — giải thích và phân biệt?**
 

@@ -14,6 +14,15 @@ source: [YDKJS, javascript.info]
 > [!summary] TL;DR
 > **Coercion** = JS tự động chuyển đổi kiểu dữ liệu. **Implicit coercion** xảy ra ngầm (`1 + '2'` → `'12'`). **Explicit coercion** là bạn chủ động convert (`Number('42')`). `==` dùng Abstract Equality (có coerce), `===` không coerce. Luôn dùng `===` trong production. Hiểu các WAT classic để tránh bug ngầm.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Coercion = JS "tự ý dịch ngôn ngữ" giữa các kiểu để phép tính chạy được.** Ví von: bạn đưa cho JS một quả táo (number) và chữ "táo" (string), bảo nó "+", JS lười cãi nên **biến luôn quả táo thành chữ rồi ghép chuỗi** → ra `"3táo"`. Đó là lý do `1 + '2'` ra `"12"` chứ không phải `3`.
+>
+> Hai chỗ ra thi nhiều nhất:
+> - **`==` vs `===`:** `==` cho phép JS "dịch kiểu" trước khi so sánh (nên `1 == '1'` là `true`), còn `===` thì **không dịch** — khác kiểu là `false` ngay. Luôn dùng `===` để khỏi dính bug ngầm.
+> - **Toán tử `+` thiên vị chuỗi:** chỉ cần 1 vế là string, `+` thành nối chuỗi; còn `-`, `*`, `/` thì luôn ép về số. Vì input form/API luôn là string nên phải `Number()` trước khi tính.
+>
+> **Vấn đề nó giải quyết khi thi:** trả lời gọn "vì sao luôn dùng `===`" và "vì sao `'25' + 1` ra `'251'`".
+
 ---
 
 ## 1. Khái niệm
@@ -252,6 +261,12 @@ function calculateTotal(form) {
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Vì sao luôn dùng `===` thay `==`?"
+> *"Vì `==` cho phép JS tự ép kiểu hai vế về cùng kiểu trước khi so sánh, nên hay ra kết quả bất ngờ — ví dụ `0 == ''` hay `1 == '1'` đều là `true`, thậm chí `[] == false` cũng `true`. Những thứ này khiến bug rất khó lần. Còn `===` so sánh cả kiểu lẫn giá trị, khác kiểu là `false` ngay, kết quả dự đoán được. Nên trong dự án em luôn dùng `===`. Chỉ có một ngoại lệ tiện dụng là `x == null` để bắt cả `null` lẫn `undefined` trong một lần, nhưng em dùng có ý thức."*
+
+> [!note] 🧠 Mẹo nhớ
+> **`==` = "so sánh dễ dãi" (ép kiểu rồi mới xét), `===` = "so sánh khó tính" (khác kiểu là trượt).** Và: **`+` gặp chuỗi thì nối, `- * /` thì ép số.** Falsy đúng **7 món**: `false 0 -0 0n '' null undefined NaN` — `[]` và `{}` thì *truthy*.
 
 **Q1: `==` và `===` khác nhau thế nào?**
 

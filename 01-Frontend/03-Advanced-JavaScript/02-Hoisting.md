@@ -15,6 +15,16 @@ source: [MDN, YDKJS]
 > [!summary] TL;DR
 > **Hoisting** — JS engine di chuyển khai báo lên đầu scope trước khi chạy code. `var` được hoist và init thành `undefined`. `function declaration` được hoist hoàn toàn (gọi được trước khi khai báo). `let`/`const` được hoist nhưng ở **TDZ** (Temporal Dead Zone) — truy cập trước khai báo → `ReferenceError`.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> Trước khi chạy, JS **đọc lướt qua code một lượt để "điểm danh" tên các biến/hàm** rồi mới chạy thật. Vì đã điểm danh trước, một số tên "có vẻ như được kéo lên đầu" — đó là hoisting. Ví von: như giáo viên **điểm danh cả lớp đầu giờ** (biết có những ai) rồi mới bắt đầu gọi từng người làm bài (gán giá trị).
+>
+> Mấu chốt là *lúc điểm danh, mỗi tên ở trạng thái nào*:
+> - `var` → đã điểm danh **và** gán tạm `undefined` (gọi tên ra được, nhưng rỗng).
+> - `let`/`const` → đã điểm danh nhưng **chưa cho dùng** (đụng vào trước dòng khai báo là lỗi `ReferenceError`) — vùng cấm này gọi là **TDZ**.
+> - `function` (khai báo kiểu `function foo(){}`) → điểm danh **cả người lẫn bài làm** → gọi được trước cả dòng khai báo.
+>
+> **Vấn đề nó giải quyết khi thi:** giải thích vì sao `console.log(x)` trước `var x` ra `undefined` chứ không lỗi, còn với `let` lại lỗi. TDZ là *tính năng tốt*: nó biến bug âm thầm thành lỗi nổ ngay.
+
 ---
 
 ## 1. Khái niệm
@@ -226,6 +236,12 @@ console.log(x); // "outer"
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "Hoisting là gì?"
+> *"Hoisting là việc JS, trước khi chạy code, quét một lượt để đăng ký trước tên của các biến và hàm trong scope. Nên trông như khai báo được kéo lên đầu. Điểm quan trọng là trạng thái lúc đăng ký: `var` được gán tạm `undefined` nên đọc trước khai báo ra `undefined` chứ không lỗi; `let` và `const` cũng được đăng ký nhưng nằm trong Temporal Dead Zone, đụng vào trước dòng khai báo là `ReferenceError`; còn `function` khai báo dạng `function foo(){}` thì được hoist cả thân hàm nên gọi trước khai báo vẫn chạy. Em coi TDZ là điểm cộng vì nó giúp lỗi nổ ra ngay thay vì âm thầm sai, nên em luôn ưu tiên `const`/`let`."*
+
+> [!note] 🧠 Mẹo nhớ
+> **"Điểm danh trước, gán giá trị sau."** Trạng thái lúc điểm danh: **var = `undefined`, let/const = vùng cấm TDZ, function = đủ cả thân hàm.**
 
 **Q1: Hoisting là gì? Giải thích bằng ví dụ.**
 

@@ -15,6 +15,17 @@ source: [MDN]
 > [!summary] TL;DR
 > ES6 Class là **syntactic sugar** trên prototype-based inheritance — không phải OOP kiểu Java/C#. `constructor()` khởi tạo instance. `extends` kế thừa, `super()` gọi constructor cha. `static` methods thuộc class, không phải instance. `#privateField` (ES2022) tạo private fields thực sự.
 
+> [!tip] 🎯 Hiểu trong 30 giây
+> **Class = một "khuôn bánh", còn object tạo ra (`new`) là "cái bánh".** Khuôn định nghĩa cái bánh sẽ có gì (`constructor` đổ nguyên liệu) và làm được gì (`method`); mỗi lần `new` là đúc ra một cái bánh riêng với dữ liệu riêng.
+>
+> Từ khóa cần nhớ:
+> - `constructor` → hàm chạy khi `new`, để gán dữ liệu ban đầu.
+> - `extends` + `super` → "kế thừa": lớp con dùng lại lớp cha; `super()` gọi constructor cha.
+> - `static` → thuộc về *khuôn*, không thuộc *cái bánh* — gọi `ClassName.method()` (vd `Math.random()`), dùng cho factory/tiện ích.
+> - `#field` → biến *thật sự* riêng tư, bên ngoài đụng vào là lỗi.
+>
+> **Câu hay bị hỏi:** "Class trong JS có phải OOP thật không?" → *Không hẳn*. Nó chỉ là **lớp áo cú pháp dễ đọc** đặt lên cơ chế **prototype** có sẵn của JS (`typeof Class === 'function'`). Bên dưới vẫn là prototype chain.
+
 ---
 
 ## 1. Khái niệm
@@ -356,6 +367,12 @@ const counter = new Counter({ initial: 5 });
 ---
 
 ## 5. Phỏng vấn thường gặp
+
+> [!example] 🗣️ Trả lời mẫu (nói thành lời) — "ES6 Class có phải OOP thật không?"
+> *"Class trong JavaScript chủ yếu là syntactic sugar — lớp áo cú pháp đặt lên cơ chế kế thừa qua prototype có sẵn của JS, chứ không phải class-based OOP như Java hay C#. Bằng chứng là `typeof MyClass` ra `'function'`, và các method thực ra nằm trên prototype dùng chung cho mọi instance. `extends` chỉ là nối prototype chain, `super` gọi lên cha. Class giúp code OOP dễ đọc hơn nhiều so với viết prototype thủ công, và hành vi giống OOP truyền thống ở hầu hết trường hợp, nên em vẫn dùng class khi cần nhiều instance có hành vi chung; còn việc đơn giản thì factory function với closure đôi khi gọn hơn."*
+
+> [!note] 🧠 Mẹo nhớ
+> **Class = khuôn bánh, `new` = đúc cái bánh.** Class JS = **sugar trên prototype** (`typeof` ra `'function'`). `static` thuộc khuôn, `#` là private thật, lớp con phải gọi `super()` trước khi dùng `this`.
 
 **Q1: ES6 Class có phải OOP thực sự không?**
 
