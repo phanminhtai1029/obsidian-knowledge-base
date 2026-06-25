@@ -431,6 +431,46 @@ function UserListPage() {
 
 ---
 
+### 2.9 Deploy SPA — vì sao F5 trên route con bị 404 (history fallback)
+
+> [!warning] Câu hỏi phỏng vấn kinh điển: "Deploy xong, vào `/dashboard` rồi **F5** thì bị **404**, vì sao?"
+> **Nguồn gốc:** React Router là **client-side routing** — toàn bộ route do **JavaScript trong trình duyệt** xử lý sau khi `index.html` đã tải. Nhưng khi bạn **F5 (refresh)** hay gõ thẳng URL `/dashboard`, trình duyệt gửi một **HTTP request thật** tới server xin file ở đường dẫn `/dashboard`. Server (Nginx/Apache/static host) đi tìm file `dashboard/index.html` — **không có** (SPA chỉ build ra **một** `index.html` duy nhất) → trả về **404**.
+>
+> **Bản chất:** routing của bạn sống ở **client**, còn server lại nghĩ mỗi URL là **một file riêng**. Hai bên hiểu khác nhau.
+
+**Cách khắc phục — "history fallback":** cấu hình server **trả về `index.html` cho MỌI đường dẫn không phải file tĩnh**. Khi `index.html` tải xong, React Router đọc `window.location` và render đúng route. (Đây là lý do `path="*"` của React Router chỉ bắt 404 **phía client** — nó *không* cứu được 404 phía server; phải sửa ở cấu hình deploy.)
+
+```nginx
+# Nginx — try_files: thử file thật trước, không có thì rớt về /index.html
+location / {
+  try_files $uri $uri/ /index.html;   # mọi route con đều nhận index.html → React Router lo phần còn lại
+}
+```
+
+```json
+// Vercel (vercel.json) / Netlify (_redirects: /* /index.html 200) — rewrite mọi path về SPA shell
+{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }
+```
+
+```js
+// Vite dev server đã tự bật history fallback; khi tự host bằng server tĩnh khác thì phải cấu hình tay
+// vite.config.js → server: { historyApiFallback: true }  (hoặc dùng `vite preview` cho bản build)
+```
+
+> [!note] BrowserRouter vs HashRouter
+> **`BrowserRouter`** dùng URL "đẹp" (`/dashboard`) qua **History API** → **cần** history fallback ở server. **`HashRouter`** nhét route sau dấu `#` (`/#/dashboard`) — server chỉ thấy `/` nên **không bao giờ 404 khi refresh**, không cần cấu hình server. Đổi lại URL xấu và kém SEO. Khi không sửa được server (host tĩnh hạn chế) thì HashRouter là lối thoát; còn lại ưu tiên `BrowserRouter` + fallback.
+
+```
+★ Insight ─────────────────────────────────────
+• Đây là ranh giới client/server: SPA gộp mọi "trang" vào 1 file index.html,
+  nên server PHẢI được dạy "URL nào cũng trả index.html" thì refresh mới sống.
+• Next.js KHÔNG dính lỗi này vì nó có routing phía server (mỗi route được
+  server/Edge xử lý thật) — đây là một khác biệt SPA (CSR) vs SSR đáng nhớ.
+─────────────────────────────────────────────────
+```
+
+---
+
 ## 3. Ví dụ minh họa
 
 ### Ví dụ: Full app routing với auth, layout, lazy
@@ -523,6 +563,10 @@ function App() {
 **Q3: Lazy loading routes trong React Router — tại sao cần?**
 
 > `lazy(() => import('./Page'))` cho phép **code splitting**: thay vì load toàn bộ JS upfront, mỗi lazy route được tách thành chunk riêng và chỉ load khi user navigate đến. Lợi ích: (1) **Initial bundle nhỏ hơn** → faster first load. (2) User chỉ download code của pages họ visit. Cần bọc trong `<Suspense fallback={<Loading />}>` để handle loading state. Vite tự động tách bundle khi dùng dynamic `import()`.
+
+**Q4: Deploy SPA xong, refresh (F5) ở `/dashboard` bị 404 — vì sao và sửa thế nào?**
+
+> Vì React Router là **client-side routing**: route do JS xử lý *sau khi* `index.html` đã tải. Khi F5, trình duyệt gửi **request thật** tới server xin đường dẫn `/dashboard`, server đi tìm file đó nhưng SPA chỉ build ra **một** `index.html` → **404**. Sửa: cấu hình server **history fallback** — trả `index.html` cho mọi path không phải file tĩnh (`try_files $uri /index.html` trên Nginx; `rewrites` về `/index.html` trên Vercel/Netlify). Lưu ý `path="*"` chỉ bắt 404 **phía client**, không cứu được 404 server. Không sửa được server thì dùng `HashRouter` (URL có `#`, server không bao giờ thấy route con). Next.js không dính lỗi này vì có routing phía server.
 
 ---
 

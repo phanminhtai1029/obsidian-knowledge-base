@@ -117,6 +117,38 @@ AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False)
 > [!note] Engine ≠ Session
 > **Engine** sống suốt vòng đời app (1 cái duy nhất), quản lý pool. **Session** là *phiên làm việc ngắn* — mở cho mỗi request, đóng khi xong. Đừng dùng chung một session cho nhiều request.
 
+### 2.1 Connection Pool & lỗi "pool exhausted" (rất hay hỏi)
+
+Mở một kết nối TCP tới PostgreSQL **tốn** (handshake, auth). Nên Engine giữ sẵn một **pool** (bể) các kết nối để **tái sử dụng**: mỗi `AsyncSession` **mượn** một kết nối từ pool, dùng xong **trả** lại. Hai tham số cốt lõi:
+
+```python
+engine = create_async_engine(
+    DATABASE_URL,
+    pool_size=5,        # số kết nối giữ thường trực trong pool
+    max_overflow=10,    # số kết nối "mượn thêm" tạm thời khi pool đầy → trần thực tế = 5 + 10 = 15
+    pool_timeout=30,    # chờ tối đa 30s để xin được 1 kết nối; quá hạn → ném lỗi
+    pool_recycle=1800,  # tái tạo kết nối > 30 phút (tránh bị DB/firewall cắt ngầm)
+    pool_pre_ping=True, # ping kiểm tra "kết nối còn sống?" trước khi giao (tránh stale connection)
+)
+```
+
+> [!warning] "QueuePool limit ... connection timed out" — pool bị cạn (exhausted)
+> Khi **mọi** kết nối (cả `pool_size` lẫn `max_overflow`) đang bị giữ và một request mới xin thêm, nó phải **chờ**; quá `pool_timeout` thì SQLAlchemy ném **`TimeoutError`** ("QueuePool limit of size X overflow Y reached"). Triệu chứng: app **treo rồi 500 hàng loạt** lúc tải cao.
+>
+> **Nguyên nhân thường gặp:** (1) **quên đóng session** — không dùng `async with`/`Depends` có teardown nên kết nối **rò rỉ** (leak), không bao giờ trả về pool; (2) **giữ kết nối khi gọi I/O chậm** (gọi API ngoài *trong khi* session còn mở) → kết nối bị "ngâm"; (3) **N+1 query** mở nhiều session song song; (4) `pool_size` nhỏ hơn số request đồng thời thực tế.
+>
+> **Cách xử lý:** luôn đóng session bằng `async with AsyncSessionLocal() as session:` hoặc dependency `get_db` có `finally`; rút ngắn thời gian giữ session (đừng gọi HTTP ngoài khi đang mở transaction); tăng `pool_size`/`max_overflow` cho hợp tải; bật `pool_pre_ping` chống kết nối chết; và **đừng dùng chung 1 session cho nhiều request** ([[06-Dependency-Injection]] lo vòng đời session).
+
+```
+★ Insight ─────────────────────────────────────
+• "Pool exhausted" gần như luôn là TRIỆU CHỨNG của session bị rò rỉ, không phải
+  do pool quá nhỏ — tăng pool chỉ trì hoãn lỗi. Soi chỗ nào mở session mà không
+  có async with / Depends teardown trước khi nghĩ tới chuyện tăng số.
+• Nhiểu pool giúp trả lời cặp câu kinh điển: "vì sao tái dùng kết nối?" (mở TCP
+  đắt) và "vì sao app treo lúc cao tải?" (cạn pool do leak/giữ kết nối lâu).
+─────────────────────────────────────────────────
+```
+
 ---
 
 ## 3. Định nghĩa model ORM (class ↔ bảng)
@@ -306,6 +338,9 @@ async def make_async_session_db():       # KHÔNG bọc @asynccontextmanager
 
 > [!question] 9. SQL injection là gì? Vì sao dùng ORM lại giảm rủi ro này?
 > Injection là khi input bị hiểu nhầm thành **lệnh SQL** do **ghép chuỗi** input vào câu lệnh (vd `' OR '1'='1`). Chống bằng **truy vấn tham số hoá** để DB coi input là **dữ liệu**, không phải **lệnh**. ORM (SQLAlchemy) **luôn sinh truy vấn tham số hoá mặc định** → tách lệnh khỏi dữ liệu, nên an toàn hơn ghép SQL tay. (Bổ trợ: validate input bằng Pydantic, least privilege cho user DB.)
+
+> [!question] 10. Connection pool là gì? "Pool exhausted" xảy ra khi nào và sửa thế nào?
+> **Pool** là bể kết nối DB giữ sẵn để **tái dùng** (mở TCP/auth tới Postgres rất tốn). Mỗi session **mượn** một kết nối, dùng xong **trả** lại. Trần kết nối = `pool_size + max_overflow`. **Exhausted** = mọi kết nối đang bị giữ, request mới phải chờ; quá `pool_timeout` thì ném `TimeoutError` ("QueuePool limit reached") → app treo/500 lúc cao tải. Nguyên nhân #1 là **quên đóng session** (rò rỉ kết nối), hoặc **giữ session khi gọi I/O chậm**, hoặc N+1. Sửa: luôn `async with`/`Depends` có teardown để đóng session, rút ngắn thời gian giữ, bật `pool_pre_ping`, và tăng `pool_size`/`max_overflow` cho hợp tải (nhưng tăng pool chỉ là vá triệu chứng nếu gốc là leak).
 
 ---
 

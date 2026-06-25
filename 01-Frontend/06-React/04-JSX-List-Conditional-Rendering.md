@@ -290,6 +290,50 @@ function DataView({ status, data, error }) {
 
 ---
 
+### 2.7 `dangerouslySetInnerHTML` & render Markdown an toàn (UI chatbot)
+
+> [!warning] React mặc định **an toàn**, nhưng `dangerouslySetInnerHTML` mở lại cửa XSS
+> Khi bạn viết `{userInput}` trong JSX, React **escape** (chuyển ký tự đặc biệt như `<` thành `&lt;`) → chuỗi `<script>` hiện ra dưới dạng **chữ**, không chạy. Đây là lớp chống **XSS (Cross-Site Scripting — chèn mã độc qua dữ liệu người dùng)** mặc định. Nhưng để chèn **HTML thật** (vd render Markdown của LLM thành đậm/nghiêng/list), bạn phải dùng `dangerouslySetInnerHTML` — React cố ý đặt tên "dangerously" để cảnh báo: lúc này **bạn tự chịu trách nhiệm** chống XSS.
+
+Ngữ cảnh **chatbot AI**: model trả về **Markdown** (chữ đậm, khối code, link…), ta muốn render đẹp. Hai cách:
+
+```jsx
+// ❌ NGUY HIỂM: markdown → HTML rồi nhét thẳng, không lọc → dính XSS nếu nội dung chứa <script>/<img onerror>
+import { marked } from "marked";
+function Bubble({ markdown }) {
+  return <div dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }} />;
+}
+
+// ✅ AN TOÀN: SANITIZE bằng DOMPurify trước khi đưa vào DOM (loại bỏ thẻ/thuộc tính nguy hiểm)
+import { marked } from "marked";
+import DOMPurify from "dompurify";
+function Bubble({ markdown }) {
+  const clean = DOMPurify.sanitize(marked.parse(markdown)); // cắt <script>, on* handler, javascript: ...
+  return <div dangerouslySetInnerHTML={{ __html: clean }} />;
+}
+
+// ✅✅ TỐT NHẤT cho React: dùng react-markdown — KHÔNG đụng dangerouslySetInnerHTML,
+//      nó parse Markdown thành React element thật (đã an toàn), HTML thô mặc định bị bỏ
+import Markdown from "react-markdown";
+function Bubble({ markdown }) {
+  return <Markdown>{markdown}</Markdown>;
+}
+```
+
+> [!tip] Vì sao output LLM cũng phải coi là "không tin cậy"?
+> Người dùng có thể **dẫn dụ model in ra HTML/script độc** (một dạng [[../../04-AI/04-LangGraph-Agentic/03-Tool-Calling-Tavily|prompt injection]]), hoặc nội dung lấy từ web qua RAG đã chứa mã độc. Vì vậy **đừng tin output model** — vẫn sanitize như tin người dùng.
+
+```
+★ Insight ─────────────────────────────────────
+• Quy tắc vàng: text → `{value}` (React tự escape, an toàn). HTML thật →
+  bắt buộc sanitize (DOMPurify) HOẶC dùng react-markdown (không render HTML thô).
+• Bản chất XSS giống note DOM thuần ([[../02-DOM-Event/13-DOM-Performance]]):
+  `dangerouslySetInnerHTML` của React ≈ `innerHTML` của Vanilla — cùng rủi ro.
+─────────────────────────────────────────────────
+```
+
+---
+
 ## 3. Ví dụ minh họa
 
 ### Ví dụ 1: Filterable list
@@ -414,6 +458,10 @@ function NotificationCenter({ notifications, onDismiss }) {
 **Q3: Fragment là gì? Khi nào dùng?**
 
 > **Fragment** (`<>...</>` hoặc `<React.Fragment>`) là wrapper ảo — cho phép return nhiều elements mà **không thêm DOM node thừa**. Dùng khi: (1) component cần return nhiều siblings, (2) thêm wrapper div sẽ phá vỡ CSS layout (ví dụ flex/grid), (3) render table row/cell cần đúng cấu trúc HTML. Dùng `<React.Fragment key={id}>` khi cần key prop trong list.
+
+**Q4: Render câu trả lời Markdown của chatbot ra HTML thế nào cho an toàn?**
+
+> Mặc định JSX `{value}` **escape** mọi thứ → an toàn nhưng không render được HTML (Markdown sẽ hiện ra dạng chữ thô). Muốn render HTML thật phải dùng `dangerouslySetInnerHTML` — lúc này tự chịu rủi ro **XSS**. Ba lựa chọn: (1) **tệ nhất**: `marked.parse(md)` rồi nhét thẳng → dính XSS; (2) **an toàn**: `DOMPurify.sanitize(...)` trước khi đưa vào `dangerouslySetInnerHTML`; (3) **tốt nhất trong React**: dùng `react-markdown` — nó parse Markdown thành React element thật, mặc định bỏ HTML thô nên không cần `dangerouslySetInnerHTML`. Quan trọng: **coi output của LLM như dữ liệu không tin cậy** (có thể bị prompt injection ép in mã độc) → luôn sanitize.
 
 ---
 

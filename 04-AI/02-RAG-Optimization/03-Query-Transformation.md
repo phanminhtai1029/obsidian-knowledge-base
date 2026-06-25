@@ -80,6 +80,8 @@ Hữu ích cho **câu hỏi phức tạp** mà một đoạn văn bản không c
 | **Query Decomposition** | Tách 1 câu nhiều ý thành nhiều sub-question                                     | Câu hỏi so sánh / tổng hợp nhiều nguồn |
 | **Multi-Query**         | LLM sinh **nhiều câu diễn đạt** của *cùng* câu hỏi, search hết rồi gộp (vd RRF) | Câu hỏi mơ hồ, nhiều cách diễn đạt     |
 | **Step-back Prompting** | Lùi về câu hỏi **khái quát hơn** để lấy ngữ cảnh nền rồi mới trả lời cụ thể     | Câu hỏi chi tiết cần kiến thức nền     |
+| **Self-Querying**       | LLM **trích metadata filter** từ câu hỏi tự nhiên → search vừa semantic vừa lọc | Câu hỏi kèm điều kiện (năm, tác giả, loại) |
+| **Query Routing**       | **Phân loại** câu hỏi → định tuyến tới đúng nguồn/cách xử lý                     | Hệ nhiều datasource / nhiều loại câu hỏi |
 
 ```
 ★ Insight ─────────────────────────────────────
@@ -88,6 +90,23 @@ Hữu ích cho **câu hỏi phức tạp** mà một đoạn văn bản không c
   (sub-problems). Mục tiêu khác nhau: tăng recall vs xử lý câu nhiều ý.
 ─────────────────────────────────────────────────
 ```
+
+### 4.1 Self-Querying — biến câu chữ thành filter + semantic search
+
+Vector search thuần chỉ so **ngữ nghĩa**, **bỏ qua điều kiện cứng**. Hỏi *"báo cáo tài chính **2023** của phòng **Sales**"* — nếu chỉ embedding cả câu, kết quả có thể lẫn báo cáo 2021, phòng khác. **Self-Querying** dùng LLM **đọc câu hỏi** và **tách** ra hai phần: (1) **chuỗi để search ngữ nghĩa** ("báo cáo tài chính") và (2) **metadata filter** có cấu trúc (`year == 2023 AND department == "Sales"`). VectorDB chạy **vector search + lọc metadata** cùng lúc → vừa đúng nghĩa vừa đúng điều kiện.
+
+> [!note] Điều kiện tiên quyết
+> Self-Querying chỉ chạy được nếu lúc **index** bạn đã gắn **metadata** cho từng chunk (`year`, `department`, `author`, `doc_type`…). Không có metadata thì không có gì để lọc. → Thiết kế metadata từ đầu (liên quan [[01-Advanced-Indexing]]).
+
+### 4.2 Query Routing — định tuyến câu hỏi tới đúng "đường"
+
+Một chatbot thực tế nhận nhiều **loại** câu hỏi: tra cứu tài liệu (RAG), tính toán (tool), chào hỏi (trả thẳng), hay thuộc **domain khác nhau** (HR vs Kỹ thuật, mỗi domain một vector store). **Query Routing** dùng một bước **phân loại** (LLM hoặc classifier nhỏ) để quyết định câu hỏi này đi **đường nào**: chọn **datasource/retriever** phù hợp, hay bỏ qua RAG nếu không cần. Lợi ích: chính xác hơn (search đúng kho), rẻ hơn (không retrieval thừa).
+
+> [!warning] Router sai → cả pipeline sai
+> Toàn hệ phụ thuộc bước route: phân loại nhầm thì dù retriever/LLM tốt đến đâu cũng trả lời lạc. Cần prompt phân loại rõ ràng + nhánh **fallback** (không chắc thì route về retriever tổng quát). Liên quan [[../03-LLMOps-Evaluation/03-Experiment-Comparison]] (adaptive routing) và router trong [[../04-LangGraph-Agentic/01-LangGraph-Foundations-State]] (`add_conditional_edges`).
+
+> [!note] 🧠 Mẹo nhớ
+> **Self-Querying = câu chữ → (semantic + filter).** **Routing = câu hỏi → chọn đường.** Một cái *làm giàu* query, một cái *chọn đích* cho query.
 
 ---
 
@@ -117,6 +136,12 @@ Hữu ích cho **câu hỏi phức tạp** mà một đoạn văn bản không c
 
 **Q4: Khi nào nên dùng Query Decomposition?**
 > Khi câu hỏi cần so sánh/tổng hợp thông tin nằm rải rác ở nhiều tài liệu mà không có đoạn nào chứa đủ — tách ra search riêng rồi tổng hợp.
+
+**Q5: Self-Querying là gì? Cần điều kiện gì để dùng?**
+> LLM đọc câu hỏi tự nhiên rồi tách thành (1) chuỗi search ngữ nghĩa + (2) **metadata filter** có cấu trúc (vd `year==2023`), VectorDB chạy vector search + lọc metadata cùng lúc → đúng nghĩa lẫn đúng điều kiện. Điều kiện: lúc index **phải gắn metadata** cho chunk, không có metadata thì không lọc được.
+
+**Q6: Query Routing để làm gì? Rủi ro lớn nhất?**
+> Phân loại câu hỏi rồi định tuyến tới đúng nguồn/cách xử lý (RAG kho A vs kho B, gọi tool, hay trả thẳng) → chính xác và rẻ hơn. Rủi ro: router phân loại sai thì cả pipeline trả lời lạc, nên cần prompt phân loại rõ + nhánh fallback về retriever tổng quát.
 
 ---
 

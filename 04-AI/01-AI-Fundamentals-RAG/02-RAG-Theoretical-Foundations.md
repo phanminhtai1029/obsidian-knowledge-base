@@ -149,7 +149,41 @@ flowchart LR
 
 ---
 
-## 5. Pitfalls / Bẫy thường gặp
+## 5. Bảo mật & phân quyền: RBAC trong RAG (hay hỏi ở câu production)
+
+**Vấn đề:** một vector store thường chứa tài liệu của **nhiều người/nhiều phòng** (HR, Tài chính, từng khách hàng — multi-tenant). Nếu retrieval kéo về **bất kỳ** chunk gần nghĩa, một nhân viên thường có thể vô tình nhận được nội dung **bảng lương** hay tài liệu mật của phòng khác → **rò rỉ dữ liệu**. Đáng sợ hơn vector thuần: kẻ xấu chỉ cần hỏi khéo là LLM "tóm tắt" giúp tài liệu lẽ ra họ không được xem.
+
+**Cách đúng — lọc quyền NGAY ở bước retrieval bằng metadata (pre-filtering):** lúc index, gắn cho mỗi chunk metadata quyền truy cập (`tenant_id`, `department`, `allowed_roles`, `owner_id`). Khi truy vấn, **luôn kèm filter theo danh tính người đang hỏi** để VectorDB chỉ trả về chunk họ được phép:
+
+```python
+# Lọc quyền tại nguồn: chỉ search trong tài liệu user được phép xem
+retriever = vectorstore.as_retriever(
+    search_kwargs={
+        "k": 5,
+        "filter": {                     # metadata filter — chạy CÙNG vector search
+            "tenant_id": current_user.tenant_id,
+            "department": {"$in": current_user.allowed_departments},
+        },
+    }
+)
+```
+
+> [!warning] Đừng lọc quyền SAU khi đã đưa vào LLM
+> Nếu retrieve hết rồi mới nhờ LLM "đừng nói phần mật" → **không an toàn**: dữ liệu mật đã nằm trong prompt, LLM có thể lộ (qua [[../04-LangGraph-Agentic/03-Tool-Calling-Tavily|prompt injection]]). **Phân quyền phải xảy ra TRƯỚC retrieval** (pre-filter ở DB), không phải post-filter ở model. Đây là **least-privilege** áp cho RAG.
+
+```
+★ Insight ─────────────────────────────────────
+• RBAC trong RAG = bài toán an ninh, không phải bài toán độ chính xác. Quy tắc:
+  "user thấy gì ở UI thì RAG được retrieve đúng bấy nhiêu" — quyền ở tầng dữ
+  liệu (metadata filter), không ủy thác cho LLM tự kiểm duyệt.
+• Ngoài filter, còn cần index RIÊNG hoặc namespace theo tenant cho dữ liệu cực
+  nhạy, vì chung một index vẫn có rủi ro cấu hình filter sai là lộ hết.
+─────────────────────────────────────────────────
+```
+
+---
+
+## 6. Pitfalls / Bẫy thường gặp
 
 > [!warning] Nhầm RAG hiện đại với fine-tuning
 > RAG hiện đại **không đổi trọng số** mô hình. Nếu ai nói "RAG là train lại model trên dữ liệu công ty" → đó là fine-tuning, không phải RAG hiện đại.
@@ -159,7 +193,7 @@ flowchart LR
 
 ---
 
-## 6. Câu hỏi phỏng vấn thường gặp
+## 7. Câu hỏi phỏng vấn thường gặp
 
 **Q1: Parametric vs Non-Parametric Memory?**
 > Parametric = kiến thức ngầm trong trọng số mô hình (học lúc train). Non-Parametric = kho tri thức ngoài tường minh (vector index), tra cứu được, cập nhật được mà không retrain.
@@ -170,16 +204,20 @@ flowchart LR
 **Q3: In-Context Learning là gì?**
 > Khả năng LLM học & thực hiện task chỉ dựa vào ngữ cảnh/ví dụ trong prompt, **không cập nhật tham số**. Là nền tảng của RAG hiện đại.
 
+**Q4: Làm sao để user này không truy cập được tài liệu của user/phòng khác trong RAG?**
+> Phân quyền (RBAC) **ngay ở bước retrieval** bằng **metadata filtering**: index gắn `tenant_id`/`department`/`allowed_roles` cho từng chunk, truy vấn luôn kèm filter theo danh tính người hỏi → VectorDB chỉ trả chunk họ được phép. **Tuyệt đối không** retrieve hết rồi nhờ LLM "tự đừng nói" — dữ liệu mật đã vào prompt là có thể lộ. Dữ liệu cực nhạy nên tách index/namespace riêng. Nguyên tắc: quyền nằm ở tầng dữ liệu, không ủy thác cho model.
+
 ---
 
-## 7. Bài tập tự luyện
+## 8. Bài tập tự luyện
 
 - [ ] **Bài 1:** Vẽ sơ đồ so sánh luồng dữ liệu RAG gốc vs RAG hiện đại, chỉ rõ chỗ nào trọng số thay đổi/không.
 - [ ] **Bài 2:** Giải thích bằng ví dụ thực tế khi nào nên fine-tune thay vì RAG.
+- [ ] **Bài 3:** Thiết kế metadata RBAC cho vector store đa phòng ban; viết `search_kwargs` filter để user phòng Sales chỉ search được tài liệu Sales + tài liệu public.
 
 ---
 
-## 8. Liên kết
+## 9. Liên kết
 
 - [[01-Introduction-AI-GenAI]] — vì sao LLM cần RAG
 - [[03-Modern-RAG-Architecture]] — 3 phase Indexing/Retrieval/Generation

@@ -37,11 +37,19 @@ Sẽ cập nhật trong khi làm; mỗi gap ghi rõ note đích + commit.
 - [x] **Data drift / Concept drift / Model drift** → mục mới + Q&A vào `04-AI/03-LLMOps-Evaluation/02-Observability-LangFuse-LangSmith.md`. (đề TriLHD2)
 - [x] **Prompt Injection** → mục Security 6.1 + Q&A + pitfall vào `04-AI/04-LangGraph-Agentic/03-Tool-Calling-Tavily.md` (direct vs indirect, least-privilege, không đưa token cho LLM, HITL). (đề AnhNQ158, AnhPBT4)
 
-**Ứng viên ban đầu (chưa xử lý hết):**
-- FE: State Batching, Virtual DOM (chi tiết reconciliation), `key={index}` bad practice, SPA refresh 404, render Markdown an toàn + XSS, Debouncing/Throttling, Shallow vs Deep copy, `Promise.allSettled`, Optional chaining/Nullish, Lazy loading/code splitting.
-- Backend: SSE vs WebSocket cho chatbot streaming, Rate limiting, Connection pool exhausted, 401 vs 403 (rõ ràng), BackgroundTasks.
-- AI/RAG: đồng bộ dữ liệu RAG bị "lạc hậu" (stale embedding pipeline), Circuit Breaker chống agent loop vô hạn, RBAC trong RAG, abbreviation handling, Self-Querying/Query Routing, CoT vì sao tăng accuracy, Tool token security (không lộ token cho LLM).
-- DevOps: secrets trong CI/CD, alpine image, docker network/service name.
+**Đã bổ sung — Đợt 3 (xử lý nốt nhóm ứng viên, 2026-06-25):**
+Rà lại bằng grep từng chủ đề → phần lớn ứng viên **đã được cover đầy đủ** trong vault (xem mục "Đã cover sẵn" bên dưới). Chỉ 5 gap **thật sự thiếu** → đã vá:
+- [x] **Connection pool exhaustion** (`pool_size`/`max_overflow`/`pool_timeout`, leak session, fix) → §2.1 + Q10 vào `02-Backend/04-SQLAlchemy-Database.md`. (đề hỏi DB scaling/production)
+- [x] **RBAC/phân quyền tài liệu trong RAG** (metadata pre-filtering, không post-filter ở LLM, multi-tenant) → §5 mới + Q4 + Bài 3 vào `04-AI/01-AI-Fundamentals-RAG/02-RAG-Theoretical-Foundations.md` (renumber 5→6…8→9).
+- [x] **Self-Querying retriever + Query Routing** → §4.1/4.2 + 2 dòng bảng + Q5/Q6 vào `04-AI/02-RAG-Optimization/03-Query-Transformation.md`.
+- [x] **Render Markdown an toàn + `dangerouslySetInnerHTML`** (DOMPurify/react-markdown, output LLM = untrusted) → §2.7 + Q4 vào `01-Frontend/06-React/04-JSX-List-Conditional-Rendering.md`.
+- [x] **SPA refresh-404 phía server** (history fallback: `try_files`/rewrites; BrowserRouter vs HashRouter; Next.js không dính) → §2.9 + Q4 vào `01-Frontend/06-React/14-React-Router.md`.
+
+**Đã cover sẵn (grep xác nhận — KHÔNG viết trùng):**
+- FE: State Batching (note 03 State), reconciliation (note 01), `key={index}` (note 04), Shallow vs Deep copy + `structuredClone` (note 10 Rest-Spread), `Promise.allSettled` (Async note 04), Lazy loading/code splitting (note 14), XSS/innerHTML cơ bản (DOM-Event note 13), Debouncing/Throttling (DOM-Event note 13 — Đợt 1).
+- Backend: SSE vs WebSocket + bảng phân biệt (note 14), Rate limiting (note 16 §4 slowapi), 401 vs 403 (note 09), BackgroundTasks (note 17 — Đợt 2).
+- AI/RAG: stale embedding/re-index (note 04 + Observability §6), Circuit Breaker chống agent loop vô hạn = `max_iterations`/`recursion_limit` (note Foundations/Agentic/Building-RAG), CoT vì sao tăng accuracy (note 03 Modern-RAG §CoT), Tool token security/không lộ token (note Tool-Calling §6.1 — Đợt 2), abbreviation ~ từ đồng nghĩa (Hybrid-Search BM25).
+- DevOps: alpine image + docker network/service name (note 13 Docker — Đợt 2). Còn lại: **secrets trong CI/CD** (có thể bổ sung nhẹ vào DevOps note 09 nếu cần — chưa làm).
 
 ## Kỳ vọng
 
