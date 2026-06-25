@@ -14,7 +14,7 @@ source: ["DevOps Foundations — Ernest Mueller & James Wickett (LinkedIn Learni
 # Continuous Integration / Delivery / Deployment
 
 > [!summary] TL;DR
-> Ba khái niệm thường bị lẫn — chúng là **pipeline** nối tiếp build → deploy → release. **CI (Continuous Integration):** tự động **build + unit test toàn bộ app** trên *mỗi commit* → app luôn ở trạng thái chạy được. **CD (Continuous Delivery):** thêm bước **deploy mỗi thay đổi lên môi trường giống production** + test tích hợp/acceptance tự động → app luôn **sẵn sàng release**. **Continuous Deployment:** **tự động release thẳng ra production** sau khi test pass (Amazon/Meta/Google dùng). Sáu thực hành CI: build nhanh (coffee test), commit nhỏ, không để build hỏng, **trunk-based + feature flags**, không có test "flaky", build trả về **status + log + artifact**. Năm thực hành CD: artifact **build một lần** dùng mọi môi trường, artifact **immutable**, pre-prod **giống hệt prod**, **dừng pipeline khi hỏng**, deploy **idempotent**.
+> Ba khái niệm thường bị lẫn — chúng là **pipeline** nối tiếp build → deploy → release. **CI (Continuous Integration):** tự động **build + unit test toàn bộ app** trên *mỗi commit* → app luôn ở trạng thái chạy được. **CD (Continuous Delivery):** thêm bước **deploy mỗi thay đổi lên môi trường giống production** + test tích hợp/acceptance tự động → app luôn **sẵn sàng release**. **Continuous Deployment:** **tự động release thẳng ra production** sau khi test pass (Amazon/Meta/Google dùng). Sáu thực hành CI: build nhanh (coffee test), commit nhỏ, không để build hỏng, **trunk-based + feature flags**, không có test "flaky", build trả về **status + log + artifact**. Năm thực hành CD: artifact **build một lần** dùng mọi môi trường, artifact **immutable**, pre-prod **giống hệt prod**, **dừng pipeline khi hỏng**, deploy **idempotent**. **Secret trong pipeline:** không hardcode vào repo (Git giữ cả lịch sử → lộ là vĩnh viễn), cất trong kho mã hoá (Vault/Secrets), inject lúc chạy + mask log, least-privilege + rotate, lý tưởng dùng **OIDC** (token ngắn hạn, bỏ key dài hạn); quét bằng **gitleaks/trufflehog**.
 
 ---
 
@@ -132,20 +132,77 @@ Thiết kế từ **end state** (deployment) ngược về version control:
 
 ---
 
-## 7. Tự kiểm tra
+## 7. Secrets trong CI/CD (quản lý bí mật trong pipeline)
+
+**Secret** (bí mật) = bất kỳ chuỗi nhạy cảm nào không được lộ: API key (khoá API), DB password (mật khẩu cơ sở dữ liệu), access token (mã truy cập), cloud credential (thông tin đăng nhập cloud — `AWS_SECRET_ACCESS_KEY`…), private signing key (khoá ký riêng). Pipeline CI/CD **bắt buộc** dùng chúng để deploy (đăng nhập registry, đẩy lên cloud, chạy migration) — nên đây là điểm rò rỉ kinh điển.
+
+> [!danger] Quy tắc số 1: KHÔNG hardcode secret vào code/repo
+> Hardcode = ghi cứng giá trị thẳng trong mã nguồn (vd `API_KEY = "sk-abc123..."`). Repo Git lưu **toàn bộ lịch sử** → xoá ở commit sau **không** xoá khỏi lịch sử; ai clone về vẫn `git log -p` ra được. Với **repo public** thì coi như lộ ngay lập tức (bot quét GitHub trong vài giây → bị lạm dụng billing). File `.env` chứa secret phải nằm trong `.gitignore`, **không bao giờ** commit.
+
+### 7.1 Vòng đời secret an toàn — Store → Inject → Mask → Rotate
+
+| Bước | Làm gì | Công cụ / cách |
+|---|---|---|
+| **Store** (lưu) | giữ secret trong **kho mã hoá** riêng, ngoài repo | GitHub Actions Secrets, GitLab CI Variables (masked/protected), HashiCorp **Vault**, AWS Secrets Manager / **KMS**, Azure **Key Vault**, GCP Secret Manager |
+| **Inject** (tiêm) | bơm secret vào job **lúc chạy** dưới dạng biến môi trường, không ghi ra file commit được | `${{ secrets.MY_KEY }}` (GitHub Actions) → `env:` của step |
+| **Mask** (che) | che giá trị secret trong **log** thành `***` | runner tự mask secret đã đăng ký; **đừng** `echo`/`print` secret ra log |
+| **Least privilege** | token chỉ cấp đúng quyền tối thiểu, đúng phạm vi (scope) | deploy key chỉ-đọc-1-repo; IAM role hẹp |
+| **Rotate** (xoay vòng) | đổi secret định kỳ + ngay khi nghi lộ | rotation policy; ưu tiên **token ngắn hạn** |
+
+### 7.2 OIDC — bỏ hẳn long-lived key (cách hiện đại)
+
+Thay vì cất sẵn `AWS_ACCESS_KEY` **dài hạn** trong CI (lộ là toang, lại phải rotate tay), pipeline dùng **OIDC** (OpenID Connect — giao thức liên kết danh tính): runner CI tự xuất trình một **token ngắn hạn** có chữ ký, cloud xác minh "đúng repo/branch này" rồi cấp **credential tạm thời** (sống vài phút). Hết job là hết hạn → **không có gì dài hạn để lộ**. GitHub Actions ↔ AWS/Azure/GCP đều hỗ trợ.
+
+> [!warning] Bẫy thường gặp khi xử lý secret
+> - **`echo $SECRET` ra log** → log CI thường ai trong team cũng xem được, mask không cứu được mọi định dạng (vd secret bị base64/biến đổi).
+> - **Secret trong Docker `ARG`/`ENV`** → bị **bake (nướng) vào layer image**; ai `docker history` / pull image về đều moi ra. Dùng **BuildKit secret mount** (`RUN --mount=type=secret`) hoặc multi-stage để secret không dính vào layer cuối. → [[06-DevOps/13-Docker-Practical]].
+> - **Pull Request từ fork** đọc được secret → cấu hình để workflow của fork **không** nhận secret của repo gốc (GitHub mặc định chặn; đừng tự mở).
+> - **Secret in CI ≠ secret in app runtime**: secret để *deploy* (đẩy lên cloud) khác secret app *chạy* cần (DB pass) — cái sau nên lấy từ secret manager **lúc app khởi động**, không nhồi hết vào pipeline.
+
+### 7.3 Phát hiện rò rỉ — secret scanning
+
+Phòng tuyến cuối: quét secret tự động để chặn/báo động khi có ai lỡ commit.
+
+| Khi nào | Công cụ |
+|---|---|
+| **Trước khi commit** (pre-commit hook) | `gitleaks`, `git-secrets` chạy local chặn ngay |
+| **Trong pipeline** (mỗi PR) | `gitleaks`/`trufflehog` như một step → fail build nếu thấy pattern key |
+| **Trên nền tảng** | GitHub **Secret Scanning** + Push Protection (chặn push chứa key đã biết); Dependabot |
+
+> [!question] Phỏng vấn: "Bạn quản lý secret trong CI/CD pipeline thế nào?"
+> Tôi **không bao giờ** hardcode secret vào code hay commit `.env` — repo Git giữ cả lịch sử nên lộ là vĩnh viễn. Secret được cất trong **kho mã hoá** (GitHub Actions Secrets / Vault / cloud Secret Manager), **inject** vào job dưới dạng biến môi trường lúc chạy và được **mask** trong log. Token theo nguyên tắc **least privilege** và **rotate** định kỳ; lý tưởng là bỏ key dài hạn, dùng **OIDC** để CI lấy credential ngắn hạn. Với Docker, tránh nhồi secret vào `ENV`/`ARG` (bị bake vào layer) mà dùng BuildKit secret mount. Cuối cùng đặt **secret scanning** (gitleaks/trufflehog + GitHub Push Protection) ở pre-commit và trong pipeline để chặn rò rỉ.
+
+```
+★ Insight ─────────────────────────────────────
+• Git lưu LỊCH SỬ, không chỉ trạng thái hiện tại → một secret lỡ commit là sự cố
+  "xoá không sạch": phải coi như đã lộ và ROTATE ngay, không chỉ git rm.
+• OIDC lật ngược mô hình bảo mật: thay vì "giữ bí mật thật giỏi" (long-lived key),
+  ta "không giữ bí mật nào cả" (short-lived, cấp theo nhu cầu) → không còn thứ để
+  trộm. Đây là nguyên lý zero-standing-credential.
+• Secret là điểm giao của CI/CD với DevSecOps: pipeline tự động hoá tốc độ, nhưng
+  chính tốc độ đó khuếch đại hậu quả khi một secret lọt vào artifact phát tán rộng.
+─────────────────────────────────────────────────
+```
+
+---
+
+## 8. Tự kiểm tra
 
 1. Phân biệt CI, Continuous Delivery, Continuous Deployment.
 2. Kể 6 thực hành CI. "Coffee test" là gì?
 3. Trunk-based khác branch-based ra sao? Feature flag giải quyết vấn đề gì?
 4. Vì sao artifact phải build một lần & immutable?
 5. Phân biệt Rolling / Blue-Green / Canary / A/B deployment.
+6. Vì sao không được hardcode secret vào repo? Lỡ commit rồi `git rm` đã đủ chưa?
+7. Vòng đời secret an toàn gồm những bước nào (Store → ... → Rotate)? OIDC giải quyết vấn đề gì so với long-lived key?
 
 ---
 
-## 8. Liên quan
+## 9. Liên quan
 - [[06-Visible-Ops-Change-Control]] — change nhỏ + test sớm (nền của CI)
 - [[10-SRE-Reliability]] — deploy an toàn & MTTR
 - [[00-Foundations/02-Git/12-CI-CD-la-gi]] — CI/CD cơ bản
 - [[00-Foundations/02-Git/13-GitHub-Actions]] — pipeline thực hành
+- [[06-DevOps/13-Docker-Practical]] — secret trong Docker build (đừng bake vào layer)
 - [[02-Backend/10-Testing-Pytest]] — viết test (unit/integration)
 - [[00-MOC-DevOps|MOC: DevOps]]
