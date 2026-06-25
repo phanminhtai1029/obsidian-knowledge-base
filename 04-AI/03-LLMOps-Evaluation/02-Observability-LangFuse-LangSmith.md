@@ -171,7 +171,44 @@ docs = retriever.get_relevant_documents("LangSmith dùng để làm gì?")
 
 ---
 
-## 6. Pitfalls / Bẫy thường gặp
+## 6. Data Drift & Model Drift — vì sao chất lượng tụt dần theo thời gian
+
+Một hệ AI đang chạy ngon **vẫn có thể tệ dần** dù *không ai sửa code* — vì **thế giới thay đổi nhưng mô hình thì đứng yên**. Đây gọi là **drift** (trôi dạt). Observability chính là cách *phát hiện* drift.
+
+| Loại drift | Cái gì "trôi" | Ví dụ |
+|---|---|---|
+| **Data drift** (input/covariate shift) | **Phân phối dữ liệu đầu vào** đổi so với lúc train/thiết lập | Người dùng bắt đầu hỏi bằng tiếng lóng mới, chủ đề mới, ngôn ngữ khác mà hệ chưa gặp |
+| **Concept drift** | **Quan hệ input→output đúng** thay đổi | "Email khuyến mãi" hôm nay khác kiểu spam 2 năm trước → nhãn đúng đã đổi |
+| **Model drift** (hệ quả) | **Chất lượng mô hình tụt** do data/concept drift | Accuracy/feedback giảm dần dù mô hình y nguyên |
+
+> [!note] Drift trong hệ RAG/LLM trông như thế nào?
+> - **Tài liệu nguồn cũ đi** (chính sách công ty đổi) nhưng vector store chưa cập nhật → câu trả lời *đúng cú pháp nhưng sai thực tế*. (Liên quan: phải **re-index khi đổi embedding/đổi dữ liệu** — xem [[../02-RAG-Optimization/01-Advanced-Indexing]].)
+> - **Câu hỏi người dùng dịch chuyển** sang chủ đề mới mà tài liệu chưa phủ → retrieval trả context kém liên quan.
+> - **Nhà cung cấp LLM âm thầm đổi version model** → output đổi tính cách/format dù prompt y nguyên.
+
+> [!tip] Phát hiện & xử lý drift (nêu được là ăn điểm)
+> - **Phát hiện:** theo dõi *phân phối* input (độ dài, ngôn ngữ, chủ đề, embedding), tỉ lệ "không tìm thấy context", và **feedback người dùng** (thumbs down tăng) qua dashboard observability + đặt **alert**.
+> - **Đo trôi:** so phân phối embedding mới vs baseline (vd PSI — Population Stability Index, hoặc KL-divergence).
+> - **Xử lý:** cập nhật/re-index tri thức, bổ sung tài liệu chủ đề mới, fine-tune/đổi prompt lại, **ghim version model** (pin) để tránh nhà cung cấp đổi ngầm.
+
+```
+★ Insight ─────────────────────────────────────
+• Drift là lý do cốt lõi vì sao "deploy xong là xong" SAI với hệ ML/LLM. Khác
+  phần mềm thường (logic cố định), chất lượng AI là hàm của DỮ LIỆU THỰC ngoài
+  đời — mà dữ liệu thì luôn trôi. Vì vậy MLOps/LLMOps coi monitoring drift là
+  vòng đời bắt buộc, không phải tuỳ chọn. (Liên hệ MLOps: [[../../06-DevOps/12-Modern-DevOps]].)
+• Overfitting (lúc train) vs drift (lúc production) dễ lẫn: overfit là mô hình
+  học vẹt dữ liệu CŨ; drift là dữ liệu MỚI khác dữ liệu cũ. Hai vấn đề ở hai
+  thời điểm khác nhau của vòng đời. (Xem overfitting: [[../01-AI-Fundamentals-RAG/01-Introduction-AI-GenAI]].)
+─────────────────────────────────────────────────
+```
+
+> [!note] 🧠 Mẹo nhớ
+> **Data drift = đầu VÀO đổi; Concept drift = quan hệ ĐÚNG đổi; Model drift = chất lượng TỤT (hệ quả).** "Deploy xong không phải là xong" — phải monitor phân phối input + feedback để bắt drift, rồi re-index/cập nhật.
+
+---
+
+## 7. Pitfalls / Bẫy thường gặp
 
 > [!warning] Trace 100% ở production
 > Đốt tiền và làm dashboard nhiễu. Luôn sampling + ưu tiên trace lỗi/feedback xấu.
@@ -187,7 +224,7 @@ docs = retriever.get_relevant_documents("LangSmith dùng để làm gì?")
 
 ---
 
-## 7. Câu hỏi phỏng vấn thường gặp
+## 8. Câu hỏi phỏng vấn thường gặp
 
 **Q1: Observability trong LLM app là gì và vì sao cần?**
 > Là khả năng "soi" vào hệ thống LLM (vốn là black box xác suất) để biết điều gì xảy ra giữa input và output: tracing luồng, đo cost, debug latency, đảm bảo chất lượng. Cần vì không thể step-through model như code thường, và lỗi/chi phí ở production rất tốn kém.
@@ -207,14 +244,18 @@ docs = retriever.get_relevant_documents("LangSmith dùng để làm gì?")
 **Q6: Observability khác Evaluation chỗ nào?**
 > Evaluation (Ragas) chấm điểm chất lượng trên tập test. Observability theo dõi điều xảy ra trên traffic production thực. Kết hợp: observability bắt trace xấu → đưa vào dataset → Ragas đánh giá.
 
+**Q7: Data drift là gì? Vì sao một hệ AI đang chạy tốt lại tệ dần?**
+> **Data drift** = phân phối dữ liệu đầu vào ở production **đổi khác** so với lúc train/thiết lập (người dùng hỏi chủ đề/ngôn ngữ mới...). **Concept drift** = quan hệ input→output đúng thay đổi. Hậu quả là **model drift** — chất lượng tụt dù mô hình không đổi. Trong RAG còn do **tài liệu nguồn cũ đi** mà chưa re-index. **Phát hiện** bằng theo dõi phân phối input + feedback (thumbs down) qua observability + alert; **xử lý** bằng cập nhật/re-index dữ liệu, đổi prompt, ghim version model.
+
 ---
 
-## 8. Bài tập tự luyện
+## 9. Bài tập tự luyện
 
 - [ ] **Bài 1:** Tạo tài khoản LangSmith, set 3 biến môi trường, chạy một chain RAG và xem trace (các span, token, latency từng bước).
 - [ ] **Bài 2:** Tích hợp LangFuse `CallbackHandler` vào cùng chain đó; so sánh giao diện trace 2 bên.
 - [ ] **Bài 3:** Gắn `score` (vd điểm Faithfulness từ Ragas) vào trace trên LangFuse.
 - [ ] **Bài 4:** Bật sampling 10% và mô phỏng 100 request → quan sát chỉ ~10 trace được ghi.
+- [ ] **Bài 5:** Thiết kế một "drift monitor" đơn giản: log độ dài + ngôn ngữ câu hỏi mỗi ngày, vẽ biểu đồ phân phối, đặt ngưỡng cảnh báo khi tỉ lệ "không tìm thấy context" tăng vọt.
 
 ---
 

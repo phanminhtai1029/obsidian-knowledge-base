@@ -193,6 +193,12 @@ asyncio.run(main())
 
 > Async dùng **concurrency**, không phải parallelism. Một event loop chạy trên **một thread** — nó chỉ tạo *ảo giác* "cùng lúc" bằng cách nhảy qua lại giữa các task mỗi khi có `await`.
 
+> [!warning] GIL (Global Interpreter Lock) — vì sao thread Python không "song song" được CPU
+> **GIL** = một "ổ khoá toàn cục" trong CPython (bản Python phổ biến nhất): **chỉ một thread được thực thi bytecode Python tại một thời điểm**, dù máy có nhiều CPU core. Nói nôm na: nhiều luồng nhưng *phải lần lượt cầm một cây bút duy nhất* mới được viết.
+> - **Hệ quả 1 — CPU-bound:** dùng `threading` cho tính toán nặng **không nhanh hơn** (các thread giành nhau GIL, vẫn chạy lần lượt). Muốn ăn nhiều core thật sự → **`multiprocessing`** (mỗi process có GIL riêng) hoặc đẩy ra C/NumPy (giải phóng GIL).
+> - **Hệ quả 2 — I/O-bound:** GIL **được nhả ra khi thread đang chờ I/O** (đọc file, gọi mạng) → vì vậy `threading` *vẫn* giúp cho I/O, và `asyncio` (1 thread, nhường CPU lúc `await`) còn nhẹ hơn nữa. Đây là lý do async hợp I/O.
+> - **Câu chốt ăn điểm:** *"GIL khiến đa luồng Python vô dụng cho CPU-bound (phải dùng multiprocessing), nhưng không cản I/O-bound vì GIL được nhả khi chờ I/O — nên web async vẫn nhanh."* (Lưu ý: Python 3.13+ có chế độ thử nghiệm *free-threaded* bỏ GIL, nhưng mặc định vẫn còn GIL.)
+
 ### 3.3. Event Loop, Coroutine, Task, Future — bộ tứ async
 
 **Event Loop** là "trái tim" của async — một vòng lặp lập lịch:
@@ -316,6 +322,9 @@ uvicorn main:app --host 127.0.0.1 --port 8000
 
 > [!question] 6. Điều gì xảy ra nếu gọi `time.sleep(5)` trong một endpoint `async def`?
 > `time.sleep` là lệnh **sync blocking** → nó **đóng băng cả event loop** trong 5 giây, **mọi request khác bị treo theo**. Phải dùng `await asyncio.sleep(5)`, hoặc đẩy tác vụ blocking ra `run_in_executor`/thread-pool.
+
+> [!question] 7. GIL là gì? Nó ảnh hưởng thế nào tới đa luồng & async?
+> **GIL (Global Interpreter Lock)** = khoá toàn cục của CPython cho phép **chỉ một thread chạy bytecode Python tại một thời điểm**. → Đa luồng **không tăng tốc CPU-bound** (phải dùng `multiprocessing`). Nhưng GIL **được nhả khi chờ I/O**, nên `threading`/`asyncio` **vẫn hiệu quả cho I/O-bound** — đó là lý do FastAPI async vẫn cho throughput cao. Tính toán nặng → đẩy ra process pool / thư viện C (NumPy nhả GIL).
 
 ---
 

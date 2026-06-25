@@ -9,6 +9,7 @@ module: DEVOPS_FOUNDATIONS
 
 > Domain DevOps — bám khoá **DevOps Foundations** (Ernest Mueller & James Wickett, LinkedIn Learning), nguồn `_shared/_source/devops`.
 > ✅ Đã viết đủ **12 note** theo 6 cụm của khoá: Văn hoá → Process → IaC → CI/CD → SRE → Modern DevOps.
+> ➕ Bổ sung **note 13 — Docker thực hành** (image/layer/volume/network/compose) bám sát câu hỏi phỏng vấn thực tế.
 > DevOps là **mindset + thực hành** (không phải chức danh/công cụ). Trục xuyên suốt: **CAMS** (giá trị) → **Three Ways** (nguyên lý) → các practice area.
 
 ## Note
@@ -48,6 +49,11 @@ module: DEVOPS_FOUNDATIONS
 | # | Note | Nội dung | Độ khó | Trạng thái |
 |---|------|----------|--------|------------|
 | 12 | [[12-Modern-DevOps\|DevOps hiện đại]] | **Platform engineering** (paved road), **DevSecOps** (shift left), **Cloud native/K8s**, **Chaos engineering**, **MLOps**, **AIOps**, career | ⭐⭐⭐⭐ | ✅ |
+
+### Phần G — Docker thực hành (bổ sung theo đề phỏng vấn)
+| # | Note | Nội dung | Độ khó | Trạng thái |
+|---|------|----------|--------|------------|
+| 13 | [[13-Docker-Practical\|Docker thực hành]] | **image vs container**, **layer & build cache**, **Alpine** (musl vs glibc), **`.dockerignore`**, **port mapping** `-p`, **bind mount vs named volume**, **docker-compose** & tên service (DNS) | ⭐⭐⭐ | ✅ |
 
 ## Bản đồ khái niệm
 

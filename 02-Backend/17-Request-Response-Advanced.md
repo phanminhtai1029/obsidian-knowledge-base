@@ -165,26 +165,75 @@ async def get_logs(request: Request):
 
 ---
 
-## 5. Tự kiểm tra
+## 5. BackgroundTasks — việc chạy *sau khi* đã trả response
+
+Có việc *không cần* client đợi: gửi email xác nhận, ghi log/analytics, dọn file tạm, gọi webhook. FastAPI có **`BackgroundTasks`** — trả response cho client **ngay**, rồi mới chạy việc đó **ở hậu trường** (cùng tiến trình).
+
+```python
+from fastapi import BackgroundTasks, FastAPI
+
+app = FastAPI()
+
+def send_welcome_email(email: str):     # việc chạy hậu trường (có thể chậm)
+    # ... gọi SMTP/email API ...
+    print(f"Đã gửi mail cho {email}")
+
+@app.post("/register")
+async def register(email: str, bg: BackgroundTasks):
+    # ... lưu user vào DB ...
+    bg.add_task(send_welcome_email, email)   # XẾP LỊCH, không chạy ngay
+    return {"status": "ok"}                   # client nhận response NGAY,
+    #                                          # email gửi SAU khi response đã đi
+```
+
+> [!note] BackgroundTasks chạy *khi nào* và *ở đâu*?
+> Task được chạy **sau khi response đã gửi xong**, ngay **trong cùng tiến trình** (process) của app. Phù hợp việc **nhẹ, nhanh, không sống còn**. Vì cùng process: app **crash/restart là mất task chưa chạy**, và task nặng vẫn **ngốn tài nguyên** của chính server đó.
+
+> [!warning] Khi nào KHÔNG dùng BackgroundTasks → cần Celery / hàng đợi
+> `BackgroundTasks` **không** phải hệ job thực thụ: không retry tự động, không bền (mất khi restart), không chạy trên máy worker riêng, không xem được tiến độ. Việc **nặng / lâu / quan trọng** (xử lý video, train, gửi hàng loạt, phải đảm bảo chạy) → dùng **task queue** như **Celery / RQ / Dramatiq + Redis/RabbitMQ**: có **retry, bền (persisted), worker riêng để scale, theo dõi trạng thái**.
+
+| Tiêu chí | **`BackgroundTasks`** (FastAPI) | **Celery** (task queue) |
+|---|---|---|
+| Chạy ở đâu | **Cùng process** với app | **Worker riêng** (máy/tiến trình khác) |
+| Độ bền | Mất khi app restart/crash | **Bền** (lưu trong broker Redis/RabbitMQ) |
+| Retry | ❌ Tự lo | ✅ Có sẵn |
+| Theo dõi/scale | Không | ✅ Có (scale worker độc lập) |
+| Hợp việc | Nhẹ, nhanh, "fire-and-forget" | Nặng, lâu, quan trọng, định kỳ |
+
+```
+★ Insight ─────────────────────────────────────
+• BackgroundTasks ≠ async concurrency. Nó KHÔNG làm app "đa luồng hơn"; nó chỉ
+  hoãn một hàm tới sau khi response đi. Nếu hàm đó blocking nặng, nó vẫn chiếm
+  tài nguyên server (và có thể chặn event loop nếu là sync nặng).
+• Quy tắc chọn: cần client KHÔNG phải đợi + việc NHẸ + lỡ mất cũng được →
+  BackgroundTasks. Cần ĐẢM BẢO chạy / nặng / scale riêng → Celery.
+─────────────────────────────────────────────────
+```
+
+---
+
+## 6. Tự kiểm tra
 
 1. Kể các nguồn input của FastAPI; Form khác JSON body ở điểm nào?
 2. Vì sao phải chặn kích thước khi đọc raw body? Chặn ở đâu là rẻ nhất?
 3. Trả một file ảnh PNG về client bằng FastAPI như thế nào?
 4. `@field_validator` khác `@field_serializer` ra sao?
 5. Content negotiation là gì? Dựa vào header nào? Trả mã gì khi không hỗ trợ?
+6. `BackgroundTasks` chạy khi nào? Khi nào phải chuyển sang Celery?
 
 ---
 
-## 6. Bài tập tự luyện
+## 7. Bài tập tự luyện
 
 1. Viết `POST /upload` nhận `UploadFile`, từ chối file > 2MB (kiểm `content-length` rồi kiểm lại độ dài thực).
 2. Viết model có field `created_at: datetime` và `@field_serializer` trả về Unix timestamp (int).
 3. Viết `GET /export` trả JSON nếu `Accept: application/json`, trả CSV nếu `Accept: text/csv`, ngược lại 406.
 4. Viết `GET /qr/{text}` sinh ảnh QR (bytes) và trả `Response(media_type="image/png")`.
+5. Viết `POST /register` trả `{"status":"ok"}` ngay và dùng `BackgroundTasks` để "gửi mail" (giả lập bằng `time.sleep` + ghi log); quan sát response về trước khi task xong.
 
 ---
 
-## 7. Liên quan
+## 8. Liên quan
 - [[00b-REST-HTTP-JSON-Fundamentals]] — HTTP body/headers/Accept, JSON & Base64
 - [[03-Pydantic-Data-Modeling]] — JSON body, `@field_validator`
 - [[11-Middleware-Error-CORS]] — `Response`, `JSONResponse`, status code

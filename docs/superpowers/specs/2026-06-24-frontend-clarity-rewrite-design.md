@@ -29,6 +29,14 @@ Sẽ cập nhật trong khi làm; mỗi gap ghi rõ note đích + commit.
 - [x] `React.memo`/`useMemo`/`useCallback` (tối ưu re-render) → note MỚI `06-React/19-Performance-memo-useMemo-useCallback.md` + thêm vào MOC. (đề NamPV26 Q2, TinNA2 Q2, TriLHD2 Q2)
 - [x] **Debouncing & Throttling** (khái niệm) → bổ sung mục mới vào `02-DOM-Event/13-DOM-Performance.md` (đề NhaNTT60 Q2). Trước đó chỉ có ví dụ rải rác, chưa giải thích khái niệm.
 
+**Đã bổ sung — Đợt 2 (gap analysis cross-domain, 2026-06-25):**
+- [x] **DevOps Docker thực hành** → note MỚI `06-DevOps/13-Docker-Practical.md` (image vs container, layer & build cache, Alpine/musl-vs-glibc, `.dockerignore`, port mapping `-p`, bind mount vs named volume, docker-compose & tên service/DNS) + thêm vào MOC. (đề AnhNN225, HonNV5, NamPV26, VanNH45, KietTT35, ThangNKB)
+- [x] **GIL (Global Interpreter Lock)** → bổ sung mục + Q&A vào `02-Backend/01-FastAPI-Overview.md` (vì sao thread không song song CPU, nhả GIL khi I/O). (đề NamPV26, TinNA2)
+- [x] **BackgroundTasks** → mục mới + bảng so với Celery vào `02-Backend/17-Request-Response-Advanced.md`. (đề KietTT35)
+- [x] **Overfitting / Underfitting** → mục mới + Q&A vào `04-AI/01-AI-Fundamentals-RAG/01-Introduction-AI-GenAI.md` (bias-variance, cách chống). (đề HonNV5)
+- [x] **Data drift / Concept drift / Model drift** → mục mới + Q&A vào `04-AI/03-LLMOps-Evaluation/02-Observability-LangFuse-LangSmith.md`. (đề TriLHD2)
+- [x] **Prompt Injection** → mục Security 6.1 + Q&A + pitfall vào `04-AI/04-LangGraph-Agentic/03-Tool-Calling-Tavily.md` (direct vs indirect, least-privilege, không đưa token cho LLM, HITL). (đề AnhNQ158, AnhPBT4)
+
 **Ứng viên ban đầu (chưa xử lý hết):**
 - FE: State Batching, Virtual DOM (chi tiết reconciliation), `key={index}` bad practice, SPA refresh 404, render Markdown an toàn + XSS, Debouncing/Throttling, Shallow vs Deep copy, `Promise.allSettled`, Optional chaining/Nullish, Lazy loading/code splitting.
 - Backend: SSE vs WebSocket cho chatbot streaming, Rate limiting, Connection pool exhausted, 401 vs 403 (rõ ràng), BackgroundTasks.

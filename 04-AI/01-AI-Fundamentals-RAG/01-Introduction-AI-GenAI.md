@@ -90,7 +90,44 @@ flowchart LR
 
 ---
 
-## 5. Pitfalls / Bẫy thường gặp
+## 5. ML cơ bản: Overfitting & Underfitting (rất hay hỏi)
+
+Khi train một mô hình ML, mục tiêu là **generalization** — *học được quy luật chung* để đoán đúng trên dữ liệu **chưa từng thấy**, không phải học thuộc lòng dữ liệu cũ. Hai cách "trật" mục tiêu này:
+
+| | **Overfitting** (học vẹt / quá khớp) | **Underfitting** (học hời hợt / chưa khớp) |
+|---|---|---|
+| Hiện tượng | Học **thuộc lòng** cả nhiễu trong dữ liệu train | Mô hình **quá đơn giản**, chưa bắt được quy luật |
+| Train accuracy | **Rất cao** | Thấp |
+| Test accuracy (dữ liệu mới) | **Thấp** (tụt mạnh so với train) | Thấp |
+| Ví von | Học sinh **học tủ** đúng đề cũ, gặp đề mới là tịt | Học sinh **lười**, đề nào cũng làm sai |
+| Nguyên nhân | Mô hình quá phức tạp / train quá lâu / **thiếu dữ liệu** | Mô hình quá yếu / train chưa đủ / thiếu feature |
+
+> [!note] Dấu hiệu nhận biết overfitting
+> **Khoảng cách lớn giữa train và test/validation**: train đẹp (vd 99%) nhưng test tệ (vd 70%). Tức mô hình *nhớ* dữ liệu chứ không *hiểu* quy luật. Underfitting thì **cả hai đều tệ**.
+
+> [!tip] Cách chống overfitting (nêu được vài cái là ăn điểm)
+> - **Nhiều dữ liệu hơn** / **data augmentation** (tăng cường dữ liệu).
+> - **Regularization** (L1/L2 — phạt trọng số quá lớn), **Dropout** (ngẫu nhiên tắt bớt neuron khi train).
+> - **Early stopping** (dừng train khi validation bắt đầu tệ đi).
+> - **Cross-validation** (chia dữ liệu nhiều lần để đánh giá khách quan), giảm độ phức tạp mô hình.
+
+```
+★ Insight ─────────────────────────────────────
+• Đây là bài toán "bias–variance tradeoff": Underfitting = bias cao (định kiến,
+  mô hình quá cứng). Overfitting = variance cao (nhạy quá với từng mẫu train).
+  Mục tiêu là điểm cân bằng — tổng quát tốt mà không học vẹt.
+• Liên hệ GenAI: fine-tune một LLM trên dataset nhỏ rất DỄ overfit (model "nhại"
+  vài ví dụ, mất khả năng tổng quát). Đây là một lý do nữa hay chọn RAG thay
+  fine-tune khi chỉ cần BƠM KIẾN THỨC chứ không đổi hành vi.
+─────────────────────────────────────────────────
+```
+
+> [!note] 🧠 Mẹo nhớ
+> **Over**fit = học **quá** kỹ (thuộc cả nhiễu) → train cao, test thấp (chênh lệch lớn). **Under**fit = học **chưa** tới → cả train lẫn test đều thấp. Overfit chống bằng: thêm data, regularization/dropout, early stopping.
+
+---
+
+## 6. Pitfalls / Bẫy thường gặp
 
 > [!warning] Nhầm "Generative AI" = "AI"
 > Generative AI chỉ là một nhánh con. Nhiều bài toán doanh nghiệp vẫn dùng Discriminative AI (phân loại, dự đoán) hiệu quả & rẻ hơn nhiều.
@@ -100,7 +137,7 @@ flowchart LR
 
 ---
 
-## 6. Câu hỏi phỏng vấn thường gặp
+## 7. Câu hỏi phỏng vấn thường gặp
 
 **Q1: Phân biệt Discriminative AI và Generative AI?**
 > Discriminative học ranh giới giữa các lớp để **phân loại/dự đoán** (vd spam detection). Generative học phân phối dữ liệu để **sinh ra mẫu mới** (vd viết text, sinh ảnh). LLM là Generative.
@@ -111,16 +148,20 @@ flowchart LR
 **Q3: Tại sao dùng RAG thay vì fine-tune?**
 > RAG rẻ, linh hoạt, cập nhật dữ liệu tức thì (chỉ cần update vector store), không cần GPU train. Fine-tune phù hợp khi cần thay đổi *hành vi/văn phong* mô hình, không phải để bơm kiến thức cập nhật.
 
+**Q4: Overfitting là gì? Làm sao phát hiện và khắc phục?**
+> Overfitting = mô hình **học thuộc** dữ liệu train (cả nhiễu) nên đoán tệ trên dữ liệu mới. **Phát hiện:** train accuracy cao nhưng test/validation thấp (chênh lệch lớn). **Khắc phục:** thêm dữ liệu/augmentation, regularization (L1/L2), dropout, early stopping, cross-validation, giảm độ phức tạp. (Ngược lại là **underfitting** — cả train lẫn test đều thấp do mô hình quá đơn giản.)
+
 ---
 
-## 7. Bài tập tự luyện
+## 8. Bài tập tự luyện
 
 - [ ] **Bài 1:** Liệt kê 3 use-case ở công ty bạn phù hợp với Generative AI và 3 use-case phù hợp Discriminative AI hơn. Giải thích.
 - [ ] **Bài 2:** Cho 1 câu hỏi mà LLM thuần (không RAG) chắc chắn trả lời sai do knowledge cutoff. Giải thích RAG sẽ sửa thế nào.
+- [ ] **Bài 3:** Cho một mô hình có train accuracy 98% nhưng test accuracy 65%. Chẩn đoán hiện tượng và đề xuất 3 cách khắc phục.
 
 ---
 
-## 8. Liên kết
+## 9. Liên kết
 
 - [[02-RAG-Theoretical-Foundations]] — vì sao & nguồn gốc RAG
 - [[03-Modern-RAG-Architecture]] — kiến trúc RAG 3 phase
