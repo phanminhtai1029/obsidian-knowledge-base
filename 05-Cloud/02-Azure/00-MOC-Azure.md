@@ -13,7 +13,7 @@ tags: [moc, cloud, azure, az-900, azure-openai, fresher]
 > - `AZ-900/` — 15 note nền tảng Azure (cụm A–D dưới đây) ✅
 > - `AI-Azure/` — 3 note AI-Azure đối chiếu Bedrock (cụm E) ✅
 > - `AI-102/` — cert Azure AI Engineer Associate, 13 note (cụm F) — xem [[AI-102/00-MOC-AI-102|MOC riêng]] 🚧
-> - `AZ-204/` — cert Azure Developer Associate, 13 note (cụm G) — xem [[AZ-204/00-MOC-AZ-204|MOC riêng]] 🚧
+> - `AZ-204/` — cert Azure Developer Associate, 13 note (cụm G) — xem [[AZ-204/00-MOC-AZ-204|MOC riêng]] ✅
 
 ## Cụm A — Cloud Concepts (AZ-900 Module 1)
 
@@ -72,7 +72,7 @@ tags: [moc, cloud, azure, az-900, azure-openai, fresher]
 
 | Note | Trạng thái |
 |------|------------|
-| [[AZ-204/00-MOC-AZ-204\|MOC: AZ-204]] (13 note, 6 cụm) | 🚧 khung dựng xong |
+| [[AZ-204/00-MOC-AZ-204\|MOC: AZ-204]] (13 note, 6 cụm) | ✅ HOÀN TẤT |
 
 ## Lộ trình
 
