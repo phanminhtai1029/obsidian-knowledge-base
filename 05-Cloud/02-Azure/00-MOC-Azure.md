@@ -52,6 +52,14 @@ tags: [moc, cloud, azure, az-900, azure-openai, fresher]
 | 17 | [[17-Azure-AI-Search\|Azure AI Search]] (↔ S3 Vectors) | ✅ |
 | 18 | [[18-Azure-App-Service-Functions-deploy\|Deploy FastAPI: App Service & Functions]] | ✅ |
 
+## Cụm F — AI-102 (Azure AI Engineer Associate)
+
+> Cert AI-102 chuyên sâu AI-trên-Azure — bám trọng tâm thi FresherAI. Xem MOC riêng:
+
+| Note | Trạng thái |
+|------|------------|
+| [[AI-102/00-MOC-AI-102\|MOC: AI-102]] (13 note, 7 cụm) | 🚧 khung dựng xong |
+
 ## Lộ trình
 
 ```mermaid
