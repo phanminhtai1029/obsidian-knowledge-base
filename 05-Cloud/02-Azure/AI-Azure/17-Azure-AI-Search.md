@@ -5,7 +5,7 @@ tags: [azure, ai-azure, azure-ai-search, vector-search, rag, embeddings, fresher
 related:
   - "[[16-Azure-OpenAI-Service]]"
   - "[[09-Storage-Blob-Disk-Files]]"
-  - "[[../01-AWS-Bedrock/00-MOC-AWS-Bedrock]]"
+  - "[[../../01-AWS-Bedrock/00-MOC-AWS-Bedrock]]"
 difficulty: ⭐⭐⭐
 estimated_time: 25m
 source: ["Microsoft Learn — Azure AI Search", "tham khảo web"]
@@ -83,4 +83,4 @@ flowchart LR
 ## Liên quan
 - [[16-Azure-OpenAI-Service]] — embedding & LLM cho pipeline RAG
 - [[09-Storage-Blob-Disk-Files]] — Blob làm nguồn dữ liệu cho indexer
-- [[../01-AWS-Bedrock/00-MOC-AWS-Bedrock]] — S3 Vectors (đối chiếu, bám đề thi)
+- [[../../01-AWS-Bedrock/00-MOC-AWS-Bedrock]] — S3 Vectors (đối chiếu, bám đề thi)

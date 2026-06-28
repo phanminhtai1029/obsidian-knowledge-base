@@ -107,6 +107,6 @@ Hầu hết tool IaC có test framework: **unit test** code hạ tầng + **inte
 - [[07-IaC-Concepts]] — provisioning/deployment/orchestration, idempotent, immutable
 - [[12-Modern-DevOps]] — Kubernetes & Cloud native chi tiết
 - [[09-CI-CD-Continuous-Deployment]] — pipeline chạy test cho IaC
-- [[05-Cloud/02-Azure/13-Cong-cu-quan-ly-CLI-ARM-Arc]] — ARM/Bicep trên Azure
-- [[05-Cloud/02-Azure/07-Compute-VM-Container-Functions]] — compute nền cho deploy
+- [[05-Cloud/02-Azure/AZ-900/13-Cong-cu-quan-ly-CLI-ARM-Arc]] — ARM/Bicep trên Azure
+- [[05-Cloud/02-Azure/AZ-900/07-Compute-VM-Container-Functions]] — compute nền cho deploy
 - [[00-MOC-DevOps|MOC: DevOps]]

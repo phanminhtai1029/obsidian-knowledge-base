@@ -5,7 +5,7 @@ tags: [devops, iac, infrastructure-as-code, idempotent, declarative, drift, immu
 related:
   - "[[08-IaC-Toolchain]]"
   - "[[02-CAMS-CALMS-Values]]"
-  - "[[05-Cloud/02-Azure/13-Cong-cu-quan-ly-CLI-ARM-Arc]]"
+  - "[[05-Cloud/02-Azure/AZ-900/13-Cong-cu-quan-ly-CLI-ARM-Arc]]"
 difficulty: ⭐⭐⭐
 estimated_time: 30m
 source: ["DevOps Foundations — Ernest Mueller & James Wickett (LinkedIn Learning)", "Kief Morris — Infrastructure as Code"]
@@ -104,6 +104,6 @@ flowchart LR
 - [[08-IaC-Toolchain]] — Terraform/Ansible/Puppet/Chef/Packer, container, K8s
 - [[02-CAMS-CALMS-Values]] — Automation (chữ A) mà IaC hiện thực
 - [[12-Modern-DevOps]] — Cloud native / Kubernetes / platform
-- [[05-Cloud/02-Azure/13-Cong-cu-quan-ly-CLI-ARM-Arc]] — ARM template (IaC trên Azure)
-- [[05-Cloud/02-Azure/04-Cloud-Service-Types-IaaS-PaaS-SaaS]] — IaaS/PaaS nền cho IaC
+- [[05-Cloud/02-Azure/AZ-900/13-Cong-cu-quan-ly-CLI-ARM-Arc]] — ARM template (IaC trên Azure)
+- [[05-Cloud/02-Azure/AZ-900/04-Cloud-Service-Types-IaaS-PaaS-SaaS]] — IaaS/PaaS nền cho IaC
 - [[00-MOC-DevOps|MOC: DevOps]]

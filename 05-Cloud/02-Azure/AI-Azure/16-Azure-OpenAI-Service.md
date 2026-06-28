@@ -5,7 +5,7 @@ tags: [azure, ai-azure, azure-openai, llm, deployment, bedrock, fresher]
 related:
   - "[[17-Azure-AI-Search]]"
   - "[[10-Identity-Security-AzureAD-RBAC]]"
-  - "[[../01-AWS-Bedrock/00-MOC-AWS-Bedrock]]"
+  - "[[../../01-AWS-Bedrock/00-MOC-AWS-Bedrock]]"
 difficulty: ⭐⭐⭐
 estimated_time: 25m
 source: ["Microsoft Learn — Azure OpenAI", "tham khảo web"]
@@ -86,4 +86,4 @@ print(resp.choices[0].message.content)
 ## Liên quan
 - [[17-Azure-AI-Search]] — vector store cho RAG trên Azure
 - [[10-Identity-Security-AzureAD-RBAC]] — managed identity gọi service an toàn
-- [[../01-AWS-Bedrock/00-MOC-AWS-Bedrock]] — nhánh bám đề thi (đối chiếu)
+- [[../../01-AWS-Bedrock/00-MOC-AWS-Bedrock]] — nhánh bám đề thi (đối chiếu)

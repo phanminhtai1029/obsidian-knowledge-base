@@ -36,4 +36,4 @@ status: 🚧 khung
 
 ## Liên quan
 - [[00-MOC-AI-102]]
-- [[../16-Azure-OpenAI-Service]] — dịch vụ generative AI
+- [[../AI-Azure/16-Azure-OpenAI-Service]] — dịch vụ generative AI

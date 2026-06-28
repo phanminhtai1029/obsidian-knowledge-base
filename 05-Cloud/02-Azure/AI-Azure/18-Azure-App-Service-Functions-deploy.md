@@ -5,7 +5,7 @@ tags: [azure, ai-azure, app-service, azure-functions, fastapi, deploy, serverles
 related:
   - "[[07-Compute-VM-Container-Functions]]"
   - "[[16-Azure-OpenAI-Service]]"
-  - "[[../../02-Backend/00-MOC-Backend]]"
+  - "[[../../../02-Backend/00-MOC-Backend]]"
 difficulty: ⭐⭐⭐
 estimated_time: 25m
 source: ["Microsoft Learn — App Service / Functions", "tham khảo web"]
@@ -29,7 +29,7 @@ source: ["Microsoft Learn — App Service / Functions", "tham khảo web"]
 | Scale | Scale up/out + autoscale | Tự scale theo sự kiện |
 
 > [!question] Phỏng vấn: "Deploy FastAPI chatbot streaming — App Service hay Functions?"
-> **App Service** (hoặc Container Apps): chatbot cần kết nối **giữ lâu** (SSE/WebSocket cho streaming token) và traffic tương đối ổn định → web app chạy liên tục phù hợp, tránh cold start. Functions hợp hơn cho tác vụ **ngắn, rời rạc** (xử lý 1 request rồi trả). → liên hệ streaming ở [[../../02-Backend/00-MOC-Backend|MOC Backend]].
+> **App Service** (hoặc Container Apps): chatbot cần kết nối **giữ lâu** (SSE/WebSocket cho streaming token) và traffic tương đối ổn định → web app chạy liên tục phù hợp, tránh cold start. Functions hợp hơn cho tác vụ **ngắn, rời rạc** (xử lý 1 request rồi trả). → liên hệ streaming ở [[../../../02-Backend/00-MOC-Backend|MOC Backend]].
 
 ---
 
@@ -89,4 +89,4 @@ flowchart LR
 ## Liên quan
 - [[07-Compute-VM-Container-Functions]] — nền tảng compute & app hosting
 - [[16-Azure-OpenAI-Service]] — backend gọi Azure OpenAI
-- [[../../02-Backend/00-MOC-Backend]] — FastAPI, streaming, production
+- [[../../../02-Backend/00-MOC-Backend]] — FastAPI, streaming, production

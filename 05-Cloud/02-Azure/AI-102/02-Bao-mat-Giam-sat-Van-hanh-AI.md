@@ -4,8 +4,8 @@ section: 05-Cloud/02-Azure/AI-102
 tags: [azure, ai-102, security, monitoring, managed-identity, fresher]
 related:
   - "[[00-MOC-AI-102]]"
-  - "[[../10-Identity-Security-AzureAD-RBAC]]"
-  - "[[../14-Monitoring-Advisor-Monitor]]"
+  - "[[../AZ-900/10-Identity-Security-AzureAD-RBAC]]"
+  - "[[../AZ-900/14-Monitoring-Advisor-Monitor]]"
 difficulty: ⭐⭐⭐
 estimated_time: 22m
 source: ["_source/Microsoft/AI-102.docx (Lesson 3, 19, Tim Warner)", "Microsoft Learn"]
@@ -20,7 +20,7 @@ status: 🚧 khung
 > [!todo] Cần viết (Lesson 3 "Manage and Secure AI Solutions" + Lesson 19 "Monitor and Optimize AI Solutions")
 > - **Xác thực**: API key vs **Entra ID + Managed Identity** (vì sao managed identity an toàn hơn — không lộ key), key rotation, Key Vault.
 > - **Mạng**: public endpoint vs **private endpoint / VNet integration**, network ACL, firewall.
-> - **Phân quyền**: RBAC role cho Cognitive Services (Cognitive Services User/Contributor) → liên kết [[../10-Identity-Security-AzureAD-RBAC]].
+> - **Phân quyền**: RBAC role cho Cognitive Services (Cognitive Services User/Contributor) → liên kết [[../AZ-900/10-Identity-Security-AzureAD-RBAC]].
 > - **Giám sát**: Azure Monitor, diagnostic logs, metrics, alert; chi phí & quota/rate-limit (429), throttling.
 > - **Tối ưu**: chọn tier/region, caching, batch, autoscale; chi phí token (với OpenAI).
 
