@@ -70,6 +70,9 @@ Format ảnh input: JPEG, PNG, BMP, TIFF, HEIF, PDF.
 ## 4. Con đường phát triển: Studio vs API
 
 - **Content Understanding Studio** (khuyến nghị để tạo/test custom analyzer): tạo **project** gắn với Foundry resource (tự provision storage + key vault) → **schema editor**: upload file mẫu → chọn template → định nghĩa field (template/field type phụ thuộc loại nội dung; document còn có tuỳ chọn barcode, công thức toán) → **test** trên file mẫu → **build** analyzer (analyzer thành accessible qua endpoint của Foundry resource) → tiếp tục refine thành **version có tên** mới. GenAI cho phép "định nghĩa schema bằng ví dụ" với rất ít dữ liệu; có thể label field tường minh để tăng chất lượng.
+![[content-understanding-studio-schema.png]]
+*Ảnh: Microsoft Learn — Content Understanding Studio, project "slide analysis": trái là file mẫu `slide-1.jpg` (slide có bar chart + pie chart), phải là **schema editor** với các field Title/Summary/Charts (method Generate, value type String/Integer) và QuartlyRevenue/ProductCategories (List of Objects) — ví dụ sống của schema `generate` trên ảnh; xong bấm Run analysis / Build analyzer.*
+
 - **Foundry portal** chỉ dùng trực tiếp được một số **prebuilt** model — custom analyzer phải qua Studio (hoặc API).
 - Schema chỉ tạo được ở **region hỗ trợ** Content Understanding.
 

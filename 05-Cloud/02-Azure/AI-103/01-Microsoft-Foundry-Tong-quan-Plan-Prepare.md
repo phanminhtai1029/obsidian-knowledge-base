@@ -36,6 +36,9 @@ flowchart TD
     P1 --> K["Knowledge<br/>(Foundry IQ — kết nối tri thức tập trung)"]
 ```
 
+![[foundry-resource-project-assets.png]]
+*Ảnh: Microsoft Learn — Foundry resource bọc ngoài, project bên trong với đúng 4 loại asset: Models, Agents, Tools, Knowledge.*
+
 - **Foundry resource**: tài nguyên Azure thật sự — cấp compute, data storage, AI tools cho các project con. Một resource chứa **một hoặc nhiều project**, một cái là **default project**.
 - **Project**: nơi developer quản lý connections, data, code, asset của một giải pháp AI. Cho "mức độ tập trung tài nguyên vừa đủ với chi phí quản trị tối thiểu".
 - 4 loại asset trong project:

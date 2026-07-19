@@ -19,6 +19,13 @@ flowchart LR
     FT --> C
 ```
 
+Sơ đồ gốc của Microsoft trình bày ba chiến lược thành **ma trận 2 trục** (không phải bậc thang!): trục dọc = **context optimization** (*model cần BIẾT gì* — kiến thức), trục ngang = **model optimization** (*model cần HÀNH XỬ thế nào* — hành vi):
+
+| | Chỉnh **hành vi** ít | Chỉnh **hành vi** nhiều |
+|---|---|---|
+| Cần thêm **kiến thức** nhiều | **RAG** | **Combined strategies** (RAG + fine-tune) |
+| Cần thêm **kiến thức** ít | **Prompt engineering** | **Fine-tuning** |
+
 | Chiến lược | Thời gian | Phức tạp | Chi phí | Giải quyết |
 |-----------|-----------|----------|---------|-----------|
 | **Prompt engineering** | Thấp | Thấp | Chỉ per-token | Tone, format, hành vi; lặp nhanh |

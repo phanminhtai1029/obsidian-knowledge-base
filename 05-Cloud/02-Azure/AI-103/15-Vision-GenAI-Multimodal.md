@@ -14,6 +14,9 @@ tags: [azure, ai-103, multimodal, vision, responses-api, fresher]
 - Khác gì model thị giác cổ điển: không chỉ dán nhãn vật thể — nó **suy luận dựa trên những gì thấy** (interpret biểu đồ, kiểm tra hàng bị hư, tư vấn công thức từ ảnh nguyên liệu…).
 - Test nhanh trong **chat playground** của Foundry portal: upload ảnh từ máy + gõ text kèm theo trong cùng một message.
 
+![[chat-playground-image-prompt.png]]
+*Ảnh: Microsoft Learn — chat playground với gpt-4.1-mini: upload `mango.jpeg` kèm câu hỏi "What desserts could I make with this?" trong CÙNG một message; model nhận diện xoài và gợi ý loạt món tráng miệng — đúng minh hoạ "message multi-part text + ảnh".*
+
 ## 2. Cấu trúc prompt đa phương thức — điểm ăn điểm của bài này
 
 Điểm khác biệt DUY NHẤT so với chat text: **một user message chứa mảng content nhiều phần** (multi-part), gồm item text + item ảnh. KHÔNG phải gửi 2 prompt riêng, cũng KHÔNG nhét ảnh vào system message.

@@ -46,6 +46,9 @@ Tính năng chính: **automatic tool calling** (service tự lo cả vòng đờ
 | Hợp với | Prototyping nhanh, cấu hình visual, quản lý tập trung, stakeholder không code | Developer workflow, **Git version control YAML**, lặp nhanh cạnh code app |
 | Tính năng | Build > Agents, playground, tool catalog, dashboard usage | 3 khu: **Resources** (models/agents/connections/vector stores), **Tools** (catalog, playgrounds, Local Visualizer, deploy hosted agents), Help; **Agent Designer** + sửa YAML trực tiếp + **sinh code tích hợp** |
 
+![[vscode-foundry-extension-agent-builder.png]]
+*Ảnh: Microsoft Learn — Microsoft Foundry extension trong VS Code: sidebar Resources (Models, Declarative Agents với version v1/v2, Hosted Agents, Tools, Assets, Classic) + khu Tools (Model Catalog, các Playground, Local Visualizer, Deploy Hosted Agents); giữa là Agent Builder (name/model/instructions/tool File Search) và phải là Playground test ngay.*
+
 Tài nguyên cần: Foundry **project** + **model deployment** (hạ tầng còn lại tự provision). Tuỳ chọn thêm: AI Search (Foundry IQ/File Search), Storage, Key Vault, Azure Functions.
 
 ### Cấu trúc YAML agent (declarative prompt-based)

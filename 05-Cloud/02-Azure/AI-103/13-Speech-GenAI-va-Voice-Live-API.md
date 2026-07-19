@@ -41,6 +41,12 @@ if result.reason == speech_sdk.ResultReason.RecognizedSpeech:
 ```
 `Reason` có 3 giá trị cần nhớ: **RecognizedSpeech** (ok, đọc `Text`), **NoMatch** (parse được audio nhưng không nhận ra speech), **Canceled** (lỗi — soi `CancellationReason` trong Properties).
 
+Sơ đồ gốc Microsoft liệt kê đủ **thuộc tính của result object** (hay ra trắc nghiệm "đọc transcript ở property nào?"):
+
+| SpeechRecognitionResult (STT) | SpeechSynthesisResult (TTS) |
+|-------------------------------|------------------------------|
+| `Duration` (độ dài đoạn nói nhận dạng được), `OffsetInTicks` (vị trí bắt đầu trong stream), `Properties`, **`Reason`**, `ResultId`, **`Text`** (transcript) | **`AudioData`** (audio stream — đổ ra file/loa theo AudioConfig), `Properties`, **`Reason`** (`SynthesizingAudioCompleted` / `Cancelled`), `ResultId` |
+
 ### Text to speech
 `AudioOutputConfig(use_default_speaker=True)` (hoặc file/None để tự xử lý stream) → `SpeechSynthesizer` → `speak_text_async(text).get()` → check `SynthesizingAudioCompleted`, audio nằm trong `AudioData`.
 
@@ -103,6 +109,9 @@ Pattern khuyến nghị cho client: class **VoiceAssistant** (config agent, setu
 
 ### Voice Live + Foundry agent (thay vì model trực tiếp)
 Ưu điểm: instructions/config **đóng gói trong agent** (không rải trong session code); logic phức tạp sửa ở agent không đụng client; chỉ cần **agent_id** để nối; tách agent logic khỏi voice implementation → maintainable/scalable. Tạo qua **voice mode trong agent playground** (chọn language, VAD, audio enhancement, voice, interim response, avatar) hoặc bằng code — nhét Voice Live config vào **metadata** của agent (chunk từng **512 ký tự** vì giới hạn metadata).
+
+![[agent-voice-mode-voice-live.png]]
+*Ảnh: Microsoft Learn — bật toggle **Voice mode** cho agent trong playground: giữa là màn "Let's talk / Start session", panel Configuration bên phải chính là các thiết lập Voice Live: Speech input (language + Auto-detect), Speech output (chọn voice "Ava Dragon HD Latest"), toggle Interim response và Avatar.*
 
 `★ Insight ─────────────────────────────────────`
 Chọn tầng nào: **file audio đã có, cần transcript/đọc văn bản một chiều** → tầng 1 (model GenAI) hoặc tầng 2 (Speech SDK — khi cần SSML/voice control chi tiết); **hội thoại nói chuyện qua lại realtime** → Voice Live (một WebSocket lo trọn STT+LLM+TTS+VAD+interrupt, tự ghép 3 dịch vụ rời sẽ chậm và hụt xử lý ngắt lời). Chi tiết đắt điểm: xử lý interrupt nằm ở **client** — bắt `SPEECH_STARTED` và xoá queue phát ngay.

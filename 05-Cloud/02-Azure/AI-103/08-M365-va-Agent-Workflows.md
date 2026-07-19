@@ -93,6 +93,9 @@ Ngôn ngữ công thức kiểu Excel dùng ở mọi chỗ có quyết định/
 
 Pattern điển hình: agent phân loại trả JSON + confidence → If/Else check `Local.Confidence > 0.8` → cao thì tự xử lý, thấp thì **escalate cho người** (human-in-the-loop).
 
+![[workflow-designer-power-fx-loop.png]]
+*Ảnh: Microsoft Learn — workflow designer thực tế với một VÒNG LẶP đa agent: Start → Set variable → `student-agent` → `teacher-agent` → Set variable → If/Else 3 nhánh dùng Power Fx: **If** `!IsBlank(Find("[COMPLETE]", Upper(Last(Local.LatestMessage).Text)))` → End (teacher chấm đạt); **Else If** `Local.TurnCount >= 4` → Send message (hết lượt, thoát an toàn); **Else** → Go to quay lại student-agent (lặp tiếp). Đây chính là maker-checker loop dựng bằng node + Power Fx, kèm chốt chặn vòng lặp vô hạn.*
+
 ### 7. Gọi workflow từ code
 
 ```python

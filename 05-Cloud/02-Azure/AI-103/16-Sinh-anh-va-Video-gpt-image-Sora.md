@@ -61,6 +61,9 @@ if video.status == "completed":                 # 3️⃣ tải kết quả
 
 Trạng thái job: `queued` → `in_progress` → `completed` / `failed` (soi `video.error`) / `cancelled`. Playground mất ~1-5 phút/video; nút **View code** cho sẵn cURL theo settings đang chọn.
 
+![[sora-2-video-playground.png]]
+*Ảnh: Microsoft Learn — Video playground của sora-2: prompt "A robot waiter in a restaurant." với thanh điều khiển ngay dưới ô nhập gồm tỉ lệ khung (16:9) và thời lượng (4s); video kết quả hiện phía trên, nút View code lấy cURL.*
+
 ```mermaid
 flowchart LR
     P["prompt (+input_reference<br/>hoặc remix_video_id)"] --> C["videos.create<br/>→ job ID"]
