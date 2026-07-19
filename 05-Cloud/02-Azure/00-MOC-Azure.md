@@ -12,7 +12,7 @@ tags: [moc, cloud, azure, az-900, azure-openai, fresher]
 > **Cấu trúc thư mục** (gom theo giáo trình cho rõ ràng):
 > - `AZ-900/` — 15 note nền tảng Azure (cụm A–D dưới đây) ✅
 > - `AI-Azure/` — 3 note AI-Azure đối chiếu Bedrock (cụm E) ✅
-> - `AI-102/` — cert Azure AI Engineer Associate, 13 note (cụm F) — xem [[AI-102/00-MOC-AI-102|MOC riêng]] ✅
+> - `AI-103/` — lộ trình Azure AI Engineer thế hệ Microsoft Foundry, 20 note (cụm F) — xem [[AI-103/00-MOC-AI-103|MOC riêng]] ✅
 > - `AZ-204/` — cert Azure Developer Associate, 13 note (cụm G) — xem [[AZ-204/00-MOC-AZ-204|MOC riêng]] ✅
 
 ## Cụm A — Cloud Concepts (AZ-900 Module 1)
@@ -58,17 +58,17 @@ tags: [moc, cloud, azure, az-900, azure-openai, fresher]
 | 17 | [[AI-Azure/17-Azure-AI-Search\|Azure AI Search]] (↔ S3 Vectors) | ✅ |
 | 18 | [[AI-Azure/18-Azure-App-Service-Functions-deploy\|Deploy FastAPI: App Service & Functions]] | ✅ |
 
-## Cụm F — AI-102 (Azure AI Engineer Associate)
+## Cụm F — AI-103 (Azure AI Engineer, Microsoft Foundry era)
 
-> Cert AI-102 chuyên sâu AI-trên-Azure — bám trọng tâm thi FresherAI. Xem MOC riêng:
+> Bộ 4 learning path Microsoft Learn thế hệ Foundry (2025-2026) thay thế giáo trình AI-102 cũ — agents, MCP, A2A, Content Understanding… Xem MOC riêng:
 
 | Note | Trạng thái |
 |------|------------|
-| [[AI-102/00-MOC-AI-102\|MOC: AI-102]] (13 note, 7 cụm) | ✅ HOÀN TẤT |
+| [[AI-103/00-MOC-AI-103\|MOC: AI-103]] (20 note, 5 cụm) | ✅ HOÀN TẤT |
 
 ## Cụm G — AZ-204 (Azure Developer Associate)
 
-> Cert AZ-204 góc nhìn lập trình viên (SDK/code/deploy) — bổ sung cho AZ-900 & AI-102. Xem MOC riêng:
+> Cert AZ-204 góc nhìn lập trình viên (SDK/code/deploy) — bổ sung cho AZ-900 & AI-103. Xem MOC riêng:
 
 | Note | Trạng thái |
 |------|------------|

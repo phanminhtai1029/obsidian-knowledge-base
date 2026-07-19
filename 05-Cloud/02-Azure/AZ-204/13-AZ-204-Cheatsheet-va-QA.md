@@ -182,4 +182,4 @@ az webapp identity assign -g rg -n myapp          # bật system-assigned MI
 ## Liên quan
 - [[00-MOC-AZ-204]]
 - [[../AZ-900/15-AZ-900-Cheatsheet]] — cheatsheet AZ-900 đối chiếu
-- [[../AI-102/13-AI-102-Cheatsheet-va-QA]] — cheatsheet AI-102
+- [[../AI-103/20-AI-103-Cheatsheet-va-QA]] — cheatsheet AI-103
